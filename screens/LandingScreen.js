@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Button } from "react-native";
+import { StyleSheet, Text, View, Button, TouchableOpacity } from "react-native";
 import React from "react";
 import { useTheme } from "@rneui/themed";
 import { StatusBar } from "expo-status-bar";
@@ -19,8 +19,25 @@ const LandingScreen = ({ navigation }) => {
             The best app to learn Programming
           </Text>
         </View>
-        <View>
-          <Button title="SIGN-IN" />
+        <View style={styles.buttonContainer}>
+          <TouchableOpacity
+            style={[
+              styles.button,
+              {
+                backgroundColor: theme.buttonColors.primary,
+              },
+            ]}
+            onPress={() => navigation.navigate("LoginScreen")}
+          >
+            <Text
+              style={{
+                color: theme.buttonColors.secondary,
+                fontSize: theme.Fontsize.small,
+              }}
+            >
+              SIGN-IN
+            </Text>
+          </TouchableOpacity>
         </View>
       </View>
     </>
@@ -32,18 +49,29 @@ export default LandingScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    justifyContent: "center",
+    padding: 20,
   },
   headerContainer: {
-    textAlign: "center",
+    marginTop: 150,
+    textAlign: "left",
   },
   textHeader: {
     color: "white",
-    textAlign: "left",
   },
   textParagraph: {
     color: "#ffffff",
     fontWeight: "100",
-    textAlign: "left",
   },
-  
+  buttonContainer: {
+    flex: 1,
+    justifyContent: "flex-end",
+    alignItems: "center",
+    marginBottom: 20,
+  },
+  button: {
+    paddingHorizontal: 20,
+    paddingVertical: 12,
+    borderRadius: 8,
+  },
 });
