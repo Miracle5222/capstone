@@ -35,7 +35,7 @@ const LandingScreen = ({ navigation }) => {
                 fontSize: theme.Fontsize.small,
               }}
             >
-              SIGN-IN
+              Continue
             </Text>
           </TouchableOpacity>
         </View>
@@ -71,7 +71,7 @@ const styles = StyleSheet.create({
   },
   button: {
     paddingHorizontal: 20,
-    paddingVertical: 12,
+    paddingVertical: 8,
     borderRadius: 8,
   },
 });

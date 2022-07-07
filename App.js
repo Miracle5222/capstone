@@ -5,6 +5,9 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import LandingScreen from "./screens/LandingScreen";
 import LoginScreen from "./screens/LoginScreen";
 import { ThemeProvider, Button, createTheme } from "@rneui/themed";
+import HomeScreen from "./screens/HomeScreen";
+import RegisterScreen from "./screens/RegistrationScreen";
+import ForgotPassword from "./screens/ForgotPasswordScreen";
 
 const theme = createTheme({
   Bg: {
@@ -12,16 +15,21 @@ const theme = createTheme({
     secondary: "#141414",
   },
   buttonColors: {
-    primary: "#021F26",
+    primary: "#00596F",
     secondary: "#FFFFFF",
   },
   lightColors: {
     primary: "#FFFFFF",
     secondary: "#EEEEEE",
   },
+  color: {
+    primary: "#00CDBD",
+    secondary: "#FFFFFF",
+  },
   Fontsize: {
     large: 46,
-    medium: 32,
+    medium: 36,
+
     small: 18,
     extraSmall: 12,
   },
@@ -36,6 +44,9 @@ function App() {
         <Stack.Navigator screenOptions={{ headerShown: false }}>
           <Stack.Screen name="LandingScreen" component={LandingScreen} />
           <Stack.Screen name="LoginScreen" component={LoginScreen} />
+          <Stack.Screen name="HomeScreen" component={HomeScreen} />
+          <Stack.Screen name="Register" component={RegisterScreen} />
+          <Stack.Screen name="ForgotPassword" component={ForgotPassword} />
         </Stack.Navigator>
       </NavigationContainer>
     </ThemeProvider>

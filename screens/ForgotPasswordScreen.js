@@ -10,7 +10,7 @@ import {
 import React, { useLayoutEffect, useState } from "react";
 import { useTheme } from "@rneui/themed";
 
-const RegisterScreen = ({ navigation }) => {
+const ForgotPassword = ({ navigation }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const { theme } = useTheme();
@@ -29,7 +29,6 @@ const RegisterScreen = ({ navigation }) => {
       headerTintColor: "#fff",
     });
   }, [navigation]);
-
   return (
     <>
       <StatusBar backgroundColor="black" />
@@ -42,30 +41,28 @@ const RegisterScreen = ({ navigation }) => {
             style={[
               styles.text,
               {
-                fontSize: theme.Fontsize.medium,
+                fontSize: theme.Fontsize.small,
                 color: theme.buttonColors.secondary,
               },
             ]}
           >
-            Register
+            Reset Password
           </Text>
         </View>
         <View style={styles.inputContainer}>
           <TextInput
             style={[styles.input, { borderColor: theme.buttonColors.primary }]}
-            placeholder="username"
-            placeholderTextColor="#FFF"
-            autoFocus={true}
-          />
-          <TextInput
-            style={[styles.input, { borderColor: theme.buttonColors.primary }]}
-            placeholder="email"
-            placeholderTextColor="#FFF"
-          />
-          <TextInput
-            style={[styles.input, { borderColor: theme.buttonColors.primary }]}
-            placeholder="password"
+            placeholder="Current Password"
             secureTextEntry={true}
+            autoFocus={true}
+            placeholderTextColor="#FFF"
+          />
+
+          <TextInput
+            style={[styles.input, { borderColor: theme.buttonColors.primary }]}
+            placeholder="New Password"
+            secureTextEntry={true}
+            autoFocus={true}
             placeholderTextColor="#FFF"
           />
         </View>
@@ -88,7 +85,7 @@ const RegisterScreen = ({ navigation }) => {
                 },
               ]}
             >
-              Register
+              Submit
             </Text>
           </TouchableOpacity>
         </View>
@@ -97,7 +94,7 @@ const RegisterScreen = ({ navigation }) => {
   );
 };
 
-export default RegisterScreen;
+export default ForgotPassword;
 
 const styles = StyleSheet.create({
   container: {
