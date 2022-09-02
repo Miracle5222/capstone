@@ -9,10 +9,9 @@ import {
 } from "react-native";
 import React, { useState } from "react";
 import { useTheme } from "@rneui/themed";
+import { useDispatch, useSelector } from "react-redux";
 
 const LoginScreen = ({ navigation }) => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const { theme } = useTheme();
 
   return (
@@ -36,43 +35,37 @@ const LoginScreen = ({ navigation }) => {
           </Text>
         </View>
         <View style={styles.inputContainer}>
+          <Text style={styles.label}>Email</Text>
           <TextInput
             style={[styles.input, { borderColor: theme.buttonColors.primary }]}
             placeholder="email"
-            placeholderTextColor="#FFF"
+            placeholderTextColor="#9D9D9D"
             autoFocus={true}
           />
+          <Text style={styles.label}>Password</Text>
           <TextInput
             style={[styles.input, { borderColor: theme.buttonColors.primary }]}
             placeholder="password"
             secureTextEntry={true}
-            placeholderTextColor="#FFF"
+            placeholderTextColor="#9D9D9D"
           />
         </View>
         <View style={styles.bottomContainer}>
           <View style={styles.forgetpassword}>
-            <Text
-              style={{
-                color: theme.buttonColors.secondary,
-              }}
-            >
-              fotgot password?
-            </Text>
             <TouchableOpacity
               onPress={() => navigation.replace("ForgotPassword")}
             >
               <Text
-                style={[
-                  {
-                    color: theme.color.primary,
-                    paddingLeft: 5,
-                  },
-                ]}
+                style={{
+                  color: theme.color.primary,
+                }}
               >
-                press here
+                Fotgot Password?
               </Text>
             </TouchableOpacity>
           </View>
+
+          {/* Sign in Button */}
           <TouchableOpacity
             style={[
               styles.button,
@@ -133,6 +126,10 @@ const styles = StyleSheet.create({
     fontWeight: "400",
     paddingBottom: 20,
   },
+  label: {
+    paddingLeft: 12,
+    color: "white",
+  },
   input: {
     marginBottom: 20,
     height: 50,
@@ -163,5 +160,9 @@ const styles = StyleSheet.create({
     position: "absolute",
     bottom: -200,
     flexDirection: "row",
+  },
+  error: {
+    color: "red",
+    Fontsize: 18,
   },
 });

@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Image } from "react-native";
+import { StyleSheet, Text, View, Image, StatusBar } from "react-native";
 import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Learn from "../assets/learn.png";
@@ -21,58 +21,60 @@ const Tab = createBottomTabNavigator();
 
 const HomeScreen = () => {
   return (
-    <Tab.Navigator
-      screenOptions={{
-        headerShown: false,
-        tabBarActiveBackgroundColor: "#171717",
-        tabBarInactiveBackgroundColor: "#171717",
-        tabBarActiveTintColor: "#00CDBD",
-        tabBarInactiveTintColor: "#FFFFFF",
-        tabBarStyle: {
-          height: 75,
+    <>
+      <Tab.Navigator
+        screenOptions={{
+          headerShown: false,
+          tabBarActiveBackgroundColor: "#171717",
+          tabBarInactiveBackgroundColor: "#171717",
+          tabBarActiveTintColor: "#00CDBD",
+          tabBarInactiveTintColor: "#FFFFFF",
+          tabBarStyle: {
+            height: 75,
 
-          borderTopWidth: 0,
-        },
-        tabBarLabelStyle: {
-          fontSize: 14,
-          paddingBottom: 10,
-          marginTop: -5,
-        },
-      }}
-    >
-      <Tab.Screen
-        name="Learn"
-        options={{
-          tabBarLabel: "Learn",
-          tabBarIcon: () => <LearnIcons />,
+            borderTopWidth: 0,
+          },
+          tabBarLabelStyle: {
+            fontSize: 14,
+            paddingBottom: 10,
+            marginTop: -5,
+          },
         }}
-        component={LearnScreen}
-      />
-      <Tab.Screen
-        name="Settings"
-        options={{
-          tabBarLabel: "Settings",
-          tabBarIcon: () => <SettingsIcons />,
-        }}
-        component={SettingsScreen}
-      />
-      <Tab.Screen
-        name="Code"
-        options={{
-          tabBarLabel: "Code",
-          tabBarIcon: () => <CodeIcons />,
-        }}
-        component={CodeScreen}
-      />
-      <Tab.Screen
-        name="Profile"
-        options={{
-          tabBarLabel: "Profile",
-          tabBarIcon: () => <ProfileIcons />,
-        }}
-        component={ProfileScreen}
-      />
-    </Tab.Navigator>
+      >
+        <Tab.Screen
+          name="Learn"
+          options={{
+            tabBarLabel: "Learn",
+            tabBarIcon: () => <LearnIcons />,
+          }}
+          component={LearnScreen}
+        />
+        <Tab.Screen
+          name="Settings"
+          options={{
+            tabBarLabel: "Settings",
+            tabBarIcon: () => <SettingsIcons />,
+          }}
+          component={SettingsScreen}
+        />
+        <Tab.Screen
+          name="Code"
+          options={{
+            tabBarLabel: "Code",
+            tabBarIcon: () => <CodeIcons />,
+          }}
+          component={CodeScreen}
+        />
+        <Tab.Screen
+          name="Profile"
+          options={{
+            tabBarLabel: "Profile",
+            tabBarIcon: () => <ProfileIcons />,
+          }}
+          component={ProfileScreen}
+        />
+      </Tab.Navigator>
+    </>
   );
 };
 
