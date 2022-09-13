@@ -50,20 +50,21 @@ const ForgotPassword = ({ navigation }) => {
           </Text>
         </View>
         <View style={styles.inputContainer}>
+          <Text style={styles.label}>Current Password</Text>
           <TextInput
             style={[styles.input, { borderColor: theme.buttonColors.primary }]}
             placeholder="Current Password"
             secureTextEntry={true}
             autoFocus={true}
-            placeholderTextColor="#FFF"
+            placeholderTextColor="#9D9D9D"
           />
-
+          <Text style={styles.label}>New Password</Text>
           <TextInput
             style={[styles.input, { borderColor: theme.buttonColors.primary }]}
             placeholder="New Password"
             secureTextEntry={true}
             autoFocus={true}
-            placeholderTextColor="#FFF"
+            placeholderTextColor="#9D9D9D"
           />
         </View>
         <View style={styles.bottomContainer}>
@@ -105,6 +106,10 @@ const styles = StyleSheet.create({
   text: {
     fontWeight: "400",
     paddingBottom: 20,
+  },
+  label: {
+    paddingLeft: 12,
+    color: "white",
   },
   input: {
     marginBottom: 20,

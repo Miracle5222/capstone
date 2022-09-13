@@ -1,12 +1,24 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 const initialState = {
-  email: "",
-  password: "",
+  dark: {
+    primary: "#0d0d0d",
+    secondary: "#131313",
+  },
+  light: {
+    primary: "#FAF9F9",
+    secondary: "#F2F2F2",
+  },
+
+  icon:{
+    dark: "#FFFFFF",
+    light: "#0091B5",
+  }
+  
 };
 
 const counterSlice = createSlice({
-  name: "login",
+  name: "color",
   initialState,
   reducers: {
     // incremented(state) {
@@ -16,9 +28,7 @@ const counterSlice = createSlice({
     //   state.value += action.payload;
     // },
 
-    loginHandler(state,action){
-
-    }
+    loginHandler(state, action) {},
   },
 });
 

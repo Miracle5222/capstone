@@ -51,22 +51,25 @@ const RegisterScreen = ({ navigation }) => {
           </Text>
         </View>
         <View style={styles.inputContainer}>
+          <Text style={styles.label}>Username</Text>
           <TextInput
             style={[styles.input, { borderColor: theme.buttonColors.primary }]}
             placeholder="username"
-            placeholderTextColor="#FFF"
+            placeholderTextColor="#9D9D9D"
             autoFocus={true}
           />
+          <Text style={styles.label}>Email</Text>
           <TextInput
             style={[styles.input, { borderColor: theme.buttonColors.primary }]}
             placeholder="email"
-            placeholderTextColor="#FFF"
+            placeholderTextColor="#9D9D9D"
           />
+          <Text style={styles.label}>Password</Text>
           <TextInput
             style={[styles.input, { borderColor: theme.buttonColors.primary }]}
             placeholder="password"
             secureTextEntry={true}
-            placeholderTextColor="#FFF"
+            placeholderTextColor="#9D9D9D"
           />
         </View>
         <View style={styles.bottomContainer}>
@@ -104,6 +107,10 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
+  },
+  label: {
+    paddingLeft: 12,
+    color: "white",
   },
   text: {
     fontWeight: "400",

@@ -1,25 +1,27 @@
 import { StyleSheet, Text, View, Image, StatusBar } from "react-native";
 import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import Learn from "../assets/learn.png";
-import Code from "../assets/code.png";
-import Profile from "../assets/profile.png";
-import Settings from "../assets/settings.png";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import {
   LearnIcons,
   SettingsIcons,
   CodeIcons,
   ProfileIcons,
 } from "../src/icons/Icons";
+
 import { useTheme } from "@rneui/themed";
+
 import CodeScreen from "./CodeScreen";
 import ProfileScreen from "./ProfileScreen";
 import SettingsScreen from "./SettingsScreen";
 import LearnScreen from "./LearnScreen";
+import Topic from "./Topic";
+import Lesson from "./Lesson";
 
 const Tab = createBottomTabNavigator();
+const SettingsStack = createNativeStackNavigator();
 
-const HomeScreen = () => {
+const HomeScreen = ({ navigation }) => {
   return (
     <>
       <Tab.Navigator
@@ -34,6 +36,7 @@ const HomeScreen = () => {
 
             borderTopWidth: 0,
           },
+
           tabBarLabelStyle: {
             fontSize: 14,
             paddingBottom: 10,

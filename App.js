@@ -9,13 +9,15 @@ import HomeScreen from "./screens/HomeScreen";
 import RegisterScreen from "./screens/RegistrationScreen";
 import ForgotPassword from "./screens/ForgotPasswordScreen";
 import { theme } from "./theme";
-
+// import { useFonts } from "expo-font";
+// import AppLoading from "expo-app-loading";
+import { Provider } from "react-redux";
+import { store } from "./redux/store";
 const Stack = createNativeStackNavigator();
 
-function App() {
+const Navigator = () => {
   return (
     <>
-  
       <ThemeProvider theme={theme}>
         <NavigationContainer>
           <Stack.Navigator screenOptions={{ headerShown: false }}>
@@ -29,7 +31,17 @@ function App() {
       </ThemeProvider>
     </>
   );
-}
+};
+
+const App = () => {
+  return (
+    <>
+      <Provider store={store}>
+        <Navigator />
+      </Provider>
+    </>
+  );
+};
 
 export default App;
 
