@@ -1,7 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-
-
 const scrollSlice = createSlice({
   name: "scroll",
   initialState: {
@@ -9,7 +7,7 @@ const scrollSlice = createSlice({
   },
   reducers: {
     scrollHandler(state, action) {
-      state.offsetY += action.payload;
+      state.offsetY = action.payload;
     },
   },
 });

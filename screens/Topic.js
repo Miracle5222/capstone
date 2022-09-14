@@ -11,11 +11,13 @@ import Progressbar from "../components/Progressbar";
 import { Inter_100Thin } from "@expo-google-fonts/inter";
 import { Container, Header, Paragraph } from "../src/styled/Container.style";
 import { Home } from "../Data";
+
+import { useSelector, useDispatch } from "react-redux";
 //icons
 import { Java } from "../src/icons/Icons";
 //fonts
-import { useFonts } from "expo-font";
-import AppLoading from "expo-app-loading";
+// import { useFonts } from "expo-font";
+// import AppLoading from "expo-app-loading";
 
 const { width, height } = Dimensions.get("screen");
 
@@ -23,41 +25,52 @@ const WIDTH = width;
 const HIEGHT = height;
 
 const Topic = ({ navigation }) => {
+  const { darkBg, lightBg, text, theme } = useSelector((state) => state.color);
+
   useLayoutEffect(() => {
     navigation.setOptions({
-      headerShown: true,
-      title: "Topic",
+      headerShown: false,
+      title: " ",
       headerStyle: {
-        backgroundColor: "#0D0D0D",
+        backgroundColor: theme ? lightBg.primary : darkBg.primary,
       },
       headerTitleStyle: {
-        fontWeight: "bold",
+        fontWeight: "300",
         fontSize: 18,
       },
       headerShadowVisible: false,
-      headerTintColor: "#fff", //color of title
+      headerTintColor: theme ? text.dark : text.light, //color of title
     });
   }, [navigation]);
 
   return (
     <>
-      <Container>
+      <Container bg={theme ? lightBg.primary : darkBg.primary}>
         <View style={styles.headerBox}>
-          <Header color="#fff" size={42}>
+          <Header color={theme ? text.dark : text.light} size={42}>
             Hello, Neil
           </Header>
-          <Paragraph color="#fff" size={14}>
+          <Paragraph color={theme ? text.dark : text.light} size={14}>
             Start learning your first programming language
           </Paragraph>
         </View>
         <TouchableOpacity
           activeOpacity={0.7}
-          style={styles.boxContainer}
+          style={[
+            styles.boxContainer,
+            {
+              backgroundColor: theme ? lightBg.secondary : darkBg.secondary,
+            },
+          ]}
           onPress={() => navigation.navigate("Lesson")}
         >
           {Home.map((val, index) => {
             return (
-              <Header key={index} size={24} color="#fff">
+              <Header
+                key={index}
+                size={24}
+                color={theme ? text.dark : text.light}
+              >
                 {val.language}
               </Header>
             );
@@ -82,7 +95,7 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     width: "100%",
     height: 200,
-    backgroundColor: "#131313",
+
     borderRadius: 20,
   },
   headerBox: {
@@ -96,15 +109,5 @@ const styles = StyleSheet.create({
 
     marginTop: -40,
     alignItems: "center",
-  },
-  java: {
-    fontSize: 24,
-    alignSelf: "center",
-    color: "#fff",
-    marginTop: -20,
-  },
-  text: {
-    fontSize: 18,
-    color: "#fff",
   },
 });

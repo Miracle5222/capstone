@@ -24,7 +24,7 @@ const Progressbar = () => {
         inActiveStrokeColor={"#0091B5"}
         inActiveStrokeOpacity={0.2}
         inActiveStrokeWidth={6}
-        duration={1500}
+        duration={800}
         onAnimationComplete={() => setValue(50)}
       />
     </>

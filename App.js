@@ -13,14 +13,25 @@ import { theme } from "./theme";
 // import AppLoading from "expo-app-loading";
 import { Provider } from "react-redux";
 import { store } from "./redux/store";
+import { useSelector, useDispatch } from "react-redux";
+
 const Stack = createNativeStackNavigator();
 
 const Navigator = () => {
+  const { darkBg, lightBg, text, theme } = useSelector((state) => state.color);
   return (
     <>
       <ThemeProvider theme={theme}>
         <NavigationContainer>
-          <Stack.Navigator screenOptions={{ headerShown: false }}>
+          <Stack.Navigator
+            screenOptions={{
+              headerShown: false,
+              headerTintColor: theme ? text.dark : text.light,
+              headerStyle: {
+                backgroundColor: theme ? lightBg.primary : darkBg.primary,
+              },
+            }}
+          >
             <Stack.Screen name="LandingScreen" component={LandingScreen} />
             <Stack.Screen name="LoginScreen" component={LoginScreen} />
             <Stack.Screen name="HomeScreen" component={HomeScreen} />
@@ -36,6 +47,7 @@ const Navigator = () => {
 const App = () => {
   return (
     <>
+      <StatusBar style="dark" />
       <Provider store={store}>
         <Navigator />
       </Provider>

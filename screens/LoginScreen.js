@@ -10,41 +10,69 @@ import {
 import React, { useState } from "react";
 import { useTheme } from "@rneui/themed";
 import { useDispatch, useSelector } from "react-redux";
+import { Container, Header, Paragraph } from "../src/styled/Container.style";
 
 const LoginScreen = ({ navigation }) => {
-  const { theme } = useTheme();
+  const { darkBg, lightBg, text, theme, buttons, sizes } = useSelector(
+    (state) => state.color
+  );
+  // Bg: {
+  //   primary: "#0D0D0D",
+  //   secondary: "#141414",
+  // },
+  // buttonColors: {
+  //   primary: "#00596F",
+  //   secondary: "#FFFFFF",
+  // },
+  // lightColors: {
+  //   primary: "#FFFFFF",
+  //   secondary: "#EEEEEE",
+  // },
+  // color: {
+  //   primary: "#00CDBD",
+  //   secondary: "#FFFFFF",
+  // },
+  // Fontsize: {
+  //   large: 46,
+  //   medium: 36,
 
+  //   small: 18,
+  //   extraSmall: 12,
+  // },
   return (
     <>
       <StatusBar backgroundColor="black" />
       <View
-        style={[styles.container, { backgroundColor: theme.Bg.primary }]}
+        style={[
+          styles.container,
+          { backgroundColor: theme ? lightBg.primary : darkBg.primary },
+        ]}
         onTouchStart={() => Keyboard.dismiss()}
       >
         <View>
-          <Text
-            style={[
-              styles.text,
-              {
-                fontSize: theme.Fontsize.medium,
-                color: theme.buttonColors.secondary,
-              },
-            ]}
-          >
+          <Header size={36} color={theme ? text.dark : text.light}>
             Login
-          </Text>
+          </Header>
         </View>
         <View style={styles.inputContainer}>
-          <Text style={styles.label}>Email</Text>
+          <Text
+            style={[styles.label, { color: theme ? text.dark : text.light }]}
+          >
+            Email
+          </Text>
           <TextInput
-            style={[styles.input, { borderColor: theme.buttonColors.primary }]}
+            style={[styles.input, { borderColor: "#00596F" }]}
             placeholder="email"
             placeholderTextColor="#9D9D9D"
             autoFocus={true}
           />
-          <Text style={styles.label}>Password</Text>
+          <Text
+            style={[styles.label, { color: theme ? text.dark : text.light }]}
+          >
+            Password
+          </Text>
           <TextInput
-            style={[styles.input, { borderColor: theme.buttonColors.primary }]}
+            style={[styles.input, { borderColor: "#00596F" }]}
             placeholder="password"
             secureTextEntry={true}
             placeholderTextColor="#9D9D9D"
@@ -55,13 +83,12 @@ const LoginScreen = ({ navigation }) => {
             <TouchableOpacity
               onPress={() => navigation.replace("ForgotPassword")}
             >
-              <Text
-                style={{
-                  color: theme.color.primary,
-                }}
+              <Paragraph
+                color={theme ? text.secondary : text.primary}
+                size={sizes.xsmall}
               >
                 Fotgot Password?
-              </Text>
+              </Paragraph>
             </TouchableOpacity>
           </View>
 
@@ -70,42 +97,29 @@ const LoginScreen = ({ navigation }) => {
             style={[
               styles.button,
               {
-                backgroundColor: theme.buttonColors.primary,
+                backgroundColor: theme ? buttons.dark : buttons.light,
               },
             ]}
             onPress={() => navigation.navigate("HomeScreen")}
           >
-            <Text
-              style={[
-                styles.buttonText,
-                {
-                  fontSize: theme.Fontsize.small,
-                  color: theme.buttonColors.secondary,
-                },
-              ]}
-            >
+            <Paragraph color={text.light} size={sizes.small}>
               Sign-in
-            </Text>
+            </Paragraph>
           </TouchableOpacity>
           <View style={[styles.registerContainer]}>
-            <Text
-              style={{
-                color: theme.buttonColors.secondary,
-              }}
+            <Paragraph
+              color={theme ? text.dark : text.light}
+              size={sizes.xsmall}
             >
               Don't have an account?
-            </Text>
+            </Paragraph>
             <TouchableOpacity onPress={() => navigation.navigate("Register")}>
-              <Text
-                style={[
-                  {
-                    color: theme.color.primary,
-                    paddingLeft: 5,
-                  },
-                ]}
+              <Paragraph
+                color={theme ? text.secondary : text.primary}
+                size={sizes.xsmall}
               >
                 Register
-              </Text>
+              </Paragraph>
             </TouchableOpacity>
           </View>
         </View>
@@ -128,7 +142,6 @@ const styles = StyleSheet.create({
   },
   label: {
     paddingLeft: 12,
-    color: "white",
   },
   input: {
     marginBottom: 20,
@@ -158,7 +171,8 @@ const styles = StyleSheet.create({
   },
   registerContainer: {
     position: "absolute",
-    bottom: -200,
+    bottom: -100,
+
     flexDirection: "row",
   },
   error: {

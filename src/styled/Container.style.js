@@ -10,7 +10,7 @@ export const Container = styled.View`
   flex: 1;
   justify-content: space-evenly;
   align-items: center;
-  background-color: #0d0d0d;
+  background-color: ${({ bg }) => bg};
   padding-left: 20px;
   padding-right: 20px;
 `;
@@ -21,6 +21,6 @@ export const Header = styled.Text`
 `;
 export const Paragraph = styled.Text`
   font-size: ${({ size }) => size + "px"};
-  font-weight: 400;
   color: ${({ color }) => color};
+  font-weight: 500;
 `;

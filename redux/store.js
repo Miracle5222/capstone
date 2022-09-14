@@ -1,6 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
-import scrollReducer from "./feature/ScrollReducer";
+import colorReducer from "./feature/colorReducer";
+import scrollReducer from "./feature/scrollReducer";
 
 export const store = configureStore({
-  reducer: { scroll: scrollReducer },
+  reducer: { scroll: scrollReducer, color: colorReducer },
 });

@@ -17,22 +17,39 @@ import SettingsScreen from "./SettingsScreen";
 import LearnScreen from "./LearnScreen";
 import Topic from "./Topic";
 import Lesson from "./Lesson";
+import { useSelector, useDispatch } from "react-redux";
+import { scrollHandler } from "../redux/feature/scrollReducer";
+import {
+  useAnimatedStyle,
+  useSharedValue,
+  withTiming,
+} from "react-native-reanimated";
 
 const Tab = createBottomTabNavigator();
 const SettingsStack = createNativeStackNavigator();
 
 const HomeScreen = ({ navigation }) => {
+  const { darkBg, lightBg, text, theme, icon } = useSelector(
+    (state) => state.color
+  );
+  const { offsetY } = useSelector((state) => state.scroll);
+
   return (
     <>
       <Tab.Navigator
         screenOptions={{
           headerShown: false,
-          tabBarActiveBackgroundColor: "#171717",
-          tabBarInactiveBackgroundColor: "#171717",
-          tabBarActiveTintColor: "#00CDBD",
-          tabBarInactiveTintColor: "#FFFFFF",
+          tabBarActiveBackgroundColor: theme
+            ? lightBg.primary
+            : darkBg.secondary,
+          tabBarInactiveBackgroundColor: theme
+            ? lightBg.primary
+            : darkBg.secondary,
+          tabBarActiveTintColor: theme ? text.secondary : text.primary,
+          tabBarInactiveTintColor: theme ? text.dark : text.light,
           tabBarStyle: {
             height: 75,
+            display: offsetY > 0 ? "none" : "flex",
 
             borderTopWidth: 0,
           },
@@ -48,7 +65,9 @@ const HomeScreen = ({ navigation }) => {
           name="Learn"
           options={{
             tabBarLabel: "Learn",
-            tabBarIcon: () => <LearnIcons />,
+            tabBarIcon: () => (
+              <LearnIcons bg={theme ? text.secondary : text.primary} />
+            ),
           }}
           component={LearnScreen}
         />
@@ -56,7 +75,9 @@ const HomeScreen = ({ navigation }) => {
           name="Settings"
           options={{
             tabBarLabel: "Settings",
-            tabBarIcon: () => <SettingsIcons />,
+            tabBarIcon: () => (
+              <SettingsIcons bg={theme ? darkBg.primary : text.light} />
+            ),
           }}
           component={SettingsScreen}
         />
@@ -64,7 +85,9 @@ const HomeScreen = ({ navigation }) => {
           name="Code"
           options={{
             tabBarLabel: "Code",
-            tabBarIcon: () => <CodeIcons />,
+            tabBarIcon: () => (
+              <CodeIcons bg={theme ? darkBg.primary : text.light} />
+            ),
           }}
           component={CodeScreen}
         />
@@ -72,7 +95,9 @@ const HomeScreen = ({ navigation }) => {
           name="Profile"
           options={{
             tabBarLabel: "Profile",
-            tabBarIcon: () => <ProfileIcons />,
+            tabBarIcon: () => (
+              <ProfileIcons bg={theme ? darkBg.primary : text.light} />
+            ),
           }}
           component={ProfileScreen}
         />

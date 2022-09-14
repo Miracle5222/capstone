@@ -1,42 +1,48 @@
 import { StyleSheet, Text, View, Button, TouchableOpacity } from "react-native";
 import React from "react";
-import { useTheme } from "@rneui/themed";
+
 import { StatusBar } from "expo-status-bar";
 
+import { useSelector } from "react-redux";
+import { Container, Header, Paragraph } from "../src/styled/Container.style";
+
 const LandingScreen = ({ navigation }) => {
-  const { theme } = useTheme();
+  const { darkBg, lightBg, text, theme, buttons } = useSelector(
+    (state) => state.color
+  );
   return (
     <>
-      <StatusBar style="light" />
-      <View style={[styles.container, { backgroundColor: theme.Bg.primary }]}>
+      <View
+        style={[
+          styles.container,
+          { backgroundColor: theme ? lightBg.primary : darkBg.primary },
+        ]}
+      >
         <View style={styles.headerContainer}>
-          <Text style={[styles.textHeader, { fontSize: theme.Fontsize.large }]}>
+          <Header size={46} color={theme ? text.dark : text.light}>
             Basic Programming E-learning Application
-          </Text>
-          <Text
-            style={[styles.textParagraph, { fontSize: theme.Fontsize.small }]}
+          </Header>
+          {/* <Paragraph
+            color={theme ? text.dark : text.light}
+            fw={theme ? 400 : 100}
+            size={18}
           >
             The best app to learn Programming
-          </Text>
+          </Paragraph> */}
         </View>
         <View style={styles.buttonContainer}>
           <TouchableOpacity
             style={[
               styles.button,
               {
-                backgroundColor: theme.buttonColors.primary,
+                backgroundColor: theme ? buttons.dark : buttons.light,
               },
             ]}
             onPress={() => navigation.navigate("LoginScreen")}
           >
-            <Text
-              style={{
-                color: theme.buttonColors.secondary,
-                fontSize: theme.Fontsize.small,
-              }}
-            >
+            <Paragraph color={text.light} size={18}>
               Continue
-            </Text>
+            </Paragraph>
           </TouchableOpacity>
         </View>
       </View>
@@ -60,7 +66,6 @@ const styles = StyleSheet.create({
     color: "white",
   },
   textParagraph: {
-    color: "#ffffff",
     fontWeight: "100",
   },
   buttonContainer: {
