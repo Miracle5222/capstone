@@ -8,33 +8,65 @@ import {
   Keyboard,
 } from "react-native";
 import React, { useLayoutEffect, useState } from "react";
-import { useTheme } from "@rneui/themed";
+
+import { useSelector } from "react-redux";
+import { Container, Header, Paragraph } from "../src/styled/Container.style";
 
 const RegisterScreen = ({ navigation }) => {
+  const { darkBg, lightBg, text, theme, buttons, sizes } = useSelector(
+    (state) => state.color
+  );
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { theme } = useTheme();
 
   useLayoutEffect(() => {
     navigation.setOptions({
       headerShown: true,
       title: "Login",
       headerStyle: {
-        backgroundColor: theme.Bg.primary,
+        backgroundColor: theme ? lightBg.primary : darkBg.primary,
       },
       headerTitleStyle: {
         fontWeight: "bold",
-        fontSize: theme.Fontsize.small,
+        fontSize: 18,
       },
-      headerTintColor: "#fff",
+      headerTintColor: theme ? text.dark : text.light,
     });
   }, [navigation]);
+
+  // Bg: {
+  //   primary: "#0D0D0D",
+  //   secondary: "#141414",
+  // },
+  // buttonColors: {
+  //   primary: "#00596F",
+  //   secondary: "#FFFFFF",
+  // },
+  // lightColors: {
+  //   primary: "#FFFFFF",
+  //   secondary: "#EEEEEE",
+  // },
+  // color: {
+  //   primary: "#00CDBD",
+  //   secondary: "#FFFFFF",
+  // },
+  // Fontsize: {
+  //   large: 46,
+  //   medium: 36,
+
+  //   small: 18,
+  //   extraSmall: 12,
+  // },
 
   return (
     <>
       <StatusBar backgroundColor="black" />
       <View
-        style={[styles.container, { backgroundColor: theme.Bg.primary }]}
+        style={[
+          styles.container,
+          { backgroundColor: theme ? lightBg.primary : darkBg.primary },
+        ]}
         onTouchStart={() => Keyboard.dismiss()}
       >
         <View>
@@ -42,8 +74,8 @@ const RegisterScreen = ({ navigation }) => {
             style={[
               styles.text,
               {
-                fontSize: theme.Fontsize.medium,
-                color: theme.buttonColors.secondary,
+                fontSize: 36,
+                color: theme ? text.dark : text.light,
               },
             ]}
           >
@@ -51,22 +83,43 @@ const RegisterScreen = ({ navigation }) => {
           </Text>
         </View>
         <View style={styles.inputContainer}>
-          <Text style={styles.label}>Username</Text>
+          <Text
+            style={[styles.label, { color: theme ? text.dark : text.light }]}
+          >
+            Username
+          </Text>
           <TextInput
-            style={[styles.input, { borderColor: theme.buttonColors.primary }]}
+            style={[
+              styles.input,
+              { borderColor: "#00596F", color: theme ? text.dark : text.light },
+            ]}
             placeholder="username"
             placeholderTextColor="#9D9D9D"
             autoFocus={true}
           />
-          <Text style={styles.label}>Email</Text>
+          <Text
+            style={[styles.label, { color: theme ? text.dark : text.light }]}
+          >
+            Email
+          </Text>
           <TextInput
-            style={[styles.input, { borderColor: theme.buttonColors.primary }]}
+            style={[
+              styles.input,
+              { borderColor: "#00596F", color: theme ? text.dark : text.light },
+            ]}
             placeholder="email"
             placeholderTextColor="#9D9D9D"
           />
-          <Text style={styles.label}>Password</Text>
+          <Text
+            style={[styles.label, { color: theme ? text.dark : text.light }]}
+          >
+            Password
+          </Text>
           <TextInput
-            style={[styles.input, { borderColor: theme.buttonColors.primary }]}
+            style={[
+              styles.input,
+              { borderColor: "#00596F", color: theme ? text.dark : text.light },
+            ]}
             placeholder="password"
             secureTextEntry={true}
             placeholderTextColor="#9D9D9D"
@@ -77,7 +130,7 @@ const RegisterScreen = ({ navigation }) => {
             style={[
               styles.button,
               {
-                backgroundColor: theme.buttonColors.primary,
+                backgroundColor: theme ? buttons.dark : buttons.light,
               },
             ]}
             onPress={() => navigation.replace("LoginScreen")}
@@ -86,8 +139,8 @@ const RegisterScreen = ({ navigation }) => {
               style={[
                 styles.buttonText,
                 {
-                  fontSize: theme.Fontsize.small,
-                  color: theme.buttonColors.secondary,
+                  fontSize: 18,
+                  color: text.light,
                 },
               ]}
             >

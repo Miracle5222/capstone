@@ -26,6 +26,7 @@ const HIEGHT = height;
 
 const Topic = ({ navigation }) => {
   const { darkBg, lightBg, text, theme } = useSelector((state) => state.color);
+  const { data } = useSelector((state) => state.module);
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -64,7 +65,7 @@ const Topic = ({ navigation }) => {
           ]}
           onPress={() => navigation.navigate("Lesson")}
         >
-          {Home.map((val, index) => {
+          {data.map((val, index) => {
             return (
               <Header
                 key={index}
@@ -93,13 +94,14 @@ const styles = StyleSheet.create({
     justifyContent: "space-around",
     alignItems: "center",
     flexDirection: "column",
-    width: "100%",
+    width: "90%",
     height: 200,
 
     borderRadius: 20,
   },
   headerBox: {
     marginTop: -200,
+    width: "90%",
   },
 
   progressBar: {

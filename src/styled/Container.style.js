@@ -11,8 +11,6 @@ export const Container = styled.View`
   justify-content: space-evenly;
   align-items: center;
   background-color: ${({ bg }) => bg};
-  padding-left: 20px;
-  padding-right: 20px;
 `;
 
 export const Header = styled.Text`
@@ -23,4 +21,7 @@ export const Paragraph = styled.Text`
   font-size: ${({ size }) => size + "px"};
   color: ${({ color }) => color};
   font-weight: 500;
+`;
+export const Spacer = styled.View`
+  padding: 20px;
 `;

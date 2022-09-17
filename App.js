@@ -14,6 +14,7 @@ import { theme } from "./theme";
 import { Provider } from "react-redux";
 import { store } from "./redux/store";
 import { useSelector, useDispatch } from "react-redux";
+import ContentScreen from "./screens/ContentScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -37,6 +38,7 @@ const Navigator = () => {
             <Stack.Screen name="HomeScreen" component={HomeScreen} />
             <Stack.Screen name="Register" component={RegisterScreen} />
             <Stack.Screen name="ForgotPassword" component={ForgotPassword} />
+            <Stack.Screen name="ContentScreen" component={ContentScreen} />
           </Stack.Navigator>
         </NavigationContainer>
       </ThemeProvider>

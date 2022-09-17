@@ -16,29 +16,7 @@ const LoginScreen = ({ navigation }) => {
   const { darkBg, lightBg, text, theme, buttons, sizes } = useSelector(
     (state) => state.color
   );
-  // Bg: {
-  //   primary: "#0D0D0D",
-  //   secondary: "#141414",
-  // },
-  // buttonColors: {
-  //   primary: "#00596F",
-  //   secondary: "#FFFFFF",
-  // },
-  // lightColors: {
-  //   primary: "#FFFFFF",
-  //   secondary: "#EEEEEE",
-  // },
-  // color: {
-  //   primary: "#00CDBD",
-  //   secondary: "#FFFFFF",
-  // },
-  // Fontsize: {
-  //   large: 46,
-  //   medium: 36,
 
-  //   small: 18,
-  //   extraSmall: 12,
-  // },
   return (
     <>
       <StatusBar backgroundColor="black" />
@@ -61,7 +39,10 @@ const LoginScreen = ({ navigation }) => {
             Email
           </Text>
           <TextInput
-            style={[styles.input, { borderColor: "#00596F" }]}
+            style={[
+              styles.input,
+              { borderColor: "#00596F", color: theme ? text.dark : text.light },
+            ]}
             placeholder="email"
             placeholderTextColor="#9D9D9D"
             autoFocus={true}
@@ -72,7 +53,10 @@ const LoginScreen = ({ navigation }) => {
             Password
           </Text>
           <TextInput
-            style={[styles.input, { borderColor: "#00596F" }]}
+            style={[
+              styles.input,
+              { borderColor: "#00596F", color: theme ? text.dark : text.light },
+            ]}
             placeholder="password"
             secureTextEntry={true}
             placeholderTextColor="#9D9D9D"
@@ -150,7 +134,6 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderRadius: 8,
     paddingLeft: 14,
-    color: "white",
   },
   inputContainer: {
     width: "90%",

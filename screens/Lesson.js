@@ -9,6 +9,8 @@ import {
 import React from "react";
 import { useTheme } from "@rneui/themed";
 import { useLayoutEffect, useRef, useState } from "react";
+import { Container, Header, Paragraph } from "../src/styled/Container.style";
+import { Check, LockDark, LockLight } from "../src/icons/Icons";
 
 import { useSelector, useDispatch } from "react-redux";
 import { scrollHandler } from "../redux/feature/scrollReducer";
@@ -20,7 +22,6 @@ import {
   useSharedValue,
   withTiming,
 } from "react-native-reanimated";
-import { Home } from "../Data";
 
 const transition = (
   <Transition.Together>
@@ -31,6 +32,8 @@ const transition = (
 );
 
 const Lesson = ({ navigation }) => {
+  const { data } = useSelector((state) => state.module);
+
   const { darkBg, lightBg, text, theme } = useSelector((state) => state.color);
   const { offsetY } = useSelector((state) => state.scroll);
   const [currentIndex, setCurrentIndex] = useState(null);
@@ -59,22 +62,25 @@ const Lesson = ({ navigation }) => {
         styles.container,
         { backgroundColor: theme ? lightBg.primary : darkBg.primary },
       ]}
-      onScroll={({ nativeEvent }) => {
-        // get the offsetY value when scrolling  and dispatch to scrollhandler reducer
-        dispatch(scrollHandler(nativeEvent.contentOffset.y));
-      }}
+      // onScroll={({ nativeEvent }) => {
+      //    get the offsetY value when scrolling  and dispatch to scrollhandler reducer
+      //   dispatch(scrollHandler(nativeEvent.contentOffset.y));
+      // }}
     >
       {/* <Text style={styles.label}>{offsetY}</Text> */}
       <Transitioning.View ref={ref} transition={transition}>
-        {Home.map((val) => {
+        {data.map((val) => {
+          //map data from redux
           return val.modules.map((value, index) => {
+            //map data.modules from redux
             return (
               <TouchableOpacity
                 onPress={() => {
                   ref.current.animateNextTransition();
                   setCurrentIndex(index === currentIndex ? null : index);
                 }}
-                activeOpacity={0.9}
+                // disabled={value.status ? false : true} //disable touchable opactity if status is false
+                activeOpacity={0.5}
                 key={index}
               >
                 <View
@@ -87,21 +93,51 @@ const Lesson = ({ navigation }) => {
                     },
                   ]}
                 >
-                  <Text
-                    style={[
-                      styles.textTitle,
-                      { color: theme ? text.dark : text.light },
-                    ]}
+                  <View
+                    style={{
+                      marginLeft: 10,
+                      width: 60,
+                      height: 60,
+                      backgroundColor: theme
+                        ? lightBg.fortiary
+                        : darkBg.primary,
+                      borderRadius: 30,
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }}
+                  >
+                    {value.status ? (
+                      <LockLight bg={text.primary} />
+                    ) : (
+                      <LockDark bg={text.secondary} />
+                    )}
+                  </View>
+
+                  <Header
+                    size={14}
+                    color={theme ? text.dark : text.light}
+                    style={{ paddingLeft: 10 }}
                   >
                     {value.title}
-                  </Text>
+                  </Header>
                 </View>
 
                 {index === currentIndex && (
                   <>
                     {value.topic.map(
-                      ({ lesson_name, id, introduction }, items) => (
+                      //map data from redux
+                      (
+                        { lesson_name, id, key, introduction, status, content },
+                        items
+                      ) => (
                         <TouchableOpacity
+                          onPress={
+                            () =>
+                              navigation.navigate("ContentScreen", {
+                                id: id,
+                                content: content,
+                              }) //pass params to ContentScreen
+                          }
                           activeOpacity={0.6}
                           style={[
                             styles.topics,
@@ -111,34 +147,46 @@ const Lesson = ({ navigation }) => {
                                 : darkBg.secondary,
                             },
                           ]}
+                          // disabled={status ? false : true} //disable touchable opactity if status is false
                           key={items}
                         >
-                          <Text
-                            style={[
-                              styles.lesson,
-                              { color: theme ? text.dark : text.light },
-                            ]}
-                          >
-                            {id}
-                          </Text>
-                          {introduction && (
+                          <View>
+                            <Text
+                              style={[
+                                styles.lesson,
+                                {
+                                  color: theme ? text.dark : text.light,
+                                },
+                              ]}
+                            >
+                              Lesson: {id}
+                            </Text>
+                            {introduction && (
+                              <Text
+                                style={[
+                                  styles.name,
+                                  { color: theme ? text.dark : text.light },
+                                ]}
+                              >
+                                {introduction}
+                              </Text>
+                            )}
                             <Text
                               style={[
                                 styles.name,
                                 { color: theme ? text.dark : text.light },
                               ]}
                             >
-                              {introduction}
+                              {lesson_name}
                             </Text>
-                          )}
-                          <Text
-                            style={[
-                              styles.name,
-                              { color: theme ? text.dark : text.light },
-                            ]}
-                          >
-                            {lesson_name}
-                          </Text>
+                            <View style={styles.iconContainer}>
+                              {status ? (
+                                <Check />
+                              ) : (
+                                <LockDark bg={text.secondary} />
+                              )}
+                            </View>
+                          </View>
                         </TouchableOpacity>
                       )
                     )}
@@ -161,20 +209,21 @@ const styles = StyleSheet.create({
     color: "white",
   },
   container: {
-    flex: 1,
+    flex: 1.5,
     padding: 20,
   },
   box: {
     width: "90%",
   },
-  textTitle: { fontSize: 16, paddingLeft: 20 },
+
   titles: {
     borderBottomRightRadius: 15,
     borderTopRightRadius: 15,
     marginTop: 20,
-    justifyContent: "center",
-    alignContent: "center",
-
+    justifyContent: "flex-start",
+    alignItems: "center",
+    flexWrap: "nowrap",
+    flexDirection: "row",
     borderLeftColor: "#00CDBD",
     borderTopWidth: 0,
     borderBottomWidth: 0,
@@ -191,6 +240,12 @@ const styles = StyleSheet.create({
     height: 100,
     width: "90%",
     alignSelf: "flex-end",
+  },
+  iconContainer: {
+    position: "absolute",
+    right: 0,
+    height: "100%",
+    justifyContent: "center",
   },
   lesson: {
     textAlign: "left",
