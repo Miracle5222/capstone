@@ -1,10 +1,22 @@
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import React from "react";
+import { useSelector } from "react-redux";
 
-const Button = ({ text, mt, mb, ph, pv, event }) => {
+const Button = ({ event, children }) => {
+  const { darkBg, lightBg, text, theme, buttons } = useSelector(
+    (state) => state.color
+  );
   return (
-    <TouchableOpacity onPress={event}>
-      <Text>{text}</Text>
+    <TouchableOpacity
+      style={[
+        styles.button,
+        {
+          backgroundColor:  buttons.light ,
+        },
+      ]}
+      onPress={event}
+    >
+      {children}
     </TouchableOpacity>
   );
 };
@@ -20,7 +32,7 @@ const styles = StyleSheet.create({
   },
   button: {
     paddingHorizontal: 20,
-    paddingVertical: 12,
+    paddingVertical: 8,
     borderRadius: 8,
   },
 });

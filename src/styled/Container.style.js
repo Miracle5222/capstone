@@ -21,7 +21,8 @@ export const Paragraph = styled.Text`
   font-size: ${({ size }) => size + "px"};
   color: ${({ color }) => color};
   font-weight: 500;
+  line-height: 20px;
 `;
 export const Spacer = styled.View`
-  padding: 20px;
+  padding: 10px;
 `;

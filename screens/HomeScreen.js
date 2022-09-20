@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View, Image, StatusBar } from "react-native";
-import React from "react";
+
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import {
@@ -24,6 +24,7 @@ import {
   useSharedValue,
   withTiming,
 } from "react-native-reanimated";
+import { useLayoutEffect } from "react";
 
 const Tab = createBottomTabNavigator();
 const SettingsStack = createNativeStackNavigator();

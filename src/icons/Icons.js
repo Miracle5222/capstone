@@ -3,6 +3,14 @@ import React from "react";
 import Svg, { Path, Pattern, Use, Image, Defs } from "react-native-svg";
 import { useSelector } from "react-redux";
 
+export const Exit = (props) => (
+  <Svg width={46} height={46} fill="none" xmlns="http://www.w3.org/2000/svg">
+    <Path
+      d="M13.294 19.294a1 1 0 0 1 1.415 0L20 24.587l5.291-5.293a1.002 1.002 0 0 1 1.416 1.415L21.414 26l5.293 5.291a1 1 0 1 1-1.416 1.416l-5.29-5.293-5.292 5.293a1 1 0 1 1-1.415-1.416l5.293-5.29-5.293-5.292a1 1 0 0 1 0-1.415Z"
+      fill="#D10000"
+    />
+  </Svg>
+);
 export const Check = (props) => (
   <Svg width={22} height={22} fill="none" xmlns="http://www.w3.org/2000/svg">
     <Path

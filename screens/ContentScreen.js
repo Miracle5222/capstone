@@ -16,7 +16,6 @@ const List = createNativeStackNavigator();
 const ContentScreen = ({ route }) => {
   const dispatch = useDispatch();
   useEffect(() => {
-    console.log(route.params.content);
     dispatch(contentHandler(route.params.content));
     dispatch(contentIdHandler(route.params.id));
   }, []);

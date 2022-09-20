@@ -5,6 +5,7 @@ import {
   View,
   ScrollView,
   TouchableWithoutFeedback,
+  Dimensions,
 } from "react-native";
 import React from "react";
 import { useTheme } from "@rneui/themed";
@@ -22,6 +23,10 @@ import {
   useSharedValue,
   withTiming,
 } from "react-native-reanimated";
+const { width, height } = Dimensions.get("screen");
+
+const WIDTH = width;
+const HIEGHT = height;
 
 const transition = (
   <Transition.Together>
@@ -209,7 +214,9 @@ const styles = StyleSheet.create({
     color: "white",
   },
   container: {
-    flex: 1.5,
+    flex: 1,
+
+    height: HIEGHT + 100,
     padding: 20,
   },
   box: {
