@@ -605,7 +605,7 @@ This is executed.
 The outcome of a relational operator, such as <, is a boolean value. This is why
 the expression 10>9 displays the value "true." Further, the extra set of parentheses
 around 10>9 is necessary because the + operator has a higher precedence than the >`,
-                paragraph: `Data Storage
+                paragraph: `
 Storing data in Java programs require the usage of Variables. They serve as the
 basic unit of storage in a Java program.`,
                 code: [],
@@ -617,21 +617,473 @@ basic unit of storage in a Java program.`,
             id: "2.2",
             status: false,
             lesson_name: "Data Storage",
+            content: [
+              {
+                heading: `Data Storage
+                
+Storing data in Java programs require the usage of Variables. They serve as the
+basic unit of storage in a Java program.
+`,
+                paragraph: `Variables
+                
+A variable is defined by the combination of an identifier, a type, and an
+optional initializer. In addition, all variables have a scope, which defines their visibility,
+and a lifetime. These elements are examined next.
+
+Declaring a Variable
+
+In Java, all variables must be declared before they can be used. The basic form
+of a variable declaration is shown here:
+
+type identifier [ = value ][, identifier [= value ] …];
+
+type is one of Java’s atomic types, or the name of a class or interface. The
+identifier is the name of the variable. You can initialize the variable by specifying an
+equal sign and a value. Keep in mind that the initialization expression must result in a
+value of the same (or compatible) type as that specified for the variable. To declare
+more than one variable of the specified type, use a comma-separated list.
+
+
+                `,
+                code: [],
+                image: [],
+              },
+              {
+                heading: `Here are several examples of variable declarations syntax of various types. Note that
+some include an initialization.
+                
+Storing data in Java programs require the usage of Variables. They serve as the
+basic unit of storage in a Java program.
+`,
+                paragraph: `The identifiers that you choose have nothing intrinsic in their names that
+indicates their type. Java allows any properly formed identifier to have any declared
+type.
+                `,
+                code: [
+                  {
+                    language: `java`,
+                    textCode: `
+int a, b, c; // declares three ints, a, b,
+and c.
+int d = 3, e, f = 5; // declares three more ints,
+initializing
+
+// d and f.
+byte z = 22; // initializes z.
+double pi = 3.14159; // declares an approximation of
+pi.
+char x = 'x'; // the variable x has the value
+'x'.
+`,
+                  },
+                ],
+                image: [],
+              },
+              {
+                heading: `The Scope and Lifetime of Variables
+
+So far, all of the variables used have been declared at the start of the main( )
+method. However, Java allows variables to be declared within any block.
+
+`,
+                paragraph: `Block
+Block defines a scope in Java. As such, each time we create a new block, we
+also create a new scope. A block is begun with an opening curly brace ‘{‘ and ended
+by a closing curly brace ‘}’. A scope determines what objects (or variables) are visible
+to other parts of your program. It also determines the lifetime of those objects.
+As a general rule, variables declared inside a scope are not visible (that is,
+accessible) to code that is defined outside that scope. Thus, when you declare a
+variable within a scope, you are localizing that variable and protecting it from
+unauthorized access and/or modification. Indeed, the scope rules provide the
+foundation for encapsulation.
+                `,
+                code: [],
+                image: [],
+              },
+              {
+                heading: `Scopes can also be nested. Each time you create a block of code, you are
+creating a new, nested scope. When this occurs, the outer scope encloses the inner
+scope. This means that objects declared in the outer scope will be visible to code
+within the inner scope. However, the reverse is not true. Objects declared within the
+inner scope will not be visible outside it.
+To understand the effect of nested scopes, consider the following program:`,
+                paragraph: ``,
+                code: [
+                  {
+                    language: `java`,
+                    textCode: `
+// Demonstrate block scope.
+class Scope {
+  public static void main(String args[]) {
+    int x; // known to all code within main
+    x = 10;
+
+    if(x == 10) { // start new scope
+        int y = 20; // known only to this block
+        // x and y both known here.
+    System.out.println("x and y: " + x + " " + y);
+        x = y * 2;
+    }
+    // y = 100; // Error! y not known here
+    // x is still known here.
+    System.out.println("x is " + x);
+  }
+}
+                   
+`,
+                  },
+                ],
+                image: [],
+              },
+              {
+                heading: `Variable x is declared at the start of main( )’s scope and is accessible to all
+subsequent code within main( ). Within the if block, y is declared. Since a block defines
+a scope, y is only visible to other code within its block. This is why outside of its block,
+the line y = 100; is commented out. If you remove the leading comment symbol, a
+compile-time error will occur, because y is not visible outside of its block. Within the if
+block, x can be used because code within a block (that is, a nested scope) has access to
+variables declared by an enclosing scope.
+                `,
+                paragraph: ``,
+                code: [],
+                image: [],
+              },
+            ],
           },
           {
             id: "2.3",
             status: false,
             lesson_name: "Arithmetic",
+            content: [
+              {
+                heading: `Arithmetic
+                  
+Arithmetic operators are used in mathematical expressions in the same way
+that they are used in algebra. The following table lists the arithmetic operators:
+
+                `,
+                paragraph: ``,
+                code: [],
+                image: [require("./assets/m2f3.jpg")],
+              },
+              {
+                heading: `The Basic Arithmetic Operators
+
+The basic arithmetic operations—addition, subtraction, multiplication, and division—all behave as you would expect for all numeric types.
+The operands of the arithmetic operators must be of a numeric type. You cannot use them on boolean types, but you can use them on char types, since the char type in Java is, essentially, a subset of int.
+The following simple example program demonstrates the arithmetic operators. It also illustrates the difference between floating-point division and integer division.
+                `,
+                paragraph: ``,
+                code: [
+                  {
+                    language: `java`,
+                    textCode: `// Demonstrate the basic arithmetic operators.
+class BasicMath {
+    public static void main(String args[]) {
+      // arithmetic using integers
+      System.out.println("Integer Arithmetic");
+        int a = 1 + 1;
+        int b = a * 3;
+        int c = b / 4;
+        int d = c - a;
+        int e = -d;
+        System.out.println("a = " + a);
+        System.out.println("b = " + b);
+        System.out.println("c = " + c);
+        System.out.println("d = " + d);
+        System.out.println("e = " + e);
+      // arithmetic using doubles
+      System.out.println("\nFloating Point Arithmetic");
+        double da = 1 + 1;
+        double db = da * 3;
+        double dc = db / 4;
+        double dd = dc - a;
+        double de = -dd;
+        System.out.println("da = " + da);
+        System.out.println("db = " + db);
+        System.out.println("dc = " + dc);
+        System.out.println("dd = " + dd);
+        System.out.println("de = " + de);
+    }
+}               
+`,
+                  },
+                ],
+                image: [],
+              },
+              {
+                heading: `When you run this program, you will see the following output:`,
+                paragraph: ``,
+                code: [
+                  {
+                    language: `java`,
+                    textCode: `   
+Integer Arithmetic
+a = 2
+b = 6
+c = 1
+d = -1
+e = 1
+Floating Point Arithmetic
+da = 2.0
+db = 6.0
+dc = 1.5
+dd = -0.5
+de = 0.5         
+`,
+                  },
+                ],
+                image: [],
+              },
+              {
+                heading: `The Modulus Operator
+The modulus operator, %, returns the remainder of a division operation. It can be applied to floating-point types as well as integer types. The following example program demonstrates the %:
+                `,
+                paragraph: ``,
+                code: [
+                  {
+                    language: `java`,
+                    textCode: `   
+// Demonstrate the % operator.
+class Modulus {
+  public static void main(String args[]) {
+    int x = 42;
+    double y = 42.25;
+    System.out.println("x mod 10 = " + x % 10);
+    System.out.println("y mod 10 = " + y % 10);
+  }
+}
+
+When you run this program, you will get the following output:
+x mod 10 = 2
+y mod 10 = 2.25    
+`,
+                  },
+                ],
+                image: [],
+              },
+              {
+                heading: `Arithmetic Compound Assignment Operators
+Java provides special operators that can be used to combine an arithmetic operation with an assignment. As you probably know, statements like the following are quite common in programming:
+
+a = a + 4;
+
+In Java, you can rewrite this statement as shown here:
+
+a += 4;
+
+This version uses the += compound assignment operator. Both statements perform the same action: they increase the value of a by 4.
+Here is another example,
+
+a = a % 2;
+
+which can be expressed as
+
+a %= 2;
+
+In this case, the %= obtains the remainder of a /2 and puts that result back into`,
+                paragraph: ``,
+                code: [],
+                image: [],
+              },
+              {
+                heading: `There are compound assignment operators for all of the arithmetic, binary operators. Thus, any statement of the form
+var = var op expression;
+
+can be rewritten as
+
+var op= expression;`,
+                paragraph: `The compound assignment operators provide two benefits. First, they save you a bit of typing, because they are “shorthand” for their equivalent long forms. Second, in some cases they are more efficient than are their equivalent long forms. For these reasons, you will often see the compound assignment operators used in professionally written Java programs.`,
+                code: [],
+                image: [],
+              },
+              {
+                heading: `Here is a sample program that shows several op= assignments in action:`,
+                paragraph: ``,
+                code: [
+                  {
+                    language: `java`,
+                    textCode: ` // Demonstrate several assignment operators.
+class OpEquals {
+  public static void main(String args[]) {
+      int a = 1;
+      int b = 2;
+      int c = 3;
+      a += 5;
+      b *= 4;
+      c += a * b;
+      c %= 6;
+      System.out.println("a = " + a);
+      System.out.println("b = " + b);
+      System.out.println("c = " + c);
+  }
+}
+The output of this program is shown here:
+a = 6
+b = 8
+c = 3`,
+                  },
+                ],
+                image: [],
+              },
+              {
+                heading: `Increment and Decrement`,
+                paragraph: `The increment operator (++) increases its operand by one. The decrement operator (--) decreases its operand by one. For example, this statement:
+x = x + 1;
+
+can be rewritten like this by use of the increment operator:
+
+x++;
+
+Similarly, this statement:
+
+x = x - 1;
+
+is equivalent to
+
+x--;`,
+                code: [],
+                image: [],
+              },
+            ],
           },
           {
             id: "2.4",
             status: false,
             lesson_name: "Operator Precedence",
+            content: [
+              {
+                heading: `Operator Precedence
+Table 2.4 shows the order of precedence for 
+Java operators, from highest to lowest. Operators in the same row are equal in precedence.
+In binary operations, the order of evaluation is left to right (except for assignment, which evaluates right to left). 
+Although they are technically separators, the [ ], ( ), and . can also act like operators. In that capacity, they would have the highest precedence.
+Also, notice the arrow operator (->). It was added by JDK 8 and is used in lambda expressions.
+
+`,
+                paragraph: ``,
+
+                code: [],
+                image: [require("./assets/m2f4.jpg")],
+              },
+              {
+                heading: `Parenthesis
+Parentheses raise the precedence of the operations that are inside them. This is often necessary to obtain the result you desire. For example, consider the following expression:
+
+a >> b + 3
+
+This expression first adds 3 to b and then shifts a right by that result. That is, this expression can be rewritten using redundant parentheses like this:
+
+a >> (b + 3)
+`,
+                paragraph: ``,
+
+                code: [],
+                image: [],
+              },
+              {
+                heading: `However, if you want to first shift a right by b positions and then add 3 to that result, you will need to parenthesize the expression like this:
+(a >> b) + 3
+`,
+                paragraph: `In addition to altering the normal precedence of an operator, parentheses can sometimes be used to help clarify the meaning of an expression. For anyone reading your code, a complicated expression can be difficult to understand. Adding redundant but clarifying parentheses to complex expressions can help prevent confusion later. For example, which of the following expressions is easier to read?
+
+a | 4 + c >> b & 7
+(a | (((4 + c) >> b) & 7))
+
+One other point: parentheses (redundant or not) do not degrade the performance of your program. Therefore, adding parentheses to reduce ambiguity does not negatively affect your program.`,
+
+                code: [],
+                image: [],
+              },
+            ],
           },
           {
             id: "2.5",
             status: false,
             lesson_name: "Type Conversion and Casting",
+            content: [
+              {
+                heading: `Type Conversion and Casting
+When one type of data is assigned to another type of variable, an automatic type conversion will take place if the following two conditions are met:
+
+• The two types are compatible.
+• The destination type is larger than the source type.
+
+When these two conditions are met, a widening conversion takes place. For example, the int type is always large enough to hold all valid byte values, so no explicit cast statement is required.
+`,
+                paragraph: `For widening conversions, the numeric types, including integer and floating-point types, are compatible with each other. However, there are no automatic conversions from the numeric types to char or boolean. Also, char and boolean are not compatible with each other.
+As mentioned earlier, Java also performs an automatic type conversion when storing a literal integer constant into variables of type byte, short, long, or char.`,
+
+                code: [],
+                image: [],
+              },
+              {
+                heading: `Casting Incompatible Types
+Although the automatic type conversions are helpful, they will not fulfill all needs. For example, what if you want to assign an int value to a byte variable? This conversion will not be performed automatically, because a byte is smaller than an int. This kind of conversion is sometimes called a narrowing conversion, since you are explicitly making the value narrower so that it will fit into the target type.`,
+                paragraph: `To create a conversion between two incompatible types, you must use a cast. A cast is simply an explicit type conversion. It has this general form:
+(target-type) value
+Here, target-type specifies the desired type to convert the specified value to. For example, the following fragment casts an int to a byte. If the integer’s value is larger than the range of a byte, it will be reduced modulo (the remainder of an integer division by the) byte’s range.
+
+int a;
+byte b;
+// …
+b = (byte) a;`,
+
+                code: [],
+                image: [],
+              },
+              {
+                heading: `A different type of conversion will occur when a floating-point value is assigned to an integer type: truncation. As you know, integers do not have fractional components. Thus, when a floating-point value is assigned to an integer type, the fractional component is lost. For example, if the value 1.23 is assigned to an integer, the resulting value will simply be 1. The 0.23 will have been truncated. Of course, if the size of the whole number component is too large to fit into the target integer type, then that value will be reduced modulo the target type’s range.
+The following program demonstrates some type conversions that require casts:
+// Demonstrate casts.`,
+                paragraph: ``,
+
+                code: [],
+                image: [],
+              },
+              {
+                heading: ``,
+                paragraph: `This program generates the following output:
+
+Conversion of int to byte.
+
+i and b 257 1
+
+Conversion of double to int.
+
+d and i 323.142 323
+
+Conversion of double to byte.
+
+d and b 323.142 67
+
+Let’s look at each conversion. When the value 257 is cast into a byte variable, the result is the remainder of the division of 257 by 256 (the range of a byte), which is 1 in this case. When the d is converted to an int, its fractional component is lost. When d is converted to a byte, its fractional component is lost, and the value is reduced modulo 256, which in this case is 67.`,
+
+                code: [
+                  {
+                    language: `java`,
+                    textCode: `class Conversion {
+public static void main(String args[]) {
+    byte b;
+    int i = 257;
+    double d = 323.142;
+    System.out.println("\nConversion of int to byte.");
+    b = (byte) i;
+    System.out.println("i and b " + i + " " + b);
+    System.out.println("\nConversion of double to int.");
+    15
+    i = (int) d;
+    System.out.println("d and i " + d + " " + i);
+    System.out.println("\nConversion of double to byte.");
+    b = (byte) d;
+    System.out.println("d and b " + d + " " + b);
+    }
+}`,
+                  },
+                ],
+                image: [],
+              },
+            ],
           },
         ],
       },

@@ -21,12 +21,12 @@ export const Highlighter = ({ children, language }, props) => {
         contentContainerStyle={{
           justifyContent: "center",
           alignItems: "center",
-          width: "100%",
         }}
         customStyle={{
           borderRadius: 8,
           padding: 20,
           margin: 0,
+          height: 250,
         }}
         language={language}
         fontSize={14}
