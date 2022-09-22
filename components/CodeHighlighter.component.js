@@ -12,7 +12,7 @@ import { atomOneLight } from "react-syntax-highlighter/styles/prism"; // 7.0.1
 import * as Clipboard from "expo-clipboard";
 import { Inter_100Thin } from "@expo-google-fonts/inter";
 
-export const Highlighter = ({ children, language }, props) => {
+export const Highlighter = ({ children, language, height }, props) => {
   return (
     <>
       <SyntaxHighlighter
@@ -24,9 +24,9 @@ export const Highlighter = ({ children, language }, props) => {
         }}
         customStyle={{
           borderRadius: 8,
-          padding: 20,
+          padding: 5,
           margin: 0,
-          height: 250,
+          height: height,
         }}
         language={language}
         fontSize={14}

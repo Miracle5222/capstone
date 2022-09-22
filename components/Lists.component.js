@@ -64,6 +64,7 @@ export const ListsItems = ({ navigation }, props) => {
     });
   }, [navigation, contentId]);
 
+  console.log();
   const animatedStyles = useAnimatedStyle(() => {
     return {
       opacity: withSpring(opacity.value),
@@ -88,9 +89,15 @@ export const ListsItems = ({ navigation }, props) => {
           >
             <Exit />
           </TouchableOpacity>
-          <Highlighter language="java">{modalContent.trim()}</Highlighter>
+          <Highlighter
+            language="java"
+            height={modalContent.length > 800 ? "auto" : 300}
+          >
+            {modalContent.trim()}
+          </Highlighter>
         </Animated.View>
       )}
+
       <FlatList
         ref={ref}
         refreshing={true}
@@ -126,7 +133,12 @@ export const ListsItems = ({ navigation }, props) => {
                     style={{
                       display: item.image.length <= 0 ? "none" : "flex",
                       width: contentId === "2.1" ? "90%" : "100%",
-                      height: contentId === "2.1" ? 180 : 400,
+                      height:
+                        contentId === "2.1"
+                          ? 180
+                          : 400 && contentId === "4.0"
+                          ? 180
+                          : 400,
                     }}
                     resizeMode="contain"
                     source={item.image[index]}
@@ -153,7 +165,10 @@ export const ListsItems = ({ navigation }, props) => {
                       },
                     ]}
                   >
-                    <Highlighter language={val.language}>
+                    <Highlighter
+                      language={val.language}
+                      height={val.textCode.trim().length < 100 ? "auto" : 180}
+                    >
                       {val.textCode.trim()}
                     </Highlighter>
                   </TouchableOpacity>

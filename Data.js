@@ -1097,21 +1097,269 @@ public static void main(String args[]) {
             id: "3.0",
             introduction: "Introduction and Objectives",
             status: false,
+            content: [
+              {
+                heading: `Learning Outcomes:
+                
+At the end of this module, student should be able to:
+
+1. Write conditional statement using the structure of "if, else-if, and else" statement
+2. Write conditional statement using the structure of switch statements.
+3. Create conditoinal statement, defining criteria when a program should take certain actions.
+4. Analayze programs with nexted conditional statement.
+5. Design solutions to a problem using conditional statements.
+                `,
+                paragraph: `Introduction
+
+A conditional statement generally consist of two parts: a condition that is determinable by a boolean value of true or false
+and certain block of codes that need to be executed when the condition is fulfilled. Using conditional statements will change the flow of the execution and branch out based on changes made to the state of the program.This module will discuss the different ways of making conditional statements, and how they are declared and used in the program.
+
+                `,
+                code: [],
+                image: [],
+              },
+            ],
           },
           {
             id: "3.1",
             status: false,
             lesson_name: "If-Else Statement",
+            content: [
+              {
+                heading: `If-Else Statement
+                        
+To begin creating a conditional statement, enter the if keyword followed by its corresponding condition insed a parenthesis. Then, add the codes that need to be executed between the open and close curly braces if the condition is true.
+
+if there is a need to execute certain codes when the condition is false, add an else keyword and insert the codes between the open and curly braces that follow it.
+
+Below is the general syntax of an if-else statement:
+                `,
+                paragraph: ``,
+                code: [
+                  {
+                    language: "java",
+                    textCode: `
+if(condition){
+  statements to be executed if the condition is true
+}else{
+  statements to be executed if the condition is false
+}`,
+                  },
+                ],
+                image: [],
+              },
+              {
+                heading: `Below is the equivalent flowchart of an if-else statement:
+                `,
+                paragraph: `Figure XX.1 Flowchar of an if-else statement
+                
+The else keyword is optional and may not necessarily be written on the program if it does not require executing certin instructions if the condition evaluated if false.
+However, if an else statement is written, it will look for the last instance of if and partners itself with it. If an else statement is written but does not
+have an if keyword to partner itself into, the program will return and error and it will not run.`,
+                code: [],
+                image: [require("./assets/m3p1.jpg")],
+              },
+              {
+                heading: `Figure XX.1 Flowchar of an if-else statement
+                
+The else keyword is optional and may not necessarily be written on the program if it does not require executing certin instructions if the condition evaluated if false.
+However, if an else statement is written, it will look for the last instance of if and partners itself with it. If an else statement is written but does not
+have an if keyword to partner itself into, the program will return and error and it will not run.
+`,
+                paragraph: ``,
+                code: [],
+                image: [require("./assets/m3p2.jpg")],
+              },
+              {
+                heading: `Example 3.1:
+Write a program that will accept a user entered number and determine whether it is even or odd.`,
+                paragraph: ``,
+                code: [
+                  {
+                    language: "java",
+                    textCode: `import java.util.Scanner;
+
+public class SampleProgram{
+  public static void main(String[] args){
+    int number;
+    Scanner userInput = new Scanner(System.in);
+
+    System.out.printLn("Enter a number:");
+    number = userInput.nextInt();
+
+    if(number % 2 == 0){
+      System.out.printLn("Even number.");
+    }else{
+      System.out.printLn("Odd number.");
+    }
+  }
+}`,
+                  },
+                ],
+                image: [],
+              },
+            ],
           },
           {
             id: "3.2",
             status: false,
             lesson_name: "If-Else-If Statement",
+            content: [
+              {
+                heading: `If-Else-IfStatement
+                
+Besides the else statement, the keyword else if can be used if the programmer wants to write another specific condition if the initial if condition is false.
+The number of how many else if statements can be written is virtually unlimited, but like else, it cannot exist without and if statement to partner itself unto.
+Else if statementsare optional and the program can run with or witout it.
+
+if the if condition is true, it will not execute the codes written in the else if and else section.
+However, if a certain else if statement is true, it will not execute the other else if statements including the else as well.
+
+Below is the general syntax of an if-else statement:`,
+                paragraph: ``,
+                code: [
+                  {
+                    language: "java",
+                    textCode: `
+if(condition){
+  statements to be executed if the condition is true
+}else if(condition2){
+  statements to be executed if conditional is false but condition2 is true
+}else{
+  statements that need to be executed if the conditions above are false
+}`,
+                  },
+                ],
+                image: [],
+              },
+              {
+                heading: ``,
+                paragraph: `Figure XX.3 Flowchar of an if-else if statement`,
+                code: [],
+                image: [require("./assets/m3p3.jpg")],
+              },
+              {
+                heading: `Example 3.2:
+                
+Write a program that will accept a user inputted number and determine whether it is a negative, positive or just a zero number.`,
+                paragraph: ``,
+                code: [
+                  {
+                    language: "java",
+                    textCode: `import java.util.Scanner;
+
+public class SampleProgram{
+  public static void main(String[] args){
+    int number;
+    Scanner userInput = new Scanner(System.in);
+
+    System.out.printLn("Enter a number:");
+    number = userInput.nextInt();
+
+    if(number > 0){
+      System.out.printLn("Positive number.");
+    }else if(number == 0){
+      System.out.printLn("Zero number.");
+    }else{
+      System.out.printLn("Negative number.");
+    }
+  }
+}`,
+                  },
+                ],
+                image: [],
+              },
+            ],
           },
           {
             id: "3.3",
             status: false,
             lesson_name: "Switch Statement",
+            content: [
+              {
+                heading: `A switch statement is used to perform different actions based on different conditions provided. To be able to use a swtich statement, start by
+writing the swtich keyword followed by an expression enclosed in a parenthesis. This expression will be evaluated once by the compiler.
+
+Then, create certain cases which will match the value of the expression. If there is a match, that associated block of code is executed. To create cases, write the case keyword follwed by the value and a colon.
+In order to prevent the program to perform code blocks from other cases, especially the ones inside the default section, a break keyword must be added at the last line of every case code block. This will stop the execution and exits the switch statement. It is not neccessary to add  a break keyword in the last case of a switch expression since the statement end there.`,
+                paragraph: ``,
+                code: [],
+                image: [],
+              },
+              {
+                heading: `If there are no case matches, the default keyword is executed and it will perform the code blocks written in that section. It may not also necessarily be the last case in a switch block. A swtich statement value, the first one is selected and performed.
+                
+Below is the general syntax of switch statement:`,
+                paragraph: ``,
+                code: [
+                  {
+                    language: "java",
+                    textCode: `
+Switch(expression){
+  case x:
+    codeblock
+    break;
+  case y:
+    codeblock
+    break;
+  case z:
+    codeblock
+    break;
+  default:
+    code block
+}
+                `,
+                  },
+                ],
+                image: [],
+              },
+              {
+                heading: `Example 3.3:`,
+                paragraph: ``,
+                code: [
+                  {
+                    language: "java",
+                    textCode: `
+public class SampleProgram{
+  public static void main(String[] args){
+    int date;
+    Scanner userInput = new Scanner(System.in);
+    System.out.printLn("Enter a Date:");
+    date = userInput.nextInt();
+    Switch(date){
+      case 0:
+        System.out.printLn("Sunday");
+        break;
+      case 1:
+        System.out.printLn("Monday");
+        break;
+      case 2:
+        System.out.printLn("Tuesday");
+        break;
+      case 3:
+        System.out.printLn("Wednesday");
+        break;
+      case 4:
+        System.out.printLn("Thursday");
+        break;
+      case 5:
+        System.out.printLn("Friday:");
+        break;
+      case 6:
+        System.out.printLn("Saturday");
+        break;
+      default:
+        System.out.printLn("No date found.");
+    }
+  }
+}
+
+                `,
+                  },
+                ],
+                image: [],
+              },
+            ],
           },
         ],
       },
@@ -1125,31 +1373,323 @@ public static void main(String args[]) {
             id: "4.0",
             introduction: "Introduction and Objectives",
             status: false,
+            content: [
+              {
+                heading: `Learning Outcomes:
+                
+At the end of the lesson you are expected to have;
+
+1) Applied the correct syntax and appropriate use of Java repetition control structures
+2) Used postfix increment and decrement operators
+3) Created a program that applies appropriate use of Java repetition control structures.
+
+                `,
+                paragraph: `Introduction
+Using Repetitions allows repeating procedures to be expressed in code using a few lines of code and controlled
+dynamically in program-defined conditions and rules. When creating computer programs that require repeating logic
+and or procedures, writing the same code redundantly to achieve a certain goal is ineffective. For these kinds of cases,
+Repetitions are useful to eliminate these redundancies and make written code brief by minimizing the lines of code to
+write making it readable and maintainable. This chapter tackles on how repetitions are implemented and applied in
+various cases in Java programming.
+                
+                `,
+                code: [],
+                image: [],
+              },
+              {
+                heading: `Repetition Defined
+Repetition means repeating a sequence of instructions a certain number of times, or until some specific result is
+achieved. In programming terms this means loops of all kinds, such as repeat, for, while, until etc. In computer
+programming repetitions are implemented in the form of loop statements. `,
+                paragraph: `General Loop Structure
+The following is a flowchart representation of the logic of a loop structure. A loop is structure consists of a condition
+and the statements to execute. The flow chart starts by checking if a given condition is satisfied, if a condition is not
+yet satisfied (false) the flow proceeds with performing the series of statements/code specified on the next step. After
+the statements/codes have been executed, the flow returns to the checking if the given condition is satisfied. The flow
+repeats n number of repetitions until the condition is satisfied pointing the flow to terminate or, proceed to the next
+part of the flow. For a visual representation a Flow Chart representation is presented below in figure 4.1.1.
+                
+                `,
+                code: [],
+                image: [],
+              },
+              {
+                heading: ``,
+                paragraph: `There are three (3) types of loops in Java programming:
+
+● While Loop;
+● Do While Loop;
+● And For Loop;
+
+Each type of loop follows the loop structure given above.`,
+                code: [],
+                image: [require("./assets/m4p1.jpg")],
+              },
+            ],
           },
+
           {
             id: "4.1",
             status: false,
-            lesson_name: "Introduction",
+            lesson_name: "While Loop",
+            content: [
+              {
+                heading: `While Loop
+The While Loop is declared using the code template given below. A condition is specified between the parentheses
+next to the while keyword. This tells the computer to repeat the execution of statements written within the loop’s body
+while a specified condition is true. When the condition is at some point of the execution no longer met, the loop stops
+and proceeds to the next line of code.
+
+
+`,
+                paragraph: `The example below shows a Java program written to move an imaginary car until it has moved more than 10
+kilometers. The body of the code begins by declaring and initializing the variables needed in the program. A variable
+car_movement_in_km using an integer data type is declared to hold the value of how far the car has travelled in
+kilometers. The car_movement_in_km variable is initialized with the value zero, specifying that it has not yet moved.`,
+                code: [
+                  {
+                    language: "java",
+                    textCode: `Code Template:
+while(<condition>)
+{
+    <statement>
+}`,
+                  },
+                ],
+                image: [],
+              },
+              {
+                heading: `
+After the declaration and initialization, a While Loop is written to repeat the statements in its body while the car has
+not yet moved more than 10 kilometers. Within the body of the loop, it is written that the car moves 1 kilometer and
+prints how many kilometers the car has travelled. The car is moved 1 kilometer by incrementing the value of variable
+car_movement_in_km every passage of the loop. The printing of how many kilometers the car has traveled is also done
+every passage of the loop. After the loop has stopped a message will be printed saying that the car is now in the garage.
+`,
+                paragraph: ``,
+                code: [],
+                image: [],
+              },
+              {
+                heading: `Example:`,
+                paragraph: `Output:
+The Car has travelled 1 kilometer/s
+The Car has travelled 2 kilometer/s
+The Car has travelled 3 kilometer/s
+The Car has travelled 4 kilometer/s
+The Car has travelled 5 kilometer/s
+The Car has travelled 6 kilometer/s
+The Car has travelled 7 kilometer/s
+The Car has travelled 8 kilometer/s
+The Car has travelled 9 kilometer/s
+The Car has travelled 10 kilometer/s
+The Car is now in the Garage!`,
+                code: [
+                  {
+                    language: "java",
+                    textCode: `class myLoopProgram
+{
+  public static void main(String args[])
+  {
+  int car_movement_in_km = 0;
+  while(car_movement_in_km < 10)
+  {
+  car_movement_in_km = car_movement_in_km + 1;
+  System.out.println(“The Car has travelled ” + car_movement_in_km +
+  “ kilometer/s”);
+  }
+  System.out.println(“The Car is now in the Garage!”);
+  }
+}`,
+                  },
+                ],
+                image: [],
+              },
+            ],
           },
           {
             id: "4.2",
             status: false,
-            lesson_name: "While Loop",
+            lesson_name: "Do While Loop",
+            content: [
+              {
+                heading: `Do While Loop
+
+The Do While Loop is declared using the code template given below. It is similar to the While Loop except that it
+executes the statements within its body first before checking the specified condition for repetition. A condition is
+specified between the parentheses after the while keyword telling the computer to repeat the execution of statements
+within its body while a certain condition is met. When the condition is at some point of the execution no longer met,
+the loop stops and proceeds to the next line of code.
+
+Code Template:`,
+                paragraph: ``,
+                code: [
+                  {
+                    language: "java",
+                    textCode: `do
+{
+<statement>
+}
+while(<condition>)
+`,
+                  },
+                ],
+                image: [],
+              },
+              {
+                heading: `On example 1 given below, a Java program is written to hit an imaginary player until the player has died. The body
+of the code begins by declaring and initializing the variables needed in the program. A variable player_life using an
+integer data type is declared to hold the value of how much remaining life the player has. The player_life variable is
+initialized with the value Ten (10), specifying that the player has a full life. After the declaration and initialization, a
+Do While Loop is written to repeat the statements in its body while the player has a remaining life of more than Zero
+(0). Within the body of the loop, it is written that the player is hit and prints the remaining lives of the player. The
+player is hit by decrementing the value of variable player_life every passage of the loop. The printing of the remaining
+lives of the player is also done every passage of the loop. After the loop has stopped a message will be printed saying
+that the player has died and the game is over.`,
+                paragraph: ``,
+                code: [],
+                image: [],
+              },
+              {
+                heading: `Example 1:
+                `,
+                paragraph: `Output 1:
+
+The Player is hit! Remaining Life = 9
+The Player is hit! Remaining Life = 8
+The Player is hit! Remaining Life = 7
+The Player is hit! Remaining Life = 6
+The Player is hit! Remaining Life = 5
+The Player is hit! Remaining Life = 4
+The Player is hit! Remaining Life = 3
+The Player is hit! Remaining Life = 2
+The Player is hit! Remaining Life = 1
+The Player is hit! Remaining Life = 0
+The Player has died, Game Over!`,
+                code: [
+                  {
+                    language: "java",
+                    textCode: `class myLoopProgram {
+public static void main(String args[]) {
+  int player_life = 10;
+  do
+    {
+      player_life = player_life - 1;
+      System.out.println(“The Player is hit! Remaining Life = ” + player_life );
+    }
+      while(player_life > 0)
+      System.out.println(“The Player has died, Game Over!”);
+    }
+}`,
+                  },
+                ],
+                image: [],
+              },
+            ],
           },
           {
             id: "4.3",
             status: false,
-            lesson_name: "Do While Loop",
+            lesson_name: "Increment/Decrement Operators",
+            content: [
+              {
+                heading: `A useful tool in implementing looping statements are increment and decrement operators. These operators
+serve as shorthand syntaxes to specify an increment operation or a decrement operation on an integer variable. The
+shorthand increment or decrement operation is indicated by the following syntax:
+
+Code Template:
+
+<variable_name><operation><operation>
+
+On the example given below a variable named x is declared and initialized with a value of zero (0). The variable is
+incremented by specifying the shorthand syntax x++ and is then printed to display the value of x. After displaying the
+value of the variable x, the variable is decremented by specifying the shorthand syntax x--. The value of the variable x
+is then displayed to the user.
+
+                `,
+                paragraph: `Output:
+The value of x is 1
+The value of x is 0
+                `,
+                code: [
+                  {
+                    language: "java",
+                    textCode: `class myProgram{
+public static void main(String args[]){
+  int x = 0;
+  x++;
+  System.out.println(“The value of x is ” + x);
+  x--;
+  System.out.println(“The value of x is ” + x);
+  }
+}
+                    
+`,
+                  },
+                ],
+                image: [],
+              },
+            ],
           },
           {
             id: "4.4",
             status: false,
-            lesson_name: "Increment/Decrement Operators",
-          },
-          {
-            id: "4.5",
-            status: false,
             lesson_name: "For Loop",
+            content: [
+              {
+                heading: `The “for loop” looping statement utilizes the increment/decrement operators in its condition syntax. The statement
+is composed of an initialization condition, testing condition and an increment or decrement operator.
+
+Code Template:`,
+                paragraph: `On the example below, a Java code is written to append text to a string variable 4 times. A variable named myString
+with the datatype String is declared and initialized with the value “Hello”. A for loop control is then implemented
+with an initialization condition int i=0 which indicates that the loop counter is a variable named i with a value of zero
+(0), a testing condition i<4 which indicated that the loop shall continue when the value of the variable i is less than four (4), and an increment operator i++ which indicates that the variable i is incremented on each cycle of the loop.
+On each cycle of the loop the variable myString is appended with the word “cycle” and the corresponding value of
+the loop counter i. The contents of the variables are then printed on the screen presenting the values of the variables.
+                `,
+                code: [
+                  {
+                    language: "java",
+                    textCode: `for(<initialization condition; testing condition; increment/decrement>)
+{
+  <statement>
+}
+                                   
+`,
+                  },
+                ],
+                image: [],
+              },
+              {
+                heading: `Example:
+                `,
+                paragraph: `Output:
+
+Current content of myString is Hello
+Current content of myString is Hellocycle0
+Current content of myString is Hellocycle0cycle1
+Current content of myString is Hellocycle0cycle1cycle2
+Current content of myString is Hellocycle0cycle1cycle2cycle3`,
+                code: [
+                  {
+                    language: "java",
+                    textCode: `class myForLoopProgram{
+public static void main(String args[]){
+  String myString = “Hello”;
+
+  for(int i=0; i<4; i++){
+    myString = myString + “cycle ” + i;
+    System.out.println(“Current content of myString is ” + value );
+  }
+}
+                                   
+`,
+                  },
+                ],
+                image: [],
+              },
+            ],
           },
         ],
       },
