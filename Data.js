@@ -1367,7 +1367,7 @@ public class SampleProgram{
         key: "4",
         title: "Repetition",
         status: false,
-        objectives: "",
+
         topic: [
           {
             id: "4.0",
@@ -1703,42 +1703,423 @@ public static void main(String args[]){
             id: "5.0",
             introduction: "Introduction and Objectives",
             status: false,
+            content: [
+              {
+                heading: `By the end of this module, student must be able to:
+
+1. Describe what methods are.
+2. Create a new Method.
+3. Demonstrate how static methods and fields are associated with classes rather
+than objects.
+4. Explain how the method-call/return mechanism is supported by the methodcall stack.
+5. Associate argument promotion and casting.
+6. Explain how the visibility of declarations is limited to specific regions of
+programs.
+7. Determine what method overloading is and how to create overloaded
+methods.
+
+                `,
+                paragraph: ``,
+                code: [],
+                image: [],
+              },
+              {
+                heading: `Introduction
+
+Good programmers write in a modular fashion which allows for several programmers to
+work independently on separate concepts which can be assembled at a later date to
+create the entire project. The use of methods will be our first step in the direction of
+modular programming.
+Methods are time savers; in that they allow for the repetition of sections of code without
+retyping the code. In addition, methods can be saved and utilized again and again in
+newly developed programs.
+In this module, you’ll learn about Java methods, how to define a Java method and use
+them in your program with the help of examples.`,
+                paragraph: ``,
+                code: [],
+                image: [],
+              },
+            ],
           },
           {
             id: "5.1",
             status: false,
             lesson_name: "Methods Defined ",
+            content: [
+              {
+                heading: `A Java method is a collection of statements that are grouped together to perform a task.
+Methods can be used to define reusable code and organize and simplify coding.
+In general, a method has the following syntax: `,
+                paragraph: `The following method calculates the sum of two integers. The sum is the method name,
+                it has two int parameters, num1 and num2, the sum of which is the returned by the
+                method.
+                `,
+                code: [
+                  {
+                    language: "java",
+                    textCode: `modifier returnValueType methodName(list of parameters) {
+// method body;
+}
+                  `,
+                  },
+                ],
+                image: [],
+              },
+              {
+                heading: `The following method calculates the sum of two integers. The sum is the method name,
+it has two int parameters, num1 and num2, the sum of which is the returned by the
+method.
+                `,
+                paragraph: ``,
+                code: [],
+                image: [require("./assets/m5p1.png")],
+              },
+              {
+                heading: `The method header specifies the modifiers, return value type, method name, and
+parameters of the method. The modifier, which is optional, tells the compiler how to
+call the method. The static modifier is used for all the methods in this chapter. A method
+may return a value. The returnValueType is the data type of the value the method
+returns. If the method doesn’t return a value, the returnValueType is the keyword void.
+For example, returnValueType in the main method is void as well as
+System.out.println. The parameter list refers to the type, order, and number of the
+parameters of a method. The method name and the parameter list together constitute the method signature. Parameters are optional; a method may contain no parameters. The variables defined in the method header are knows as formal parameters. When a method is invoked, you pass a value to the parameter. This value is referred to as actual parameter or argument. The method body contains a collection of statements that define what the method does. A return statement using the keyword return is required for a non-void metho`,
+                paragraph: ``,
+                code: [],
+                image: [],
+              },
+            ],
           },
           {
             id: "5.2",
             status: false,
             lesson_name: "Calling a Method",
+            content: [
+              {
+                heading: `To use a method, you have to call or invoke it. There are two ways to call a method; the
+choice is based on whether the method returns a value or not.
+If the method returns a value, a call to the method is usually treated as a value.`,
+                paragraph: `If the method returns void, a call to the method must be a statement.
+
+System.out.println(“Welcome to Java Programming!”); `,
+                code: [
+                  {
+                    language: "java",
+                    textCode: `int result = sum(5, 7);
+System.out.println(“The sum of the two integers is “ + result);
+                    `,
+                  },
+                ],
+                image: [],
+              },
+              {
+                heading: `When a program calls a method, program control is transferred to the called method. A
+called method returns control to the caller when its return statement is executed or when
+its method-ending closing brace is reached.
+Below is an example of defining and calling the method sum.`,
+                paragraph: `Output:
+
+The sum of the two integers is 12
+                `,
+                code: [
+                  {
+                    language: "java",
+                    textCode: `// MethodSum.java: Demonstrate using the sum method.
+public class MethodSum {
+  // Main method
+  public static void main(String[] args) {
+      int val1 = 5;
+      int val2 = 7;
+      int result = sum(val1, val2);
+        System.out.println(“The sum of the two integers is “ + result);
+    }
+      // Returns the sum of two integers
+      public static int sum(int num1, int num2) {
+        return num1 + num2;
+    }
+}
+`,
+                  },
+                ],
+                image: [],
+              },
+              {
+                heading: `The main method is just like any other method except that it is invoked by the Java
+interpreter. The main method’s header is always the same, like the one in this example,
+with the modifiers public and static, return value type void, method name main, and a
+parameter of the String[] type. String[] indicates that the parameter is an array of String.
+The statements in main method may invoke other methods that are defined in the class
+that contains the main method or in other classes. The main method invokes sum(val1,
+val2), which is defined in the same class with the main method. When the sum method
+is invoked, variable val1’s value 5 is passed to num1, and variable val2’s value 2 is passed
+to num2 in the sum method.
+
+The flow of control transfers to the sum method. The sum method is executed. When the
+return statement in the sum method is executed, the sum method returns the control to
+its caller.`,
+                paragraph: ``,
+                code: [],
+                image: [],
+              },
+              {
+                heading: ``,
+                paragraph: `Figure 6.2. When the sum method is invoked, the flow of control transfers to it. Once the
+
+sum method is finished, it returns control back to the caller.
+The variables defined in the main method are val1, val2, and result. The variables
+defined in the sum method are num1 and num2. The variables num1 and num2 are defined in the method signature and are parameters of the method. There methods are
+passed through method invocation.
+                `,
+                code: [],
+                image: [require("./assets/m5p2.png")],
+              },
+              {
+                heading: ``,
+                paragraph: `CAUTION:
+
+A return statement is required for a non void method.
+
+NOTE:
+
+One of the benefits of methods is for sharing and reuse . The sum method can
+be invoked from any class besides MethodSum . If you create a new class Test , you can
+invoke the sum method using ClassName.met hodName (i.e., MethodSum.sum
+                `,
+                code: [],
+                image: [require("./assets/m5p3.png")],
+              },
+            ],
           },
           {
             id: "5.3",
             status: false,
             lesson_name: "Call Stacks",
+            content: [
+              {
+                heading: `Each time a method is invoked, the system stores parameters and local variables in an
+area of memory, known as a stack, which stores elements in last-in first-out fashion.
+When a method calls another method, the caller’s stack space is kept intact, and new
+space is created to handle the new method call. When a method finishes its work and
+returns to its caller, its associated space is released. The variables defined in the main
+method are val1, val2, and result. The variables defined in the sum method are num1 and
+num2. The variables num1 and num2 are defined in the method signature and are
+parameters of the method. Their values are passed through method invocation.
+                `,
+                paragraph: ``,
+                code: [],
+                image: [],
+              },
+            ],
           },
           {
             id: "5.4",
             status: false,
             lesson_name: "Void Methods",
+            content: [
+              {
+                heading: `This section shows how to declare a void method which does not return a value.
+
+Below is an example of using void Method
+                `,
+                paragraph: ``,
+                code: [
+                  {
+                    language: "java",
+                    textCode: `public class MethodSum {
+// Main method
+  public static void main(String[] args) {
+    sayHello(“John”);
+    }
+    // Method that prints Hello with name
+  public static void sayHello(String name) {
+    System.out.println(“Hello “ + name);
+  }
+}
+`,
+                  },
+                ],
+                image: [],
+              },
+            ],
           },
           {
             id: "5.5",
             status: false,
             lesson_name: "Passing Arguments by Value",
+            content: [
+              {
+                heading: `When calling a method, you need to provide arguments, which must be given in the same
+order as their respective parameters in the method specification. This is known as
+parameter order association.
+You can use nPrintName(“John”, 5) to print the name “John” 5 times
+                `,
+                paragraph: `CAUTION: The arguments must match the parameters in order, number, and compatible type,
+as defined in the method signature.`,
+                code: [
+                  {
+                    language: "java",
+                    textCode: `public static void nPrintName(String name, int n) {
+  for(int i=0; i<n; i++) {
+    System.out.println(name);
+  }
+}
+`,
+                  },
+                ],
+                image: [],
+              },
+              {
+                heading: `Below is an example of Passing Arguments by Value`,
+                paragraph: ``,
+                code: [
+                  {
+                    language: "java",
+                    textCode: `public class TestNPrint {
+  // Main method
+  public static void main(String[] args) {
+      String name = “John”;
+      nPrintName (name, 5);
+    }
+        // Method that prints the name with a number of times
+  public static void nPrintName(String name, int n) {
+      for(int i=0; i<n; i++) {
+        System.out.println(name);
+      }
+  }
+}
+`,
+                  },
+                ],
+                image: [],
+              },
+              {
+                heading: `When you invoke a method with a parameter, the value of the argument is passed to the
+parameter. This is referred to as pass by value. If the argument is a variable, the value
+of the variable is passed to the parameter. The variable is not affected, regardless of the
+changes made to the parameter inside the method.
+The arguments and parameters may have the same name; however, no change occurs
+because the parameter is a local variable in the method with its own memory space. The
+local variable is allocated when the method is invoked, and it disappears when the method
+is returned to its caller.`,
+                paragraph: ``,
+                code: [],
+                image: [],
+              },
+            ],
           },
           {
             id: "5.6",
             status: false,
             lesson_name: "Overloading Methods",
+            content: [
+              {
+                heading: ``,
+                paragraph: `If you need to find the sum of two floating-point numbers, the code above shows you just
+that. If you call sum with int parameters, the sum method that expects int parameters will
+be invoked. If you call sum with double parameters, the sum method that expects double parameters will be invoked. This is referred to as method overloading; that is, two or
+more methods have the same name but different parameters lists. The Java compiler
+determines which method is used based on the method signature.
+                `,
+                code: [
+                  {
+                    language: "java",
+                    textCode: `public static double sum(double num1, double num2) {
+    return num1 + num2;
+}
+`,
+                  },
+                ],
+                image: [],
+              },
+              {
+                heading: `Below is the example of Method Overloading
+                `,
+                paragraph: `Output:
+
+The sum of 3 and 4 is 7
+The sum of 5.3 and 2.5 is 7.8
+                `,
+                code: [
+                  {
+                    language: "java",
+                    textCode: `public class MethodOverloading {
+    // Main method
+    public static void main(String[] args) {
+        System.out.println(“The sum of 3 and 4 is “ + sum(3, 4));
+        System.out.println(“The sum of 5.3 and 2.5 is “ + sum(5.3, 2.5));
+    }
+    // Returns the sum of two integers
+    public static int sum(int num1, int num2) {
+        return num1 + num2;
+    }
+    // Returns the sum of two floating-point numbers
+    public static double sum(double num1, double num2) {
+        return num1 + num2;
+    }
+}
+                      
+`,
+                  },
+                ],
+                image: [],
+              },
+              {
+                heading: `The program invokes two different sum methods that will have the same name: sum(3, 4)
+and sum(5.3, 2.5). When calling sum(3, 4), The sum method for finding the sum of two
+integers is invoked. When calling sum(5.3, 2.5), the sum method for finding the sum of
+two doubles is invoked. The Java compiler finds the most specific method for a method
+invocation. Since the method sum(int, int) is more specific than sum(double, double),
+sum(int, int) is used to invoke sum(3, 4). Overloading methods can make programs
+clearer and more readable. Methods that perform closely related tasks should be given
+the same name. Overloaded methods must have different parameter lists. You can’t
+overload methods based on different modifiers or return types.`,
+                paragraph: `NOTE: 
+Sometimes there may be two or more possible matches for an invocation of a method,
+but the compiler cannot determine the most specific match. This is referred to as ambiguous
+invocation. Ambiguous invocation is a compilation error.`,
+                code: [],
+                image: [],
+              },
+              {
+                heading: ``,
+                paragraph: `Both sum(int, double) and sum(double, int) are possible candidates to match
+sum(1, 2). Since neither of them is more specific than the other, the invocation is
+ambiguous.
+                `,
+                code: [
+                  {
+                    language: "java",
+                    textCode: `
+  public static double sum(int num1, double num2) {
+    return num1 + num2;
+  }
+  public static double sum(double num1, int num2) {
+    return num1 + num2;
+}
+                      
+`,
+                  },
+                ],
+                image: [],
+              },
+            ],
           },
 
           {
             id: "5.7",
             status: false,
             lesson_name: "The Scope of Variables",
+            content: [
+              {
+                heading: `A local variable is defined inside a method. Scope of a variable is the part of the program
+where the variable can be referenced. The scope of a local variable starts from its
+declaration and continues to the end of the block that contains the variable. A local
+variable must be declared before it can be used. A parameter is actually a local variable.
+The scope of a method parameter covers the entire method.`,
+                paragraph: ``,
+                code: [],
+                image: [],
+              },
+            ],
           },
         ],
       },
@@ -1751,31 +2132,314 @@ public static void main(String args[]){
             id: "6.0",
             introduction: "Introduction and Objectives",
             status: false,
+            content: [
+              {
+                heading: `At the end of the lesson you are expected to have;
+
+>  Declared and initialize an array.
+>  Used subscripts with an array.
+>  Performed a search in an array.
+>  Used arrays as argument of methods.
+>  Declared and to manipulate multidimensional arrays.`,
+                paragraph: `Introduction 
+
+Often you will to store a large number of values during the execution of a program. Suppose, for instance, that you will to read 50 numbers, compute their average, and find out how many numbers are above the average. Your program first reads the number and compute their average, then compares each number with the average to determine whether it is above the average. In order to accomplish this task, the number must all be stored in variables. You have to declare 50 variables and repeatedly write all almost identical code 50 times. Writing a program this way would be impractical. So, how do you solve this problem?
+Java and most other high-level languages provide a data structure called array, it is a named list of data items that all have the same type with fixed-size. In the present case, you can store all 50 numbers into an array and access them through a single array variable. The solution look like this:`,
+                code: [],
+                image: [],
+              },
+              {
+                heading: ``,
+                paragraph: ``,
+                code: [
+                  {
+                    language: "java",
+                    textCode: `
+public class AnalyzeNumbers{
+  public static void main(String[] args){
+    int NUMBER_OF_ELEMENTS = 50;
+    //decare Array
+    double[] numbers = new double[NUMBER_OF_ELEMETS];
+    double sum = 0;
+      java.util.Scanner input = new java.util.Scanner(System.in)
+      for(int i = 0; i < NUMBER_OF_ELEMENTS; i++){
+        System.out.print("enter a new number: ");
+        numbers[i] = input.nextDouble();
+        sum += numbers[i];
+      }
+    //Get average
+    double average = sum / NUMBER_OF_ELEMENTS;
+    int count = 0;
+    for(int i = 0; i < NUMBER_OF_ELEMENTS; i++)
+      //above average
+      if(numbers[1] > average) count++;
+    System.out.println("Average is " + average);
+    System.out.println("Number of elements above the average  " + count);
+  }
+}`,
+                  },
+                ],
+                image: [],
+              },
+            ],
           },
           {
             id: "6.1",
             introduction: "Declaring and Creating Arrays ",
             status: false,
+            content: [
+              {
+                heading: `To use an array in a program, you must declare a variable to reference the array
+and specify the array’s element type. The syntax for declaring an array variable;
+
+Elementype[] arrayname;
+                `,
+                paragraph: `The elementtype can be any data type, and all elements in the array will have the
+same type. For example, to declare an array of integers that hold student ID
+number, you can write the following:
+
+int[] idNum;
+                `,
+                code: [],
+                image: [],
+              },
+              {
+                heading: `After an array variable was created, it is still required to reserve a memory space,
+unlike a declaration of a primitive data type variables that automatically reserves
+a memory location after it is declared. For example, to reserve a 20 slots of
+memory location that will hold 20 ID numbers using the previously declared
+idNum can be achieve by the following:
+
+idNum=new int[20];
+                `,
+                paragraph: `Java also supports declaring and reserving memory location slot in one
+statement like the following:
+
+int[] idNum=new int[20]
+                `,
+                code: [],
+                image: [],
+              },
+              {
+                heading: `The statement int[] idNum=new int[20]; reserves 20 memory location for 20 ID
+number values. You can distinguish each idnumber from the others with a
+subscript. A subscript is an integer contained within square brackets that
+indicated one of an array’s variables, or elements.
+
+To assign values to the elements, use the following syntax;
+
+arrayname[index]=value; 
+                `,
+                paragraph: `For example, the following code initializes the array;
+
+idNum[0]=1122;
+idNum[1]=2233;
+idNum[2]=3344;
+idNum[3]=4455;
+idNum[4]=5566;
+idNum[5]=6677;
+                `,
+                code: [],
+                image: [],
+              },
+              {
+                heading: `The array is pictured in the figure below`,
+                paragraph: `The first element in an array is element 0 and the last element’s subscript is one
+less than the array size. For example the highest allowed subscript for 100 element array is 99. `,
+                code: [],
+                image: [require("./assets/m6p1.png")],
+              },
+              {
+                heading: `You can also assign non default values to array elements upon creation. To
+initialize an array, you use a list of values separated by commas and enclosed
+within curly braces. For example, if you want to create an array named prime and
+store the first six prime numbers, you can declare prime as follows:
+
+int[] prime = {2, 3, 5, 7, 11, 13}; `,
+                paragraph: `Notice the semicolon at the end of the statement. You don’t use a semicolon
+following a method’s closing curly brace, but you do use one following the closing
+brace of an array initialization list.
+When the array is populated upon creation, the size is assigned based on the
+number of values placed in the initializing list `,
+                code: [],
+                image: [],
+              },
+            ],
           },
           {
             id: "6.2",
             introduction: "Using subscripts with an array",
             status: false,
+            content: [
+              {
+                heading: `Using subscripts with an array
+When processing array elements, it common to use for loop due to the following
+reasons:
+
+● All of the elements in an array are of the same type. They are evenly
+processed in same fashion repeatedly using a loop.
+● The size of the array is known.
+                `,
+                paragraph: `Here are some examples of processing arrays:`,
+                code: [
+                  {
+                    language: "java",
+                    textCode: `
+public class sumallelements{
+  public static void main(String[] args){
+  double total=0;
+  double[] listofnumbers={2,4,6,8,10,12,14);
+
+  for(int x = 0; x < listofnumbers.length;x++){
+    total = total+listofnumbers[x];
+  }
+
+  System.out.print("The sum of all elements is " + total);
+  }
+}`,
+                  },
+                ],
+                image: [],
+              },
+              {
+                heading: `1. Summing all elements. Variable named total to store the sum. Initially
+total is 0. Add each element in the array to total using a loop like this:
+                `,
+                paragraph: ``,
+                code: [],
+                image: [require("./assets/m6p2.jpg")],
+              },
+              {
+                heading: `2. Merging two arrays. The array’s values and values2 are declared and
+                initialized with values then the merge array is declared with the size of the
+                sum of the length of the values and values2.
+                `,
+                paragraph: ``,
+                code: [],
+                image: [require("./assets/m6p3.jpg")],
+              },
+              {
+                heading: `3. Find the maximum value. Initially max value is equal to 0.`,
+                paragraph: ``,
+                code: [],
+                image: [require("./assets/m6p4.jpg")],
+              },
+            ],
           },
           {
             id: "6.3",
             introduction: "Passing arrays to a method",
             status: false,
+            content: [
+              {
+                heading: `Passing arrays to a method
+The same as primitive type values to methods, arrays can also be passed to methods.
+For example, the following method displays the elements in an int array:`,
+                paragraph: `Java uses pass-by-value to pass arguments to a method. There are important differences between passing the values of variables of primitive data type and passing arrays.
+● For an argument of a primitive type, the argument’s value is passed.
+● For an arguments of an array type, the values of the argument is a reference to an array; this reference value is passed to the method. The example below illustrates the difference.`,
+                code: [
+                  {
+                    language: "java",
+                    textCode: `
+public static void printArray(int[] arr){
+  for(int i = 0; i< arr.length;i++){
+    System.out.print(arr[i] + " ");
+  }
+}`,
+                  },
+                ],
+                image: [],
+              },
+              {
+                heading: ``,
+                paragraph: `Output:
+                As shown in the example above f is invoked, the value x remains 1 while but the value of a[0] is 456. Although a and arr are independent variables, they are reference to the same array.`,
+                code: [],
+                image: [require("./assets/m6p5.jpg")],
+              },
+              {
+                heading: `
+Returning an Array from a Method
+
+A method may return an array. For example, the method shown below returns an array that contains two values, the sum and subtraction result of the two numbers passed in the method.`,
+                paragraph: ``,
+                code: [],
+                image: [require("./assets/m6p6.jpg")],
+              },
+            ],
           },
+         
           {
             id: "6.4",
             introduction: "Returning an Array from a Method",
             status: false,
-          },
-          {
-            id: "6.5",
-            introduction: "Returning an Array from a Method",
-            status: false,
+            content: [
+              {
+                heading: `The preceding section introduced how to use one-dimensional arrays to store linear collection of elements. You can use two-dimensional array to store a matrix or a table.
+
+The syntax for declaring a two-dimensional array:
+elementType[][] arrayname;
+
+Or
+
+elementType arrayname[][];`,
+                paragraph: `As an example, here is how you would declare a two-dimensional array variable matrix of int values:
+
+int[][] matrix;
+
+Or
+
+int matrix[][];`,
+                code: [],
+                image: [],
+              },
+              {
+                heading: `You can create a two-dimensional array of 10-by-10 int values and assign it to matrix using this syntax:
+matrix=new int[10][10];
+The two subscripts are used in a two-dimensional array, one for the row and the other for the column. As in one-dimensional array, the index for each subscript is of the int type ans starts from 0.`,
+                paragraph: `The statement matrix[0][1]=10;
+
+will assign number 10 to matrix row 1 column 2;
+
+Two-dimensional array can also be declared and initialized in one statement as show in example below.
+
+int [][] arr={{1,2,3},{4,5,6},{7,8,9}};`,
+                code: [],
+                image: [],
+              },
+              {
+                heading: `
+The example above is equivalent to
+int[][] arr;
+arr=new int[3][3];
+arr[0][0]=1;
+arr[0][1]=2;
+arr[0][2]=3;
+arr[1][0]=4;
+arr[1][1]=5;
+arr[1][2]=6;
+arr[2][0]=7;
+arr[2][1]=8;
+arr[2][2]=9;`,
+                paragraph: `A two-dimensional array is an array in which each element is a one-dimensional array. The length of an array x is the number of elements in the array, which can be obtained using x.length, x[0],x[1],x[2]...are arrays. Their length can be obtained using x[0].length.
+
+Java also support declaring ragged array, this type of two-dimensional array composed of elements of not the same type. For example, the statement below declare and initialize a ragged array.`,
+                code: [],
+                image: [],
+              },
+              {
+                heading: `double[][] raggedarr={{1,2,3,4,5,6},
+{7,8,9,10},
+{11,12,13},
+{14,15}
+{16}};
+Example below shows how to process two-dimensional array.`,
+                paragraph: ``,
+                code: [],
+                image: [require("./assets/m6p7.jpg")],
+              },
+            ],
           },
         ],
       },

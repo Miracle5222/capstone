@@ -91,7 +91,7 @@ export const ListsItems = ({ navigation }, props) => {
           </TouchableOpacity>
           <Highlighter
             language="java"
-            height={modalContent.length > 800 ? "auto" : 300}
+            height={modalContent.length < 800 ? "auto" : 300}
           >
             {modalContent.trim()}
           </Highlighter>
@@ -134,9 +134,13 @@ export const ListsItems = ({ navigation }, props) => {
                       display: item.image.length <= 0 ? "none" : "flex",
                       width: contentId === "2.1" ? "90%" : "100%",
                       height:
-                        contentId === "2.1"
+                        contentId[0] === "2"
                           ? 180
-                          : 400 && contentId === "4.0"
+                          : 400 && contentId[0] === "4"
+                          ? 180
+                          : 400 && contentId[0] === "5"
+                          ? 180
+                          : 400 && contentId[0] === "6"
                           ? 180
                           : 400,
                     }}
