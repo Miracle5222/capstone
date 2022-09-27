@@ -7,7 +7,7 @@ import {
   ScrollView,
 } from "react-native";
 import React, { useLayoutEffect, useEffect } from "react";
-import Progressbar from "../components/Progressbar";
+import Progressbar from "../components/Progressbar.component";
 import { Inter_100Thin } from "@expo-google-fonts/inter";
 import { Container, Header, Paragraph } from "../src/styled/Container.style";
 import { Home } from "../Data";

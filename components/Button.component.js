@@ -6,12 +6,13 @@ const Button = ({ event, children }) => {
   const { darkBg, lightBg, text, theme, buttons } = useSelector(
     (state) => state.color
   );
+
   return (
     <TouchableOpacity
       style={[
         styles.button,
         {
-          backgroundColor:  buttons.light ,
+          backgroundColor: buttons.light,
         },
       ]}
       onPress={event}

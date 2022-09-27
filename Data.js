@@ -13,6 +13,14 @@ export const data = [
             lesson_name: "A Quick First Look at Computer Programming",
             content: [
               {
+                heading: "",
+                video: "Hdf5OmERt0g",
+                paragraph: "",
+                code: [],
+                image: [],
+              },
+              {
+                video: "",
                 heading: `Programming (or coding) is writing software (computer programs or code). It
 involves describing processes and/or procedures (algorithms), that is, the steps it takes
 to do something. 
@@ -50,6 +58,7 @@ Disadvantages:
   b) less efficient in the use of computer resources than low-level languages
   (Prakash, 2017)
                 `,
+                video: "",
                 paragraph: `Low-level language- code is similar to native* machine (computer) language,
 that is, ones (1s) and zeroes (0s), also called binary values.
 
@@ -62,6 +71,7 @@ assembler language unique to that computer) `,
               {
                 heading: `A. JavaScript (Jones, 2017) code; this is different from Java, programming language
 you will be learning in this course:`,
+                video: "",
                 paragraph: "",
                 code: [
                   {
@@ -80,6 +90,7 @@ btn.addEventListener('click', function() { alert('Hello World!'); }); </script>
               },
               {
                 heading: `B. Swift (appcoda.com, 2017) program, the language used in Apple devices:`,
+                video: "",
                 paragraph: "",
                 code: [
                   {
@@ -113,6 +124,7 @@ style: UIAlertActionStyle.default, handler: nil))
               {
                 heading: `C. Linux x86-64 assembly (Fisher, 2018) program:`,
                 paragraph: "",
+                video: "",
                 code: [
                   {
                     language: `haskell`,
@@ -151,7 +163,9 @@ completed) which he called the “Analytical Engine”. A transcript of his lect
 translated by Lovelace into English, to which she added her own notes.
 (softschools.com, n.d.)
                `,
+                video: "",
                 paragraph: ``,
+
                 code: [],
                 image: [],
               },
@@ -169,6 +183,7 @@ machine”, which can “compute anything that is computable” (Zimmermann, 201
 Thus was born the central concept of the modern computer and the notion of
 programming (instructions on how to compute any kind of what) at the machine level.
                `,
+                video: "",
                 paragraph: ``,
                 code: [],
                 image: [],
@@ -185,8 +200,9 @@ programmers at IBM led by John Backus, according to the University of Michigan. 
 and a graphical user interface (GUI). This marked the evolution of the computer from a
 specialized machine for scientists and mathematicians to technology that was more
 accessible to the general public (Zimmermann, 2017).
-                .
+                
                `,
+                video: "",
                 paragraph: ``,
                 code: [],
                 image: [],
@@ -205,6 +221,7 @@ As to whether your future programs will contribute to the benefit or otherwise
 of our world, is entirely up to you, dear aspiring programmer/coder/developer.
                 
                `,
+                video: "",
                 paragraph: ``,
                 code: [],
                 image: [],
@@ -221,6 +238,7 @@ of our world, is entirely up to you, dear aspiring programmer/coder/developer.
 Out of many different classifications, the one below (programiz.com, n.d.) is among the
 most useful to computing:
                 `,
+                video: "",
                 paragraph: `4 types of flowcharts:
 
 Document flowcharts – show controls over a document-flow through a system
@@ -239,12 +257,14 @@ yet know about coding but can understand graphical symbols in flowcharts.`,
                 heading: `Symbols Used In Flowcharting
 
 The table below describes all the symbols that are used in making flowchart`,
+                video: "",
                 paragraph: ``,
                 code: [],
                 image: [require("./assets/symbols.png")],
               },
               {
                 heading: `The sample flowchart below illustrates how to calculate the sum of numbers from 1 to N.`,
+                video: "",
                 paragraph: ``,
                 code: [],
                 image: [require("./assets/f1.jpg")],
@@ -252,30 +272,35 @@ The table below describes all the symbols that are used in making flowchart`,
               {
                 heading: `More examples of program flowcharts (programiz.com, n.d.):
 1. A flowchart which calculates N! (factorial of N):`,
+                video: "",
                 paragraph: ``,
                 code: [],
                 image: [require("./assets/f2.jpg")],
               },
               {
                 heading: `1. A flowchart which checks if a number is prime :`,
+                video: "",
                 paragraph: ``,
                 code: [],
                 image: [require("./assets/f3.jpg")],
               },
               {
                 heading: `2. A flowchart which shows all prime numbers smaller or equal to N :`,
+                video: "",
                 paragraph: ``,
                 code: [],
                 image: [require("./assets/f4.jpg")],
               },
               {
                 heading: `1. A flowchart which calculates all divisors of N :`,
+                video: "",
                 paragraph: ``,
                 code: [],
                 image: [require("./assets/f5.jpg")],
               },
               {
                 heading: `A flowchart which checks if 3 numbers can be length of sides of a triangle:`,
+                video: "",
                 paragraph: ``,
                 code: [],
                 image: [require("./assets/f6.jpg")],
@@ -296,6 +321,7 @@ browsers and Java's connection to the internet began (MathBits.com, 2018). In 19
 version of the Netscape browser that was released was already capable of running Java
 programs. 
                 `,
+                video: "",
                 paragraph: `Why is it called Java? One of the more famous urban legends in the computing world
 goes that Java’s first name Oak had to be changed due to a previous trademark. After
 many hours of trying to come up with a new name, the development team went out for
@@ -310,6 +336,7 @@ Java 11, a currently supported long-term support (LTS) version, released on Sept
 2019 for commercial use, while it will otherwise still support Java 8 with public updates
 for personal use up to at least December 2020.
                 `,
+                video: "",
                 paragraph: `For purposes of this class, however, you may download resources from
 https://www.oracle.com/java/technologies/mobile-devices-downloads.html. Or, you
 can use a favorite alternative of your co-majors in the higher years- Learn Java:
@@ -328,6 +355,8 @@ smartphone.
             content: [
               {
                 heading: `Summary`,
+
+                video: "",
                 paragraph: `Two general types of programming languages:
                 
 High-level language - code is very similar to English so that almost all computer
@@ -356,6 +385,7 @@ that is, ones (1s) and zeroes (0s), also called binary values.`,
                 heading: `Among many other things, the underlying purpose of a program is to provide 
 a secure storage of data for processing, offer convenience in handling relevant data about a process and manipulate data in such a way beyond that is capabilities of a conventional human being. All these have one thing in common: data. programs. 
                 `,
+                video: "",
                 paragraph: `Data may be of various types that a computer program can handle in boundless ways depending on the capability and creativity of the programmer.
 In this module, you will learn about:
 
@@ -367,6 +397,7 @@ c) operations concerning data as represented in Java Programming.`,
               },
               {
                 heading: `At the end of the lesson you are expected to have:`,
+                video: "",
                 paragraph: `1. Distinguished each data and classifying it by type
 2. Identified variables and constants and their representation in a program
 3. Explained the construction of arithmetic expressions for the purpose of making calculations
@@ -388,12 +419,14 @@ Computer programs refer to this data as a form of resource. Particularly, in Jav
 3. Primitive Data (e.g., number, character); and
 4. Object Data (types created by the programmer).
 `,
+                video: "",
                 paragraph: ``,
                 code: [],
                 image: [],
               },
               {
                 heading: `Primitive Data`,
+                video: "",
                 paragraph: `Java defines eight primitive types of data: byte, short, int, long, char, float, double, and boolean. The primitive types are also commonly referred to as simple types, and both terms will be used in this book. These can be put in four groups:
 
 ● Integers - This group includes byte, short, int, and long, which are for whole-valued signed numbers.
@@ -405,6 +438,7 @@ Computer programs refer to this data as a form of resource. Particularly, in Jav
               },
               {
                 heading: `Integer`,
+                video: "",
                 paragraph: `Java defines four integer types: byte, short, int, and long. All of these are signed, positive and negative values. Java does not support unsigned, positive-only integers. Many other computer languages support both signed and unsigned integers. However, Java’s designers felt that unsigned integers were unnecessary.
 
 The width of an integer type should not be thought of as the amount of storage it consumes, but rather as the behavior it defines for variables and expressions of that type. The Java run-time environment is free to use whatever size it wants, as long as the types behave as you declared them. The width and ranges of these integer types vary widely, as shown in Table 2.1 below:`,
@@ -415,6 +449,7 @@ The width of an integer type should not be thought of as the amount of storage i
                 heading: `Let’s look at each type of integer.
 
 byte`,
+                video: "",
                 paragraph: `
                 The smallest integer type is byte. This is a signed 8-bit type that has a range
 from –128 to 127. Variables of type byte are especially useful when you’re working
@@ -429,6 +464,7 @@ byte b, c;
               {
                 heading: `Short
               `,
+                video: "",
                 paragraph: `short is a signed 16-bit type. It has a range from –32,768 to 32,767. It is
 probably the least-used Java type. Here are some examples of short variable
 declarations:
@@ -441,6 +477,7 @@ short t;`,
               {
                 heading: `Int
               `,
+                video: "",
                 paragraph: `The most commonly used integer type is int. It is a signed 32-bit type that has a range from –2,147,483,648 to 2,147,483,647. In addition to other uses, variables of type int are commonly employed to control loops and to index arrays. An int type variable is declared as follows:
 
 int x;
@@ -451,6 +488,7 @@ int y;`,
               {
                 heading: `long
               `,
+                video: "",
                 paragraph: `long is a signed 64-bit type and is useful for those occasions where an int type is not large enough to hold the desired value. (See Table 2.1)`,
                 code: [],
                 image: [],
@@ -458,6 +496,7 @@ int y;`,
               {
                 heading: `Floating-Point Types
               `,
+                video: "",
                 paragraph: `
 Floating-point numbers, also known as real numbers, are used when evaluating expressions that require fractional precision. That is, those numbers that include decimals to which, integer data types cannot handle properly. In Java Programming, there are two (2) types of floating-point types:
                 `,
@@ -467,6 +506,7 @@ Floating-point numbers, also known as real numbers, are used when evaluating exp
               {
                 heading: `Float
               `,
+                video: "",
                 paragraph: `The type float specifies a single-precision (faster to process and takes half as much space than double) value that uses 32 bits of storage. Variables of type float are useful when you need a fractional component, but don’t require a large degree of precision. A float can be declared this way:
                 
 float lowTemp, highTemp;`,
@@ -476,6 +516,7 @@ float lowTemp, highTemp;`,
               {
                 heading: `Double
               `,
+                video: "",
                 paragraph: `Double precision, as denoted by the double keyword, uses 64 bits to store a value. All transcendental math functions, such as sin( ), cos( ), and sqrt( ), return double values. When you need to maintain accuracy over many iterative calculations, or are manipulating large-valued numbers, double is the best choice.`,
                 code: [],
                 image: [],
@@ -483,6 +524,7 @@ float lowTemp, highTemp;`,
               {
                 heading: `Characters
               `,
+                video: "",
                 paragraph: `In Java, the data type used to store characters is char. Java uses Unicode to represent characters. Unicode defines a fully international character set that can represent all of the characters found in all human languages.`,
                 code: [],
                 image: [],
@@ -491,6 +533,7 @@ float lowTemp, highTemp;`,
                 heading: `Here is a program that demonstrates the char variables:
 // Demonstrate char data type.
               `,
+                video: "",
                 paragraph: `This program displays the following output: 
                 
  ch1 and ch2: X Y`,
@@ -518,6 +561,7 @@ char can also behave as an integer type in which you can perform arithmetic oper
 
 // char variables behave like integers.
               `,
+                video: "",
                 paragraph: `This will result in the following output:
 
 ch1 contains X
@@ -543,6 +587,7 @@ public static void main(String args[]) {
               },
               {
                 heading: `Booleans`,
+                video: "",
                 paragraph: `Java has a primitive type, called boolean, for logical values. It can have only
 one of two possible values, true or false. This is the type returned by all relational
 operators, as in the case of a < b. boolean is also the type required by the
@@ -581,6 +626,7 @@ executed.");
               },
               {
                 heading: `The output generated by this program is shown here:`,
+                video: "",
                 paragraph: `When a boolean value is output by println( ), "true" or "false" is displayed. Second, the
 value of a boolean variable is sufficient, by itself, to control the if statement. There is
 no need to write an if statement like this:
@@ -605,6 +651,7 @@ This is executed.
 The outcome of a relational operator, such as <, is a boolean value. This is why
 the expression 10>9 displays the value "true." Further, the extra set of parentheses
 around 10>9 is necessary because the + operator has a higher precedence than the >`,
+                video: "",
                 paragraph: `
 Storing data in Java programs require the usage of Variables. They serve as the
 basic unit of storage in a Java program.`,
@@ -624,6 +671,7 @@ basic unit of storage in a Java program.`,
 Storing data in Java programs require the usage of Variables. They serve as the
 basic unit of storage in a Java program.
 `,
+                video: "",
                 paragraph: `Variables
                 
 A variable is defined by the combination of an identifier, a type, and an
@@ -655,6 +703,7 @@ some include an initialization.
 Storing data in Java programs require the usage of Variables. They serve as the
 basic unit of storage in a Java program.
 `,
+                video: "",
                 paragraph: `The identifiers that you choose have nothing intrinsic in their names that
 indicates their type. Java allows any properly formed identifier to have any declared
 type.
@@ -686,6 +735,7 @@ So far, all of the variables used have been declared at the start of the main( )
 method. However, Java allows variables to be declared within any block.
 
 `,
+                video: "",
                 paragraph: `Block
 Block defines a scope in Java. As such, each time we create a new block, we
 also create a new scope. A block is begun with an opening curly brace ‘{‘ and ended
@@ -707,6 +757,7 @@ scope. This means that objects declared in the outer scope will be visible to co
 within the inner scope. However, the reverse is not true. Objects declared within the
 inner scope will not be visible outside it.
 To understand the effect of nested scopes, consider the following program:`,
+                video: "",
                 paragraph: ``,
                 code: [
                   {
@@ -744,6 +795,7 @@ compile-time error will occur, because y is not visible outside of its block. Wi
 block, x can be used because code within a block (that is, a nested scope) has access to
 variables declared by an enclosing scope.
                 `,
+                video: "",
                 paragraph: ``,
                 code: [],
                 image: [],
@@ -762,6 +814,7 @@ Arithmetic operators are used in mathematical expressions in the same way
 that they are used in algebra. The following table lists the arithmetic operators:
 
                 `,
+                video: "",
                 paragraph: ``,
                 code: [],
                 image: [require("./assets/m2f3.jpg")],
@@ -773,6 +826,7 @@ The basic arithmetic operations—addition, subtraction, multiplication, and div
 The operands of the arithmetic operators must be of a numeric type. You cannot use them on boolean types, but you can use them on char types, since the char type in Java is, essentially, a subset of int.
 The following simple example program demonstrates the arithmetic operators. It also illustrates the difference between floating-point division and integer division.
                 `,
+                video: "",
                 paragraph: ``,
                 code: [
                   {
@@ -813,6 +867,7 @@ class BasicMath {
               },
               {
                 heading: `When you run this program, you will see the following output:`,
+                video: "",
                 paragraph: ``,
                 code: [
                   {
@@ -839,6 +894,7 @@ de = 0.5
                 heading: `The Modulus Operator
 The modulus operator, %, returns the remainder of a division operation. It can be applied to floating-point types as well as integer types. The following example program demonstrates the %:
                 `,
+                video: "",
                 paragraph: ``,
                 code: [
                   {
@@ -882,6 +938,7 @@ which can be expressed as
 a %= 2;
 
 In this case, the %= obtains the remainder of a /2 and puts that result back into`,
+                video: "",
                 paragraph: ``,
                 code: [],
                 image: [],
@@ -893,12 +950,14 @@ var = var op expression;
 can be rewritten as
 
 var op= expression;`,
+                video: "",
                 paragraph: `The compound assignment operators provide two benefits. First, they save you a bit of typing, because they are “shorthand” for their equivalent long forms. Second, in some cases they are more efficient than are their equivalent long forms. For these reasons, you will often see the compound assignment operators used in professionally written Java programs.`,
                 code: [],
                 image: [],
               },
               {
                 heading: `Here is a sample program that shows several op= assignments in action:`,
+                video: "",
                 paragraph: ``,
                 code: [
                   {
@@ -928,6 +987,7 @@ c = 3`,
               },
               {
                 heading: `Increment and Decrement`,
+                video: "",
                 paragraph: `The increment operator (++) increases its operand by one. The decrement operator (--) decreases its operand by one. For example, this statement:
 x = x + 1;
 
@@ -961,6 +1021,7 @@ Although they are technically separators, the [ ], ( ), and . can also act like 
 Also, notice the arrow operator (->). It was added by JDK 8 and is used in lambda expressions.
 
 `,
+                video: "",
                 paragraph: ``,
 
                 code: [],
@@ -976,6 +1037,7 @@ This expression first adds 3 to b and then shifts a right by that result. That i
 
 a >> (b + 3)
 `,
+                video: "",
                 paragraph: ``,
 
                 code: [],
@@ -985,6 +1047,7 @@ a >> (b + 3)
                 heading: `However, if you want to first shift a right by b positions and then add 3 to that result, you will need to parenthesize the expression like this:
 (a >> b) + 3
 `,
+                video: "",
                 paragraph: `In addition to altering the normal precedence of an operator, parentheses can sometimes be used to help clarify the meaning of an expression. For anyone reading your code, a complicated expression can be difficult to understand. Adding redundant but clarifying parentheses to complex expressions can help prevent confusion later. For example, which of the following expressions is easier to read?
 
 a | 4 + c >> b & 7
@@ -1011,6 +1074,7 @@ When one type of data is assigned to another type of variable, an automatic type
 
 When these two conditions are met, a widening conversion takes place. For example, the int type is always large enough to hold all valid byte values, so no explicit cast statement is required.
 `,
+                video: "",
                 paragraph: `For widening conversions, the numeric types, including integer and floating-point types, are compatible with each other. However, there are no automatic conversions from the numeric types to char or boolean. Also, char and boolean are not compatible with each other.
 As mentioned earlier, Java also performs an automatic type conversion when storing a literal integer constant into variables of type byte, short, long, or char.`,
 
@@ -1020,6 +1084,7 @@ As mentioned earlier, Java also performs an automatic type conversion when stori
               {
                 heading: `Casting Incompatible Types
 Although the automatic type conversions are helpful, they will not fulfill all needs. For example, what if you want to assign an int value to a byte variable? This conversion will not be performed automatically, because a byte is smaller than an int. This kind of conversion is sometimes called a narrowing conversion, since you are explicitly making the value narrower so that it will fit into the target type.`,
+                video: "",
                 paragraph: `To create a conversion between two incompatible types, you must use a cast. A cast is simply an explicit type conversion. It has this general form:
 (target-type) value
 Here, target-type specifies the desired type to convert the specified value to. For example, the following fragment casts an int to a byte. If the integer’s value is larger than the range of a byte, it will be reduced modulo (the remainder of an integer division by the) byte’s range.
@@ -1036,6 +1101,7 @@ b = (byte) a;`,
                 heading: `A different type of conversion will occur when a floating-point value is assigned to an integer type: truncation. As you know, integers do not have fractional components. Thus, when a floating-point value is assigned to an integer type, the fractional component is lost. For example, if the value 1.23 is assigned to an integer, the resulting value will simply be 1. The 0.23 will have been truncated. Of course, if the size of the whole number component is too large to fit into the target integer type, then that value will be reduced modulo the target type’s range.
 The following program demonstrates some type conversions that require casts:
 // Demonstrate casts.`,
+                video: "",
                 paragraph: ``,
 
                 code: [],
@@ -1043,6 +1109,7 @@ The following program demonstrates some type conversions that require casts:
               },
               {
                 heading: ``,
+                video: "",
                 paragraph: `This program generates the following output:
 
 Conversion of int to byte.
@@ -1109,6 +1176,7 @@ At the end of this module, student should be able to:
 4. Analayze programs with nexted conditional statement.
 5. Design solutions to a problem using conditional statements.
                 `,
+                video: "",
                 paragraph: `Introduction
 
 A conditional statement generally consist of two parts: a condition that is determinable by a boolean value of true or false
@@ -1134,6 +1202,7 @@ if there is a need to execute certain codes when the condition is false, add an 
 
 Below is the general syntax of an if-else statement:
                 `,
+                video: "",
                 paragraph: ``,
                 code: [
                   {
@@ -1151,6 +1220,7 @@ if(condition){
               {
                 heading: `Below is the equivalent flowchart of an if-else statement:
                 `,
+                video: "",
                 paragraph: `Figure XX.1 Flowchar of an if-else statement
                 
 The else keyword is optional and may not necessarily be written on the program if it does not require executing certin instructions if the condition evaluated if false.
@@ -1166,6 +1236,7 @@ The else keyword is optional and may not necessarily be written on the program i
 However, if an else statement is written, it will look for the last instance of if and partners itself with it. If an else statement is written but does not
 have an if keyword to partner itself into, the program will return and error and it will not run.
 `,
+                video: "",
                 paragraph: ``,
                 code: [],
                 image: [require("./assets/m3p2.jpg")],
@@ -1173,6 +1244,7 @@ have an if keyword to partner itself into, the program will return and error and
               {
                 heading: `Example 3.1:
 Write a program that will accept a user entered number and determine whether it is even or odd.`,
+                video: "",
                 paragraph: ``,
                 code: [
                   {
@@ -1216,6 +1288,7 @@ if the if condition is true, it will not execute the codes written in the else i
 However, if a certain else if statement is true, it will not execute the other else if statements including the else as well.
 
 Below is the general syntax of an if-else statement:`,
+                video: "",
                 paragraph: ``,
                 code: [
                   {
@@ -1234,6 +1307,7 @@ if(condition){
               },
               {
                 heading: ``,
+                video: "",
                 paragraph: `Figure XX.3 Flowchar of an if-else if statement`,
                 code: [],
                 image: [require("./assets/m3p3.jpg")],
@@ -1242,6 +1316,7 @@ if(condition){
                 heading: `Example 3.2:
                 
 Write a program that will accept a user inputted number and determine whether it is a negative, positive or just a zero number.`,
+                video: "",
                 paragraph: ``,
                 code: [
                   {
@@ -1282,6 +1357,7 @@ writing the swtich keyword followed by an expression enclosed in a parenthesis. 
 
 Then, create certain cases which will match the value of the expression. If there is a match, that associated block of code is executed. To create cases, write the case keyword follwed by the value and a colon.
 In order to prevent the program to perform code blocks from other cases, especially the ones inside the default section, a break keyword must be added at the last line of every case code block. This will stop the execution and exits the switch statement. It is not neccessary to add  a break keyword in the last case of a switch expression since the statement end there.`,
+                video: "",
                 paragraph: ``,
                 code: [],
                 image: [],
@@ -1290,6 +1366,7 @@ In order to prevent the program to perform code blocks from other cases, especia
                 heading: `If there are no case matches, the default keyword is executed and it will perform the code blocks written in that section. It may not also necessarily be the last case in a switch block. A swtich statement value, the first one is selected and performed.
                 
 Below is the general syntax of switch statement:`,
+                video: "",
                 paragraph: ``,
                 code: [
                   {
@@ -1315,6 +1392,7 @@ Switch(expression){
               },
               {
                 heading: `Example 3.3:`,
+                video: "",
                 paragraph: ``,
                 code: [
                   {
@@ -1384,6 +1462,7 @@ At the end of the lesson you are expected to have;
 3) Created a program that applies appropriate use of Java repetition control structures.
 
                 `,
+                video: "",
                 paragraph: `Introduction
 Using Repetitions allows repeating procedures to be expressed in code using a few lines of code and controlled
 dynamically in program-defined conditions and rules. When creating computer programs that require repeating logic
@@ -1401,6 +1480,7 @@ various cases in Java programming.
 Repetition means repeating a sequence of instructions a certain number of times, or until some specific result is
 achieved. In programming terms this means loops of all kinds, such as repeat, for, while, until etc. In computer
 programming repetitions are implemented in the form of loop statements. `,
+                video: "",
                 paragraph: `General Loop Structure
 The following is a flowchart representation of the logic of a loop structure. A loop is structure consists of a condition
 and the statements to execute. The flow chart starts by checking if a given condition is satisfied, if a condition is not
@@ -1415,6 +1495,7 @@ part of the flow. For a visual representation a Flow Chart representation is pre
               },
               {
                 heading: ``,
+                video: "",
                 paragraph: `There are three (3) types of loops in Java programming:
 
 ● While Loop;
@@ -1442,6 +1523,7 @@ and proceeds to the next line of code.
 
 
 `,
+                video: "",
                 paragraph: `The example below shows a Java program written to move an imaginary car until it has moved more than 10
 kilometers. The body of the code begins by declaring and initializing the variables needed in the program. A variable
 car_movement_in_km using an integer data type is declared to hold the value of how far the car has travelled in
@@ -1466,6 +1548,7 @@ prints how many kilometers the car has travelled. The car is moved 1 kilometer b
 car_movement_in_km every passage of the loop. The printing of how many kilometers the car has traveled is also done
 every passage of the loop. After the loop has stopped a message will be printed saying that the car is now in the garage.
 `,
+                video: "",
                 paragraph: ``,
                 code: [],
                 image: [],
@@ -1484,6 +1567,7 @@ The Car has travelled 8 kilometer/s
 The Car has travelled 9 kilometer/s
 The Car has travelled 10 kilometer/s
 The Car is now in the Garage!`,
+                video: "",
                 code: [
                   {
                     language: "java",
@@ -1522,6 +1606,7 @@ within its body while a certain condition is met. When the condition is at some 
 the loop stops and proceeds to the next line of code.
 
 Code Template:`,
+                video: "",
                 paragraph: ``,
                 code: [
                   {
@@ -1546,6 +1631,7 @@ Do While Loop is written to repeat the statements in its body while the player h
 player is hit by decrementing the value of variable player_life every passage of the loop. The printing of the remaining
 lives of the player is also done every passage of the loop. After the loop has stopped a message will be printed saying
 that the player has died and the game is over.`,
+                video: "",
                 paragraph: ``,
                 code: [],
                 image: [],
@@ -1553,6 +1639,7 @@ that the player has died and the game is over.`,
               {
                 heading: `Example 1:
                 `,
+                video: "",
                 paragraph: `Output 1:
 
 The Player is hit! Remaining Life = 9
@@ -1607,6 +1694,7 @@ value of the variable x, the variable is decremented by specifying the shorthand
 is then displayed to the user.
 
                 `,
+                video: "",
                 paragraph: `Output:
 The value of x is 1
 The value of x is 0
@@ -1641,6 +1729,7 @@ public static void main(String args[]){
 is composed of an initialization condition, testing condition and an increment or decrement operator.
 
 Code Template:`,
+                video: "",
                 paragraph: `On the example below, a Java code is written to append text to a string variable 4 times. A variable named myString
 with the datatype String is declared and initialized with the value “Hello”. A for loop control is then implemented
 with an initialization condition int i=0 which indicates that the loop counter is a variable named i with a value of zero
@@ -1664,6 +1753,7 @@ the loop counter i. The contents of the variables are then printed on the screen
               {
                 heading: `Example:
                 `,
+                video: "",
                 paragraph: `Output:
 
 Current content of myString is Hello
@@ -1719,6 +1809,7 @@ programs.
 methods.
 
                 `,
+                video: "",
                 paragraph: ``,
                 code: [],
                 image: [],
@@ -1735,6 +1826,7 @@ retyping the code. In addition, methods can be saved and utilized again and agai
 newly developed programs.
 In this module, you’ll learn about Java methods, how to define a Java method and use
 them in your program with the help of examples.`,
+                video: "",
                 paragraph: ``,
                 code: [],
                 image: [],
@@ -1750,6 +1842,7 @@ them in your program with the help of examples.`,
                 heading: `A Java method is a collection of statements that are grouped together to perform a task.
 Methods can be used to define reusable code and organize and simplify coding.
 In general, a method has the following syntax: `,
+                video: "",
                 paragraph: `The following method calculates the sum of two integers. The sum is the method name,
                 it has two int parameters, num1 and num2, the sum of which is the returned by the
                 method.
@@ -1770,6 +1863,7 @@ In general, a method has the following syntax: `,
 it has two int parameters, num1 and num2, the sum of which is the returned by the
 method.
                 `,
+                video: "",
                 paragraph: ``,
                 code: [],
                 image: [require("./assets/m5p1.png")],
@@ -1783,6 +1877,7 @@ returns. If the method doesn’t return a value, the returnValueType is the keyw
 For example, returnValueType in the main method is void as well as
 System.out.println. The parameter list refers to the type, order, and number of the
 parameters of a method. The method name and the parameter list together constitute the method signature. Parameters are optional; a method may contain no parameters. The variables defined in the method header are knows as formal parameters. When a method is invoked, you pass a value to the parameter. This value is referred to as actual parameter or argument. The method body contains a collection of statements that define what the method does. A return statement using the keyword return is required for a non-void metho`,
+                video: "",
                 paragraph: ``,
                 code: [],
                 image: [],
@@ -1798,6 +1893,7 @@ parameters of a method. The method name and the parameter list together constitu
                 heading: `To use a method, you have to call or invoke it. There are two ways to call a method; the
 choice is based on whether the method returns a value or not.
 If the method returns a value, a call to the method is usually treated as a value.`,
+                video: "",
                 paragraph: `If the method returns void, a call to the method must be a statement.
 
 System.out.println(“Welcome to Java Programming!”); `,
@@ -1816,6 +1912,7 @@ System.out.println(“The sum of the two integers is “ + result);
 called method returns control to the caller when its return statement is executed or when
 its method-ending closing brace is reached.
 Below is an example of defining and calling the method sum.`,
+                video: "",
                 paragraph: `Output:
 
 The sum of the two integers is 12
@@ -1856,12 +1953,15 @@ to num2 in the sum method.
 The flow of control transfers to the sum method. The sum method is executed. When the
 return statement in the sum method is executed, the sum method returns the control to
 its caller.`,
+                video: "",
+                video: "",
                 paragraph: ``,
                 code: [],
                 image: [],
               },
               {
                 heading: ``,
+                video: "",
                 paragraph: `Figure 6.2. When the sum method is invoked, the flow of control transfers to it. Once the
 
 sum method is finished, it returns control back to the caller.
@@ -1874,6 +1974,7 @@ passed through method invocation.
               },
               {
                 heading: ``,
+                video: "",
                 paragraph: `CAUTION:
 
 A return statement is required for a non void method.
@@ -1904,6 +2005,7 @@ method are val1, val2, and result. The variables defined in the sum method are n
 num2. The variables num1 and num2 are defined in the method signature and are
 parameters of the method. Their values are passed through method invocation.
                 `,
+                video: "",
                 paragraph: ``,
                 code: [],
                 image: [],
@@ -1920,6 +2022,7 @@ parameters of the method. Their values are passed through method invocation.
 
 Below is an example of using void Method
                 `,
+                video: "",
                 paragraph: ``,
                 code: [
                   {
@@ -1952,6 +2055,7 @@ order as their respective parameters in the method specification. This is known 
 parameter order association.
 You can use nPrintName(“John”, 5) to print the name “John” 5 times
                 `,
+                video: "",
                 paragraph: `CAUTION: The arguments must match the parameters in order, number, and compatible type,
 as defined in the method signature.`,
                 code: [
@@ -1969,6 +2073,7 @@ as defined in the method signature.`,
               },
               {
                 heading: `Below is an example of Passing Arguments by Value`,
+                video: "",
                 paragraph: ``,
                 code: [
                   {
@@ -2000,6 +2105,8 @@ The arguments and parameters may have the same name; however, no change occurs
 because the parameter is a local variable in the method with its own memory space. The
 local variable is allocated when the method is invoked, and it disappears when the method
 is returned to its caller.`,
+                video: "",
+                video: "",
                 paragraph: ``,
                 code: [],
                 image: [],
@@ -2013,6 +2120,7 @@ is returned to its caller.`,
             content: [
               {
                 heading: ``,
+                video: "",
                 paragraph: `If you need to find the sum of two floating-point numbers, the code above shows you just
 that. If you call sum with int parameters, the sum method that expects int parameters will
 be invoked. If you call sum with double parameters, the sum method that expects double parameters will be invoked. This is referred to as method overloading; that is, two or
@@ -2033,6 +2141,7 @@ determines which method is used based on the method signature.
               {
                 heading: `Below is the example of Method Overloading
                 `,
+                video: "",
                 paragraph: `Output:
 
 The sum of 3 and 4 is 7
@@ -2072,6 +2181,7 @@ sum(int, int) is used to invoke sum(3, 4). Overloading methods can make programs
 clearer and more readable. Methods that perform closely related tasks should be given
 the same name. Overloaded methods must have different parameter lists. You can’t
 overload methods based on different modifiers or return types.`,
+                video: "",
                 paragraph: `NOTE: 
 Sometimes there may be two or more possible matches for an invocation of a method,
 but the compiler cannot determine the most specific match. This is referred to as ambiguous
@@ -2081,6 +2191,7 @@ invocation. Ambiguous invocation is a compilation error.`,
               },
               {
                 heading: ``,
+                video: "",
                 paragraph: `Both sum(int, double) and sum(double, int) are possible candidates to match
 sum(1, 2). Since neither of them is more specific than the other, the invocation is
 ambiguous.
@@ -2115,6 +2226,7 @@ where the variable can be referenced. The scope of a local variable starts from 
 declaration and continues to the end of the block that contains the variable. A local
 variable must be declared before it can be used. A parameter is actually a local variable.
 The scope of a method parameter covers the entire method.`,
+                video: "",
                 paragraph: ``,
                 code: [],
                 image: [],
@@ -2141,6 +2253,7 @@ The scope of a method parameter covers the entire method.`,
 >  Performed a search in an array.
 >  Used arrays as argument of methods.
 >  Declared and to manipulate multidimensional arrays.`,
+                video: "",
                 paragraph: `Introduction 
 
 Often you will to store a large number of values during the execution of a program. Suppose, for instance, that you will to read 50 numbers, compute their average, and find out how many numbers are above the average. Your program first reads the number and compute their average, then compares each number with the average to determine whether it is above the average. In order to accomplish this task, the number must all be stored in variables. You have to declare 50 variables and repeatedly write all almost identical code 50 times. Writing a program this way would be impractical. So, how do you solve this problem?
@@ -2150,6 +2263,7 @@ Java and most other high-level languages provide a data structure called array, 
               },
               {
                 heading: ``,
+                video: "",
                 paragraph: ``,
                 code: [
                   {
@@ -2194,6 +2308,7 @@ and specify the array’s element type. The syntax for declaring an array variab
 
 Elementype[] arrayname;
                 `,
+                video: "",
                 paragraph: `The elementtype can be any data type, and all elements in the array will have the
 same type. For example, to declare an array of integers that hold student ID
 number, you can write the following:
@@ -2212,6 +2327,7 @@ idNum can be achieve by the following:
 
 idNum=new int[20];
                 `,
+                video: "",
                 paragraph: `Java also supports declaring and reserving memory location slot in one
 statement like the following:
 
@@ -2230,6 +2346,7 @@ To assign values to the elements, use the following syntax;
 
 arrayname[index]=value; 
                 `,
+                video: "",
                 paragraph: `For example, the following code initializes the array;
 
 idNum[0]=1122;
@@ -2244,6 +2361,7 @@ idNum[5]=6677;
               },
               {
                 heading: `The array is pictured in the figure below`,
+                video: "",
                 paragraph: `The first element in an array is element 0 and the last element’s subscript is one
 less than the array size. For example the highest allowed subscript for 100 element array is 99. `,
                 code: [],
@@ -2256,6 +2374,7 @@ within curly braces. For example, if you want to create an array named prime and
 store the first six prime numbers, you can declare prime as follows:
 
 int[] prime = {2, 3, 5, 7, 11, 13}; `,
+                video: "",
                 paragraph: `Notice the semicolon at the end of the statement. You don’t use a semicolon
 following a method’s closing curly brace, but you do use one following the closing
 brace of an array initialization list.
@@ -2280,6 +2399,7 @@ reasons:
 processed in same fashion repeatedly using a loop.
 ● The size of the array is known.
                 `,
+                video: "",
                 paragraph: `Here are some examples of processing arrays:`,
                 code: [
                   {
@@ -2305,6 +2425,7 @@ public class sumallelements{
                 heading: `1. Summing all elements. Variable named total to store the sum. Initially
 total is 0. Add each element in the array to total using a loop like this:
                 `,
+                video: "",
                 paragraph: ``,
                 code: [],
                 image: [require("./assets/m6p2.jpg")],
@@ -2314,12 +2435,14 @@ total is 0. Add each element in the array to total using a loop like this:
                 initialized with values then the merge array is declared with the size of the
                 sum of the length of the values and values2.
                 `,
+                video: "",
                 paragraph: ``,
                 code: [],
                 image: [require("./assets/m6p3.jpg")],
               },
               {
                 heading: `3. Find the maximum value. Initially max value is equal to 0.`,
+                video: "",
                 paragraph: ``,
                 code: [],
                 image: [require("./assets/m6p4.jpg")],
@@ -2335,6 +2458,7 @@ total is 0. Add each element in the array to total using a loop like this:
                 heading: `Passing arrays to a method
 The same as primitive type values to methods, arrays can also be passed to methods.
 For example, the following method displays the elements in an int array:`,
+                video: "",
                 paragraph: `Java uses pass-by-value to pass arguments to a method. There are important differences between passing the values of variables of primitive data type and passing arrays.
 ● For an argument of a primitive type, the argument’s value is passed.
 ● For an arguments of an array type, the values of the argument is a reference to an array; this reference value is passed to the method. The example below illustrates the difference.`,
@@ -2353,6 +2477,7 @@ public static void printArray(int[] arr){
               },
               {
                 heading: ``,
+                video: "",
                 paragraph: `Output:
                 As shown in the example above f is invoked, the value x remains 1 while but the value of a[0] is 456. Although a and arr are independent variables, they are reference to the same array.`,
                 code: [],
@@ -2363,13 +2488,14 @@ public static void printArray(int[] arr){
 Returning an Array from a Method
 
 A method may return an array. For example, the method shown below returns an array that contains two values, the sum and subtraction result of the two numbers passed in the method.`,
+                video: "",
                 paragraph: ``,
                 code: [],
                 image: [require("./assets/m6p6.jpg")],
               },
             ],
           },
-         
+
           {
             id: "6.4",
             introduction: "Returning an Array from a Method",
@@ -2384,6 +2510,7 @@ elementType[][] arrayname;
 Or
 
 elementType arrayname[][];`,
+                video: "",
                 paragraph: `As an example, here is how you would declare a two-dimensional array variable matrix of int values:
 
 int[][] matrix;
@@ -2398,6 +2525,7 @@ int matrix[][];`,
                 heading: `You can create a two-dimensional array of 10-by-10 int values and assign it to matrix using this syntax:
 matrix=new int[10][10];
 The two subscripts are used in a two-dimensional array, one for the row and the other for the column. As in one-dimensional array, the index for each subscript is of the int type ans starts from 0.`,
+                video: "",
                 paragraph: `The statement matrix[0][1]=10;
 
 will assign number 10 to matrix row 1 column 2;
@@ -2422,6 +2550,7 @@ arr[1][2]=6;
 arr[2][0]=7;
 arr[2][1]=8;
 arr[2][2]=9;`,
+                video: "",
                 paragraph: `A two-dimensional array is an array in which each element is a one-dimensional array. The length of an array x is the number of elements in the array, which can be obtained using x.length, x[0],x[1],x[2]...are arrays. Their length can be obtained using x[0].length.
 
 Java also support declaring ragged array, this type of two-dimensional array composed of elements of not the same type. For example, the statement below declare and initialize a ragged array.`,
@@ -2435,6 +2564,7 @@ Java also support declaring ragged array, this type of two-dimensional array com
 {14,15}
 {16}};
 Example below shows how to process two-dimensional array.`,
+                video: "",
                 paragraph: ``,
                 code: [],
                 image: [require("./assets/m6p7.jpg")],

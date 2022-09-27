@@ -139,6 +139,7 @@ const Lesson = ({ navigation }) => {
                           onPress={
                             () =>
                               navigation.navigate("ContentScreen", {
+                                status: status,
                                 id: id,
                                 content: content,
                               }) //pass params to ContentScreen

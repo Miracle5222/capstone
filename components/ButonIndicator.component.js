@@ -1,17 +1,22 @@
 import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import React from "react";
 import { useSelector } from "react-redux";
+import { useEffect } from "react";
 
-export const ButonIndicator = ({ content, event }) => {
+export const ButonIndicator = ({ content, setIndex, index }) => {
   const { darkBg, lightBg, text, theme, buttons } = useSelector(
     (state) => state.color
   );
 
   return (
     <View style={styles.circleContainer}>
-      {content.map((_, index) => {
+      {content.map((_, inde) => {
         return (
-          <TouchableOpacity key={index} activeOpacity={0.8} onPress={event}>
+          <TouchableOpacity
+            key={inde}
+            activeOpacity={0.8}
+            onPress={setIndex(inde + 1)}
+          >
             <View
               style={[styles.circle, { backgroundColor: buttons.light }]}
             ></View>

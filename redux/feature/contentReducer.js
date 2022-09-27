@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 const contentSlice = createSlice({
   name: "module",
-  initialState: { contentId: "", content: [], index: 0 },
+  initialState: { contentId: "", content: [], index: 0, status: null },
   reducers: {
     contentHandler(state, action) {
       state.content = action.payload;
@@ -10,16 +10,10 @@ const contentSlice = createSlice({
     contentIdHandler(state, action) {
       state.contentId = action.payload;
     },
-    backHandler(state) {
-      state.index -= 1;
-    },
-    nextHandler(state) {
-      state.index += 1;
-    },
   },
 });
 
-export const { contentHandler, contentIdHandler, nextHandler, backHandler } =
+export const { contentHandler, contentIdHandler } =
   contentSlice.actions;
 
 export default contentSlice.reducer;

@@ -11,6 +11,10 @@ import {
 import React from "react";
 import { useEffect, useLayoutEffect, useState, useRef } from "react";
 import logo from "../assets/symbols.png";
+
+//redux initial value
+import { contentHandler } from "../redux/feature/contentReducer";
+//styled components
 import {
   Container,
   Header,
@@ -18,10 +22,12 @@ import {
   Spacer,
 } from "../src/styled/Container.style";
 import { useSelector, useDispatch } from "react-redux";
-import Button from "./Button";
+import Button from "./Button.component";
+//code highlighter
 import { Highlighter } from "./CodeHighlighter.component";
 import { Inter_200ExtraLight } from "@expo-google-fonts/inter";
 import { ButonIndicator } from "./ButonIndicator.component";
+//reanimated Import
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
@@ -29,7 +35,9 @@ import Animated, {
   withTiming,
 } from "react-native-reanimated";
 import { Exit } from "../src/icons/Icons";
-
+import YoutubeVideo from "./Youtube.component";
+//data Reducer
+import { contentStatus, contentIdHandler } from "../redux/feature/dataReducer";
 const { width, height } = Dimensions.get("screen");
 
 const WIDTH = width;
@@ -37,7 +45,8 @@ const HIEGHT = height;
 
 export const ListsItems = ({ navigation }, props) => {
   const { data } = useSelector((state) => state.module);
-  const { content, contentId } = useSelector((state) => state.content);
+  const { content } = useSelector((state) => state.content);
+  const { contentId } = useSelector((state) => state.module);
   const { darkBg, lightBg, text, theme, buttons } = useSelector(
     (state) => state.color
   );
@@ -46,7 +55,7 @@ export const ListsItems = ({ navigation }, props) => {
   const [visible, setVisibility] = useState(false);
   const [modalContent, setModalContent] = useState("");
   const opacity = useSharedValue(0);
-  const scale = useSharedValue(0);
+  const dispatch = useDispatch();
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -64,20 +73,48 @@ export const ListsItems = ({ navigation }, props) => {
     });
   }, [navigation, contentId]);
 
-  console.log();
   const animatedStyles = useAnimatedStyle(() => {
     return {
       opacity: withSpring(opacity.value),
     };
   });
 
+  // language: "Java",
+  //   modules: [
+  //     {
+  //       key: "1",
+  //       title: "Introduction",
+  //       status: true,
+  //       topic: [
+  //         {
+  //           id: "1.1",
+  //           status: true,
+  //           lesson_name: "A Quick First Look at Computer Programming",
+  //           content: [
+  // data.map((val) => {
+  //   val.modules.map((value) => {
+  //     value.topic.map((vals) => {
+  //       console.log(vals.status);
+  //     });
+  //   });
+  // });
+  useEffect(() => {
+    setIndex(0);
+  }, []);
+
+  useEffect(() => {
+    ref.current?.scrollToIndex({
+      index,
+      animated: true,
+      viewPosition: 0,
+    });
+  }, [index]);
+
   return (
     <Container
       bg={theme ? lightBg.primary : darkBg.primary}
       style={{ justifyContent: "center", width: WIDTH, height: HIEGHT }}
     >
-      {/* <ButonIndicator content={content} /> */}
-
       {visible && (
         <Animated.View style={[styles.modalContainer, animatedStyles]}>
           <TouchableOpacity
@@ -100,14 +137,29 @@ export const ListsItems = ({ navigation }, props) => {
 
       <FlatList
         ref={ref}
-        refreshing={true}
         initialScrollIndex={index}
         data={content}
         keyExtractor={(_, index) => index.toString()}
         horizontal
+        showsHorizontalScrollIndicator={false}
         renderItem={({ item }) => (
           <ScrollView>
             <View style={styles.contentContainer}>
+              <Spacer />
+              <View
+                style={[
+                  styles.boxContent,
+                  {
+                    display: item.video.length <= 0 ? "none" : "flex",
+                    backgroundColor: theme
+                      ? lightBg.fortiary
+                      : darkBg.secondary,
+                  },
+                ]}
+              >
+                <YoutubeVideo id={item.video} />
+              </View>
+
               <Spacer />
               <View
                 style={[
@@ -196,26 +248,34 @@ export const ListsItems = ({ navigation }, props) => {
               </View>
 
               {/* buttons */}
-              {/* <View style={styles.buttonContainer}>
-                <TouchableOpacity onPress={backHandler}>
-                  <Paragraph color={text.light} size={16}>
-                    Back
-                  </Paragraph>
-                </TouchableOpacity>
-                <TouchableOpacity onPress={nextHandler}>
-                  <Paragraph color={text.light} size={16}>
-                    Next
-                  </Paragraph>
-                </TouchableOpacity>
-              </View>
-               */}
+
               <View style={styles.buttonContainer}>
-                <Button>
-                  <Paragraph color={text.light} size={16}>
-                    Back
-                  </Paragraph>
-                </Button>
-                <Button>
+                {index === 0 ? (
+                  <View></View>
+                ) : (
+                  <Button
+                    event={() => {
+                      if (index === 0) {
+                        return;
+                      }
+                      setIndex(index - 1);
+                    }}
+                  >
+                    <Paragraph color={text.light} size={16}>
+                      Back
+                    </Paragraph>
+                  </Button>
+                )}
+                <Button
+                  event={() => {
+                    if (index === content.length - 1) {
+                      navigation.goBack();
+                      dispatch(contentStatus());
+                      setIndex(0);
+                    }
+                    setIndex(index + 1);
+                  }}
+                >
                   <Paragraph color={text.light} size={16}>
                     Next
                   </Paragraph>
@@ -266,5 +326,22 @@ const styles = StyleSheet.create({
     height: 30,
     width: 30,
     right: 20,
+  },
+  circleContainer: {
+    zIndex: 99,
+    position: "absolute",
+    top: 0,
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    height: 30,
+
+    width: "90%",
+  },
+  circle: {
+    marginHorizontal: 5,
+    width: 20,
+    height: 20,
+    borderRadius: 10,
   },
 });
