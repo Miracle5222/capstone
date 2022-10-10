@@ -8,17 +8,20 @@ import {
   Keyboard,
 } from "react-native";
 import React, { useLayoutEffect, useState } from "react";
-
-import { useSelector } from "react-redux";
+import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
 import { Container, Header, Paragraph } from "../src/styled/Container.style";
-
+import {
+  usernameHandler,
+  passwordHandler,
+  emailHandler,
+} from "../redux/feature/registerReducer";
 const RegisterScreen = ({ navigation }) => {
+  const dispatch = useDispatch();
   const { darkBg, lightBg, text, theme, buttons, sizes } = useSelector(
     (state) => state.color
   );
-
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const { username, email, password } = useSelector((state) => state.register);
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -35,29 +38,32 @@ const RegisterScreen = ({ navigation }) => {
     });
   }, [navigation]);
 
-  // Bg: {
-  //   primary: "#0D0D0D",
-  //   secondary: "#141414",
-  // },
-  // buttonColors: {
-  //   primary: "#00596F",
-  //   secondary: "#FFFFFF",
-  // },
-  // lightColors: {
-  //   primary: "#FFFFFF",
-  //   secondary: "#EEEEEE",
-  // },
-  // color: {
-  //   primary: "#00CDBD",
-  //   secondary: "#FFFFFF",
-  // },
-  // Fontsize: {
-  //   large: 46,
-  //   medium: 36,
-
-  //   small: 18,
-  //   extraSmall: 12,
-  // },
+  studentRegister = () => {
+    fetch(
+      "https://6fc3-2001-4455-15b-400-a4f6-d213-81ae-3f67.ap.ngrok.io/capstone/controls/register.php",
+      {
+        method: "post",
+        header: {
+          Accept: "application/json",
+          "Content-type": "application/json",
+        },
+        body: JSON.stringify({
+          name: username,
+          email: email,
+          password: password,
+        }),
+      }
+    )
+      .then((response) => response.text())
+      .then((responseJson) => {
+        alert(responseJson);
+        navigation.replace("LoginScreen");
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+    Keyboard.dismiss();
+  };
 
   return (
     <>
@@ -67,7 +73,7 @@ const RegisterScreen = ({ navigation }) => {
           styles.container,
           { backgroundColor: theme ? lightBg.primary : darkBg.primary },
         ]}
-        onTouchStart={() => Keyboard.dismiss()}
+        // onTouchStart={() => Keyboard.dismiss()}
       >
         <View>
           <Text
@@ -96,7 +102,11 @@ const RegisterScreen = ({ navigation }) => {
             placeholder="username"
             placeholderTextColor="#9D9D9D"
             autoFocus={true}
+            onChangeText={(e) => dispatch(usernameHandler(e))}
           />
+          {/* <Text
+            style={[styles.label, { color: "red", paddingBottom: 10 }]}
+          ></Text> */}
           <Text
             style={[styles.label, { color: theme ? text.dark : text.light }]}
           >
@@ -109,7 +119,9 @@ const RegisterScreen = ({ navigation }) => {
             ]}
             placeholder="email"
             placeholderTextColor="#9D9D9D"
+            onChangeText={(e) => dispatch(emailHandler(e))}
           />
+
           <Text
             style={[styles.label, { color: theme ? text.dark : text.light }]}
           >
@@ -123,6 +135,7 @@ const RegisterScreen = ({ navigation }) => {
             placeholder="password"
             secureTextEntry={true}
             placeholderTextColor="#9D9D9D"
+            onChangeText={(e) => dispatch(passwordHandler(e))}
           />
         </View>
         <View style={styles.bottomContainer}>
@@ -133,7 +146,8 @@ const RegisterScreen = ({ navigation }) => {
                 backgroundColor: theme ? buttons.dark : buttons.light,
               },
             ]}
-            onPress={() => navigation.replace("LoginScreen")}
+            // onPress={() => navigation.replace("LoginScreen")}
+            onPress={studentRegister}
           >
             <Text
               style={[
@@ -157,6 +171,7 @@ export default RegisterScreen;
 
 const styles = StyleSheet.create({
   container: {
+    marginTop: -100,
     flex: 1,
     justifyContent: "center",
     alignItems: "center",

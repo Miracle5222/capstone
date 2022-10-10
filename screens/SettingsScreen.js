@@ -1,28 +1,41 @@
 import { View, Text } from "react-native";
-import React from "react";
-import { useTheme } from "@rneui/themed";
+import React, { useLayoutEffect } from "react";
+import { useSelector } from "react-redux";
+import { Container, Header, Paragraph } from "../src/styled/Container.style";
 
-const SettingsScreen = () => {
-  const { theme } = useTheme();
+const SettingsScreen = ({ navigation }) => {
+  const { darkBg, lightBg, text, theme } = useSelector((state) => state.color);
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerShown: true,
+      title: "Settings",
+      headerStyle: {
+        backgroundColor: theme ? lightBg.primary : darkBg.primary,
+      },
+      headerTitleStyle: {
+        fontWeight: "300",
+        fontSize: 18,
+      },
+      headerShadowVisible: false,
+      headerTintColor: theme ? text.dark : text.light, //color of title
+    });
+  }, [navigation]);
   return (
-    <View
+    <Container
       style={[
         {
           flex: 1,
           justifyContent: "center",
           alignItems: "center",
         },
-        { backgroundColor: theme.Bg.primary },
       ]}
+      bg={theme ? lightBg.primary : darkBg.primary}
     >
-      <Text
-        style={[
-          { fontSize: theme.Fontsize.medium, color: theme.colors.secondary },
-        ]}
-      >
+      <Paragraph color={theme ? text.dark : text.light} size={14}>
         Mary Grace Buagas
-      </Text>
-    </View>
+      </Paragraph>
+    </Container>
   );
 };
 

@@ -23,6 +23,7 @@ import {
   useSharedValue,
   withTiming,
 } from "react-native-reanimated";
+import { indexInitialState } from "../redux/feature/contentReducer";
 const { width, height } = Dimensions.get("screen");
 
 const WIDTH = width;
@@ -73,11 +74,33 @@ const Lesson = ({ navigation }) => {
       // }}
     >
       {/* <Text style={styles.label}>{offsetY}</Text> */}
-      <Transitioning.View ref={ref} transition={transition}>
-        {data.map((val) => {
+
+      {/* // language: "Java",
+    // modules: [
+    //   {
+    //     key: "1",
+    //     title: "Introduction",
+    //     status: lock,unlock,done,
+    //     topic: [
+    //       {
+    //         id: "1.1",
+    //         status: true,
+    //         lesson_name: "A Quick First Look at Computer Programming",
+    //         content: [
+    //           {
+    //             heading: "",
+    //             video: "Hdf5OmERt0g",
+    //             paragraph: "",
+    //             code: [],
+    //             image: [],
+    //           }, */}
+
+      <Transitioning.View ref={ref} transition={transition} style={styles.con}>
+        {
           //map data from redux
-          return val.modules.map((value, index) => {
+          data[0].modules.map((value, index) => {
             //map data.modules from redux
+            // console.log(index);
             return (
               <TouchableOpacity
                 onPress={() => {
@@ -111,15 +134,17 @@ const Lesson = ({ navigation }) => {
                       alignItems: "center",
                     }}
                   >
-                    {value.status ? (
+                    {value.status === "done" && <Check />}
+                    {value.status === "unlock" && (
                       <LockLight bg={text.primary} />
-                    ) : (
+                    )}
+                    {value.status === "lock" && (
                       <LockDark bg={text.secondary} />
                     )}
                   </View>
 
                   <Header
-                    size={14}
+                    size={18}
                     color={theme ? text.dark : text.light}
                     style={{ paddingLeft: 10 }}
                   >
@@ -136,14 +161,14 @@ const Lesson = ({ navigation }) => {
                         items
                       ) => (
                         <TouchableOpacity
-                          onPress={
-                            () =>
-                              navigation.navigate("ContentScreen", {
-                                status: status,
-                                id: id,
-                                content: content,
-                              }) //pass params to ContentScreen
-                          }
+                          onPress={() => {
+                            dispatch(indexInitialState());
+                            navigation.navigate("ContentScreen", {
+                              status: status,
+                              id: id,
+                              content: content,
+                            }); //pass params to ContentScreen
+                          }}
                           activeOpacity={0.6}
                           style={[
                             styles.topics,
@@ -157,6 +182,8 @@ const Lesson = ({ navigation }) => {
                           key={items}
                         >
                           <View>
+                            {/* {console.log("Items: " + items)} */}
+                            {/* {console.log("Topic: " + value.topic[items].status)} */}
                             <Text
                               style={[
                                 styles.lesson,
@@ -186,9 +213,11 @@ const Lesson = ({ navigation }) => {
                               {lesson_name}
                             </Text>
                             <View style={styles.iconContainer}>
-                              {status ? (
-                                <Check />
-                              ) : (
+                              {status === "done" && <Check />}
+                              {status === "unlock" && (
+                                <LockLight bg={text.primary} />
+                              )}
+                              {status === "lock" && (
                                 <LockDark bg={text.secondary} />
                               )}
                             </View>
@@ -200,8 +229,8 @@ const Lesson = ({ navigation }) => {
                 )}
               </TouchableOpacity>
             );
-          });
-        })}
+          })
+        }
       </Transitioning.View>
     </ScrollView>
   );
@@ -210,13 +239,16 @@ const Lesson = ({ navigation }) => {
 export default Lesson;
 
 const styles = StyleSheet.create({
+  con: {
+    paddingBottom: 50,
+  },
   label: {
     paddingLeft: 12,
     color: "white",
   },
   container: {
     flex: 1,
-
+    paddingBottom: 20,
     height: HIEGHT + 100,
     padding: 20,
   },

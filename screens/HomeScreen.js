@@ -72,16 +72,7 @@ const HomeScreen = ({ navigation }) => {
           }}
           component={LearnScreen}
         />
-        <Tab.Screen
-          name="Settings"
-          options={{
-            tabBarLabel: "Settings",
-            tabBarIcon: () => (
-              <SettingsIcons bg={theme ? darkBg.primary : text.light} />
-            ),
-          }}
-          component={SettingsScreen}
-        />
+
         <Tab.Screen
           name="Code"
           options={{
@@ -101,6 +92,16 @@ const HomeScreen = ({ navigation }) => {
             ),
           }}
           component={ProfileScreen}
+        />
+        <Tab.Screen
+          name="Settings"
+          options={{
+            tabBarLabel: "Settings",
+            tabBarIcon: () => (
+              <SettingsIcons bg={theme ? darkBg.primary : text.light} />
+            ),
+          }}
+          component={SettingsScreen}
         />
       </Tab.Navigator>
     </>

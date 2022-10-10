@@ -26,14 +26,14 @@ const Progressbar = () => {
       val.modules.map((value) => {
         value.topic.map((vals) => {
           sum += 1;
-          vals.status ? (t += 1) : (f += 1);
+          vals.status === "done" ? (t += 1) : (f += 1);
         });
       });
     });
     r = ((t * 100) / sum).toFixed();
 
     dispatch(progressBar(r));
-  }, [result]);
+  }, [result, data]);
 
   return (
     <>

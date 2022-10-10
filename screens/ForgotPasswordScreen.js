@@ -8,32 +8,38 @@ import {
   Keyboard,
 } from "react-native";
 import React, { useLayoutEffect, useState } from "react";
-import { useTheme } from "@rneui/themed";
+import { useSelector } from "react-redux";
 
 const ForgotPassword = ({ navigation }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { theme } = useTheme();
+  const { darkBg, lightBg, text, theme, buttons } = useSelector(
+    (state) => state.color
+  );
 
   useLayoutEffect(() => {
     navigation.setOptions({
       headerShown: true,
       title: "Login",
       headerStyle: {
-        backgroundColor: theme.Bg.primary,
+        backgroundColor: darkBg.primary,
       },
       headerTitleStyle: {
         fontWeight: "bold",
-        fontSize: theme.Fontsize.small,
+        fontSize: 14,
       },
-      headerTintColor: "#fff",
+      headerTintColor: theme ? text.dark : text.light, //color of title
     });
   }, [navigation]);
+
   return (
     <>
       <StatusBar backgroundColor="black" />
       <View
-        style={[styles.container, { backgroundColor: theme.Bg.primary }]}
+        style={[
+          styles.container,
+          { backgroundColor: theme ? lightBg.primary : darkBg.primary },
+        ]}
         onTouchStart={() => Keyboard.dismiss()}
       >
         <View>
@@ -41,8 +47,8 @@ const ForgotPassword = ({ navigation }) => {
             style={[
               styles.text,
               {
-                fontSize: theme.Fontsize.small,
-                color: theme.buttonColors.secondary,
+                fontSize: 36,
+                color: theme ? text.dark : text.light,
               },
             ]}
           >
@@ -52,7 +58,7 @@ const ForgotPassword = ({ navigation }) => {
         <View style={styles.inputContainer}>
           <Text style={styles.label}>Current Password</Text>
           <TextInput
-            style={[styles.input, { borderColor: theme.buttonColors.primary }]}
+            style={[styles.input, { borderColor: buttons.light }]}
             placeholder="Current Password"
             secureTextEntry={true}
             autoFocus={true}
@@ -60,7 +66,7 @@ const ForgotPassword = ({ navigation }) => {
           />
           <Text style={styles.label}>New Password</Text>
           <TextInput
-            style={[styles.input, { borderColor: theme.buttonColors.primary }]}
+            style={[styles.input, { borderColor: buttons.light }]}
             placeholder="New Password"
             secureTextEntry={true}
             autoFocus={true}
@@ -72,7 +78,7 @@ const ForgotPassword = ({ navigation }) => {
             style={[
               styles.button,
               {
-                backgroundColor: theme.buttonColors.primary,
+                backgroundColor: buttons.light,
               },
             ]}
             onPress={() => navigation.replace("LoginScreen")}
@@ -81,8 +87,8 @@ const ForgotPassword = ({ navigation }) => {
               style={[
                 styles.buttonText,
                 {
-                  fontSize: theme.Fontsize.small,
-                  color: theme.buttonColors.secondary,
+                  fontSize: 14,
+                  color: text.light,
                 },
               ]}
             >
@@ -99,13 +105,14 @@ export default ForgotPassword;
 
 const styles = StyleSheet.create({
   container: {
+    marginTop: -100,
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
   },
   text: {
     fontWeight: "400",
-    paddingBottom: 20,
+    paddingBottom: 50,
   },
   label: {
     paddingLeft: 12,

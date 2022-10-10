@@ -5,16 +5,16 @@ export const data = [
       {
         key: "1",
         title: "Introduction",
-        status: true,
+        status: "unlock",
         topic: [
           {
             id: "1.1",
-            status: true,
+            status: "unlock",
             lesson_name: "A Quick First Look at Computer Programming",
             content: [
               {
                 heading: "",
-                video: "Hdf5OmERt0g",
+                video: "vOEN65nm4YU",
                 paragraph: "",
                 code: [],
                 image: [],
@@ -38,6 +38,13 @@ low level, where the levels are, of course, relative.
 The most common classification of computer languages is that of high-level and
 low level, where the levels are, of course, relative.
                 `,
+                code: [],
+                image: [],
+              },
+              {
+                heading: "",
+                video: "Hdf5OmERt0g",
+                paragraph: "",
                 code: [],
                 image: [],
               },
@@ -150,7 +157,7 @@ section .rodata
           },
           {
             id: "1.2",
-            status: false,
+            status: "lock",
             lesson_name: "A Partial History of Computer Programming",
             content: [
               {
@@ -230,7 +237,7 @@ of our world, is entirely up to you, dear aspiring programmer/coder/developer.
           },
           {
             id: "1.3",
-            status: false,
+            status: "lock",
             lesson_name: "Flowcharts in Programming",
             content: [
               {
@@ -309,7 +316,7 @@ The table below describes all the symbols that are used in making flowchart`,
           },
           {
             id: "1.4",
-            status: false,
+            status: "lock",
             lesson_name: "What is Java?",
             content: [
               {
@@ -350,7 +357,7 @@ smartphone.
           },
           {
             id: "1.5",
-            status: false,
+            status: "lock",
             lesson_name: "Summary",
             content: [
               {
@@ -373,13 +380,13 @@ that is, ones (1s) and zeroes (0s), also called binary values.`,
       },
       {
         key: "2",
-        title: "Primitive Data Types and Arithmetic",
-        status: false,
+        title: "Primitive Data Types & \nArithmetic",
+        status: "lock",
         topic: [
           {
             id: "2.0",
             lesson_name: "Introduction & Objectives",
-            status: false,
+            status: "lock",
             content: [
               {
                 heading: `Among many other things, the underlying purpose of a program is to provide 
@@ -392,6 +399,13 @@ In this module, you will learn about:
 a) data types and their respective uses;
 b) variables and constants; and,
 c) operations concerning data as represented in Java Programming.`,
+                code: [],
+                image: [],
+              },
+              {
+                heading: "",
+                video: "qUXbJziVs_o",
+                paragraph: "",
                 code: [],
                 image: [],
               },
@@ -409,7 +423,7 @@ c) operations concerning data as represented in Java Programming.`,
           },
           {
             id: "2.1",
-            status: false,
+            status: "lock",
             lesson_name: "Data",
             content: [
               {
@@ -658,11 +672,18 @@ basic unit of storage in a Java program.`,
                 code: [],
                 image: [],
               },
+              {
+                heading: "",
+                video: "rqZ0Cp9Omp8",
+                paragraph: "",
+                code: [],
+                image: [],
+              },
             ],
           },
           {
             id: "2.2",
-            status: false,
+            status: "lock",
             lesson_name: "Data Storage",
             content: [
               {
@@ -804,7 +825,7 @@ variables declared by an enclosing scope.
           },
           {
             id: "2.3",
-            status: false,
+            status: "lock",
             lesson_name: "Arithmetic",
             content: [
               {
@@ -1009,7 +1030,7 @@ x--;`,
           },
           {
             id: "2.4",
-            status: false,
+            status: "lock",
             lesson_name: "Operator Precedence",
             content: [
               {
@@ -1062,7 +1083,7 @@ One other point: parentheses (redundant or not) do not degrade the performance o
           },
           {
             id: "2.5",
-            status: false,
+            status: "lock",
             lesson_name: "Type Conversion and Casting",
             content: [
               {
@@ -1152,18 +1173,43 @@ public static void main(String args[]) {
               },
             ],
           },
+          {
+            id: "2.6",
+            status: "lock",
+            lesson_name: "Summary",
+            content: [
+              {
+                heading: `Summary`,
+
+                video: "",
+                paragraph: `In this lesson you learned about:
+
+● Data
+● Primitive Data
+● Objective Data
+● Data Storage
+● Arithmetic
+● Operator Precedence
+● Type Conversion and Casting
+                
+`,
+                code: [],
+                image: [],
+              },
+            ],
+          },
         ],
       },
       {
         key: "3",
         title: "Conditional Statement",
-        status: false,
+        status: "lock",
         objectives: "",
         topic: [
           {
             id: "3.0",
             introduction: "Introduction and Objectives",
-            status: false,
+            status: "lock",
             content: [
               {
                 heading: `Learning Outcomes:
@@ -1186,11 +1232,18 @@ and certain block of codes that need to be executed when the condition is fulfil
                 code: [],
                 image: [],
               },
+              {
+                heading: "",
+                video: "fsTC0Mqy0EU",
+                paragraph: "",
+                code: [],
+                image: [],
+              },
             ],
           },
           {
             id: "3.1",
-            status: false,
+            status: "lock",
             lesson_name: "If-Else Statement",
             content: [
               {
@@ -1274,7 +1327,7 @@ public class SampleProgram{
           },
           {
             id: "3.2",
-            status: false,
+            status: "lock",
             lesson_name: "If-Else-If Statement",
             content: [
               {
@@ -1348,7 +1401,7 @@ public class SampleProgram{
           },
           {
             id: "3.3",
-            status: false,
+            status: "lock",
             lesson_name: "Switch Statement",
             content: [
               {
@@ -1439,18 +1492,39 @@ public class SampleProgram{
               },
             ],
           },
+          {
+            id: "3.4",
+            status: "lock",
+            lesson_name: "Summary",
+            content: [
+              {
+                heading: `Summary`,
+
+                video: "",
+                paragraph: `In this lesson you learned about:
+● Conditional Statement
+● if-else Statement
+● if-else-if Statement
+● Switch Statement
+      
+`,
+                code: [],
+                image: [],
+              },
+            ],
+          },
         ],
       },
       {
         key: "4",
         title: "Repetition",
-        status: false,
+        status: "lock",
 
         topic: [
           {
             id: "4.0",
             introduction: "Introduction and Objectives",
-            status: false,
+            status: "lock",
             content: [
               {
                 heading: `Learning Outcomes:
@@ -1475,6 +1549,7 @@ various cases in Java programming.
                 code: [],
                 image: [],
               },
+
               {
                 heading: `Repetition Defined
 Repetition means repeating a sequence of instructions a certain number of times, or until some specific result is
@@ -1511,7 +1586,7 @@ Each type of loop follows the loop structure given above.`,
 
           {
             id: "4.1",
-            status: false,
+            status: "lock",
             lesson_name: "While Loop",
             content: [
               {
@@ -1538,6 +1613,13 @@ while(<condition>)
 }`,
                   },
                 ],
+                image: [],
+              },
+              {
+                heading: "",
+                video: "wtXhu-VS_sE",
+                paragraph: "",
+                code: [],
                 image: [],
               },
               {
@@ -1593,7 +1675,7 @@ The Car is now in the Garage!`,
           },
           {
             id: "4.2",
-            status: false,
+            status: "lock",
             lesson_name: "Do While Loop",
             content: [
               {
@@ -1619,6 +1701,13 @@ while(<condition>)
 `,
                   },
                 ],
+                image: [],
+              },
+              {
+                heading: "",
+                video: "A7yvQrDe4ks",
+                paragraph: "",
+                code: [],
                 image: [],
               },
               {
@@ -1676,7 +1765,7 @@ public static void main(String args[]) {
           },
           {
             id: "4.3",
-            status: false,
+            status: "lock",
             lesson_name: "Increment/Decrement Operators",
             content: [
               {
@@ -1721,9 +1810,16 @@ public static void main(String args[]){
           },
           {
             id: "4.4",
-            status: false,
+            status: "lock",
             lesson_name: "For Loop",
             content: [
+              {
+                heading: "",
+                video: "cakN0XC6CcQ",
+                paragraph: "",
+                code: [],
+                image: [],
+              },
               {
                 heading: `The “for loop” looping statement utilizes the increment/decrement operators in its condition syntax. The statement
 is composed of an initialization condition, testing condition and an increment or decrement operator.
@@ -1781,18 +1877,41 @@ public static void main(String args[]){
               },
             ],
           },
+          {
+            id: "4.5",
+            status: "lock",
+            lesson_name: "Summary",
+            content: [
+              {
+                heading: `Summary`,
+
+                video: "",
+                paragraph: `In this lesson you learned about:
+                
+● For Loop
+● Do While Loop
+● Increment/Decrement Operators
+● Do While Loop
+
+      
+`,
+                code: [],
+                image: [],
+              },
+            ],
+          },
         ],
       },
       {
         key: "5",
         title: "Methods",
-        status: false,
+        status: "lock",
         objectives: "",
         topic: [
           {
             id: "5.0",
             introduction: "Introduction and Objectives",
-            status: false,
+            status: "lock",
             content: [
               {
                 heading: `By the end of this module, student must be able to:
@@ -1811,6 +1930,13 @@ methods.
                 `,
                 video: "",
                 paragraph: ``,
+                code: [],
+                image: [],
+              },
+              {
+                heading: "",
+                video: "r0SewFmbCUI",
+                paragraph: "",
                 code: [],
                 image: [],
               },
@@ -1835,7 +1961,7 @@ them in your program with the help of examples.`,
           },
           {
             id: "5.1",
-            status: false,
+            status: "lock",
             lesson_name: "Methods Defined ",
             content: [
               {
@@ -1886,7 +2012,7 @@ parameters of a method. The method name and the parameter list together constitu
           },
           {
             id: "5.2",
-            status: false,
+            status: "lock",
             lesson_name: "Calling a Method",
             content: [
               {
@@ -1992,7 +2118,7 @@ invoke the sum method using ClassName.met hodName (i.e., MethodSum.sum
           },
           {
             id: "5.3",
-            status: false,
+            status: "lock",
             lesson_name: "Call Stacks",
             content: [
               {
@@ -2014,7 +2140,7 @@ parameters of the method. Their values are passed through method invocation.
           },
           {
             id: "5.4",
-            status: false,
+            status: "lock",
             lesson_name: "Void Methods",
             content: [
               {
@@ -2046,7 +2172,7 @@ Below is an example of using void Method
           },
           {
             id: "5.5",
-            status: false,
+            status: "lock",
             lesson_name: "Passing Arguments by Value",
             content: [
               {
@@ -2115,7 +2241,7 @@ is returned to its caller.`,
           },
           {
             id: "5.6",
-            status: false,
+            status: "lock",
             lesson_name: "Overloading Methods",
             content: [
               {
@@ -2217,7 +2343,7 @@ ambiguous.
 
           {
             id: "5.7",
-            status: false,
+            status: "lock",
             lesson_name: "The Scope of Variables",
             content: [
               {
@@ -2238,12 +2364,12 @@ The scope of a method parameter covers the entire method.`,
       {
         key: "6",
         title: "Arrays",
-        status: false,
+        status: "lock",
         topic: [
           {
             id: "6.0",
             introduction: "Introduction and Objectives",
-            status: false,
+            status: "lock",
             content: [
               {
                 heading: `At the end of the lesson you are expected to have;
@@ -2258,6 +2384,13 @@ The scope of a method parameter covers the entire method.`,
 
 Often you will to store a large number of values during the execution of a program. Suppose, for instance, that you will to read 50 numbers, compute their average, and find out how many numbers are above the average. Your program first reads the number and compute their average, then compares each number with the average to determine whether it is above the average. In order to accomplish this task, the number must all be stored in variables. You have to declare 50 variables and repeatedly write all almost identical code 50 times. Writing a program this way would be impractical. So, how do you solve this problem?
 Java and most other high-level languages provide a data structure called array, it is a named list of data items that all have the same type with fixed-size. In the present case, you can store all 50 numbers into an array and access them through a single array variable. The solution look like this:`,
+                code: [],
+                image: [],
+              },
+              {
+                heading: "",
+                video: "o2ARur9hs9M",
+                paragraph: "",
                 code: [],
                 image: [],
               },
@@ -2300,7 +2433,7 @@ public class AnalyzeNumbers{
           {
             id: "6.1",
             introduction: "Declaring and Creating Arrays ",
-            status: false,
+            status: "lock",
             content: [
               {
                 heading: `To use an array in a program, you must declare a variable to reference the array
@@ -2388,7 +2521,7 @@ number of values placed in the initializing list `,
           {
             id: "6.2",
             introduction: "Using subscripts with an array",
-            status: false,
+            status: "lock",
             content: [
               {
                 heading: `Using subscripts with an array
@@ -2452,7 +2585,7 @@ total is 0. Add each element in the array to total using a loop like this:
           {
             id: "6.3",
             introduction: "Passing arrays to a method",
-            status: false,
+            status: "lock",
             content: [
               {
                 heading: `Passing arrays to a method
@@ -2499,7 +2632,7 @@ A method may return an array. For example, the method shown below returns an arr
           {
             id: "6.4",
             introduction: "Returning an Array from a Method",
-            status: false,
+            status: "lock",
             content: [
               {
                 heading: `The preceding section introduced how to use one-dimensional arrays to store linear collection of elements. You can use two-dimensional array to store a matrix or a table.

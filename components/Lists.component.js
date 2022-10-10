@@ -13,7 +13,12 @@ import { useEffect, useLayoutEffect, useState, useRef } from "react";
 import logo from "../assets/symbols.png";
 
 //redux initial value
-import { contentHandler } from "../redux/feature/contentReducer";
+import {
+  contentHandler,
+  backHandler,
+  nextHandler,
+  indexInitialState,
+} from "../redux/feature/contentReducer";
 //styled components
 import {
   Container,
@@ -45,13 +50,13 @@ const HIEGHT = height;
 
 export const ListsItems = ({ navigation }, props) => {
   const { data } = useSelector((state) => state.module);
-  const { content } = useSelector((state) => state.content);
+  const { content, index } = useSelector((state) => state.content);
   const { contentId } = useSelector((state) => state.module);
   const { darkBg, lightBg, text, theme, buttons } = useSelector(
     (state) => state.color
   );
   const ref = useRef(null);
-  const [index, setIndex] = useState(0);
+  // const [index, setIndex] = useState(0);
   const [visible, setVisibility] = useState(false);
   const [modalContent, setModalContent] = useState("");
   const opacity = useSharedValue(0);
@@ -98,22 +103,27 @@ export const ListsItems = ({ navigation }, props) => {
   //     });
   //   });
   // });
-  useEffect(() => {
-    setIndex(0);
-  }, []);
+  // useEffect(() => {
+  //   let inde = setIndex(0);
+
+  // }, []);
 
   useEffect(() => {
     ref.current?.scrollToIndex({
       index,
       animated: true,
-      viewPosition: 0,
+      // viewPosition: 0,
     });
   }, [index]);
 
   return (
     <Container
       bg={theme ? lightBg.primary : darkBg.primary}
-      style={{ justifyContent: "center", width: WIDTH, height: HIEGHT }}
+      style={{
+        justifyContent: "center",
+        width: WIDTH,
+        height: HIEGHT,
+      }}
     >
       {visible && (
         <Animated.View style={[styles.modalContainer, animatedStyles]}>
@@ -143,7 +153,7 @@ export const ListsItems = ({ navigation }, props) => {
         horizontal
         showsHorizontalScrollIndicator={false}
         renderItem={({ item }) => (
-          <ScrollView>
+          <ScrollView style={styles.con}>
             <View style={styles.contentContainer}>
               <Spacer />
               <View
@@ -255,10 +265,11 @@ export const ListsItems = ({ navigation }, props) => {
                 ) : (
                   <Button
                     event={() => {
-                      if (index === 0) {
-                        return;
-                      }
-                      setIndex(index - 1);
+                      // if (index === 0) {
+                      //   return;
+                      // }
+                      // setIndex(index - 1);
+                      dispatch(backHandler());
                     }}
                   >
                     <Paragraph color={text.light} size={16}>
@@ -271,9 +282,11 @@ export const ListsItems = ({ navigation }, props) => {
                     if (index === content.length - 1) {
                       navigation.goBack();
                       dispatch(contentStatus());
-                      setIndex(0);
+
+                      dispatch(indexInitialState());
                     }
-                    setIndex(index + 1);
+                    dispatch(nextHandler());
+                    // setIndex(index + 1);
                   }}
                 >
                   <Paragraph color={text.light} size={16}>
@@ -295,15 +308,14 @@ const styles = StyleSheet.create({
     justifyContent: "flex-start",
     alignItems: "center",
     width: WIDTH,
-    height: HIEGHT + 60,
-    paddingBottom: 30,
+    height: "100%",
   },
   buttonContainer: {
     width: "90%",
     alignItems: "center",
     justifyContent: "space-around",
     height: 60,
-
+    marginBottom: 50,
     flexDirection: "row",
   },
   boxContent: {

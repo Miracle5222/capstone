@@ -7,15 +7,55 @@ import {
   View,
   Keyboard,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useTheme } from "@rneui/themed";
 import { useDispatch, useSelector } from "react-redux";
 import { Container, Header, Paragraph } from "../src/styled/Container.style";
+import {
+  emailLogin,
+  passwordLogin,
+  usernameLogin,
+} from "../redux/feature/loginReducer";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const LoginScreen = ({ navigation }) => {
+  const dispatch = useDispatch();
   const { darkBg, lightBg, text, theme, buttons, sizes } = useSelector(
     (state) => state.color
   );
+  const { email, password } = useSelector((state) => state.login);
+
+  const login = () => {
+    fetch(
+      "https://6fc3-2001-4455-15b-400-a4f6-d213-81ae-3f67.ap.ngrok.io/capstone/controls/login.php",
+      {
+        method: "post",
+        header: {
+          Accept: "application/json",
+          "Content-type": "application/json",
+        },
+        body: JSON.stringify({
+          // we will pass our input data to server
+          email: email,
+          password: password,
+        }),
+      }
+    )
+      .then((response) => response.text())
+      .then(async (responseJson) => {
+        console.log(responseJson);
+        let parse = JSON.parse(responseJson);
+        let { username, email } = parse.data;
+        dispatch(usernameLogin(username));
+        dispatch(emailLogin(email));
+
+        navigation.replace("HomeScreen");
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+    Keyboard.dismiss();
+  };
 
   return (
     <>
@@ -25,7 +65,7 @@ const LoginScreen = ({ navigation }) => {
           styles.container,
           { backgroundColor: theme ? lightBg.primary : darkBg.primary },
         ]}
-        onTouchStart={() => Keyboard.dismiss()}
+        // onTouchStart={() => Keyboard.dismiss()}
       >
         <View>
           <Header size={36} color={theme ? text.dark : text.light}>
@@ -46,6 +86,7 @@ const LoginScreen = ({ navigation }) => {
             placeholder="email"
             placeholderTextColor="#9D9D9D"
             autoFocus={true}
+            onChangeText={(e) => dispatch(emailLogin(e))}
           />
           <Text
             style={[styles.label, { color: theme ? text.dark : text.light }]}
@@ -60,12 +101,13 @@ const LoginScreen = ({ navigation }) => {
             placeholder="password"
             secureTextEntry={true}
             placeholderTextColor="#9D9D9D"
+            onChangeText={(e) => dispatch(passwordLogin(e))}
           />
         </View>
         <View style={styles.bottomContainer}>
           <View style={styles.forgetpassword}>
             <TouchableOpacity
-              onPress={() => navigation.replace("ForgotPassword")}
+              onPress={() => navigation.navigate("ForgotPassword")}
             >
               <Paragraph
                 color={theme ? text.secondary : text.primary}
@@ -84,6 +126,7 @@ const LoginScreen = ({ navigation }) => {
                 backgroundColor: theme ? buttons.dark : buttons.light,
               },
             ]}
+            // onPress={login}
             onPress={() => navigation.navigate("HomeScreen")}
           >
             <Paragraph color={text.light} size={sizes.small}>
@@ -116,6 +159,7 @@ export default LoginScreen;
 
 const styles = StyleSheet.create({
   container: {
+    marginTop: -100,
     flex: 1,
     justifyContent: "center",
     alignItems: "center",

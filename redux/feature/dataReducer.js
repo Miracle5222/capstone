@@ -14,6 +14,10 @@ const dataSlice = createSlice({
     contentIdHandler(state, action) {
       state.contentId = action.payload;
     },
+
+    dataHandler(state, action) {
+      state.data = action.payload;
+    },
     // language: "Java",
     // modules: [
     //   {
@@ -33,13 +37,20 @@ const dataSlice = createSlice({
     //             code: [],
     //             image: [],
     //           },
+
     contentStatus(state, action) {
       let moduleLength = state.data[0].modules.length;
 
       for (let i = 0; i < moduleLength; i++) {
+        // 6
         state.data[0].modules[i].topic.filter((value) => {
           if (value.id === state.contentId) {
-            value.status = true;
+            value.status = "done";
+
+            // state.data[0].modules[i].topic[i + 1].status = "unlock";
+
+            // console.log(state.data[0].modules[i].topic[i].status);
+            // console.log(state.contentId);
           }
         });
       }
@@ -47,7 +58,12 @@ const dataSlice = createSlice({
   },
 });
 
-export const { scrollHandler, progressBar, contentStatus, contentIdHandler } =
-  dataSlice.actions;
+export const {
+  scrollHandler,
+  progressBar,
+  contentStatus,
+  contentIdHandler,
+  dataHandler,
+} = dataSlice.actions;
 
 export default dataSlice.reducer;

@@ -6,7 +6,7 @@ import {
   Dimensions,
   ScrollView,
 } from "react-native";
-import React, { useLayoutEffect, useEffect } from "react";
+import React, { useLayoutEffect, useEffect, useState } from "react";
 import Progressbar from "../components/Progressbar.component";
 import { Inter_100Thin } from "@expo-google-fonts/inter";
 import { Container, Header, Paragraph } from "../src/styled/Container.style";
@@ -15,6 +15,10 @@ import { Home } from "../Data";
 import { useSelector, useDispatch } from "react-redux";
 //icons
 import { Java } from "../src/icons/Icons";
+import { usernameLogin } from "../redux/feature/loginReducer";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { dataHandler } from "../redux/feature/dataReducer";
+
 //fonts
 // import { useFonts } from "expo-font";
 // import AppLoading from "expo-app-loading";
@@ -25,31 +29,47 @@ const WIDTH = width;
 const HIEGHT = height;
 
 const Topic = ({ navigation }) => {
+  const dispatch = useDispatch();
   const { darkBg, lightBg, text, theme } = useSelector((state) => state.color);
   const { data } = useSelector((state) => state.module);
 
+  const { email, password, username } = useSelector((state) => state.login);
+
   useLayoutEffect(() => {
     navigation.setOptions({
-      headerShown: false,
-      title: " ",
+      headerShown: true,
+      title: "Learn",
       headerStyle: {
         backgroundColor: theme ? lightBg.primary : darkBg.primary,
       },
       headerTitleStyle: {
-        fontWeight: "300",
+        fontWeight: "500",
         fontSize: 18,
       },
       headerShadowVisible: false,
       headerTintColor: theme ? text.dark : text.light, //color of title
     });
-  }, [navigation]);
+  }, [navigation, theme]);
 
+  // useEffect(() => {
+  //   const getData = async () => {
+  //     try {
+  //       const jsonValue = await AsyncStorage.getItem("data");
+  //       const result = jsonValue != null ? JSON.parse(jsonValue) : null;
+  //       dispatch(dataHandler(result));
+  //     } catch (e) {
+  //       // error reading value
+  //       console.log(e);
+  //     }
+  //   };
+  //   getData();
+  // });
   return (
     <>
       <Container bg={theme ? lightBg.primary : darkBg.primary}>
         <View style={styles.headerBox}>
           <Header color={theme ? text.dark : text.light} size={42}>
-            Hello, Neil
+            Hello, {username}
           </Header>
           <Paragraph color={theme ? text.dark : text.light} size={14}>
             Start learning your first programming language
