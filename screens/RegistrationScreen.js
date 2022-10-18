@@ -7,7 +7,7 @@ import {
   View,
   Keyboard,
 } from "react-native";
-import React, { useLayoutEffect, useState } from "react";
+import React, { useEffect, useLayoutEffect, useState } from "react";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { Container, Header, Paragraph } from "../src/styled/Container.style";
@@ -22,7 +22,7 @@ const RegisterScreen = ({ navigation }) => {
     (state) => state.color
   );
   const { username, email, password } = useSelector((state) => state.register);
-
+  const [count, setCount] = useState(0);
   useLayoutEffect(() => {
     navigation.setOptions({
       headerShown: true,
@@ -40,7 +40,7 @@ const RegisterScreen = ({ navigation }) => {
 
   const Register = () => {
     fetch(
-      "https://52e1-2001-4455-16d-b00-e17f-abbe-d2fb-7acf.ap.ngrok.io/capstone/controls/register.php",
+      "https://38cf-2001-4455-16d-b00-a485-b8c7-e425-9a50.ap.ngrok.io/capstone/controls/register.php",
       {
         method: "post",
         header: {
@@ -57,7 +57,7 @@ const RegisterScreen = ({ navigation }) => {
       .then((response) => response.text())
       .then((responseJson) => {
         console.log(responseJson);
-        alert(responseJson);
+        // alert(responseJson);
         // navigation.replace("LoginScreen");
       })
       .catch((error) => {

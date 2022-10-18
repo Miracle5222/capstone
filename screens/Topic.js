@@ -64,6 +64,33 @@ const Topic = ({ navigation }) => {
   //   };
   //   getData();
   // });
+  useEffect(() => {
+    const getLesson = async () => {
+      fetch(
+        "https://38cf-2001-4455-16d-b00-a485-b8c7-e425-9a50.ap.ngrok.io/startbootstrap-sb-admin/dist/api/lesson.php",
+        {
+          method: "post",
+          header: {
+            Accept: "application/json",
+            "Content-type": "application/json",
+          },
+          body: JSON.stringify({
+            module_id: 27,
+          }),
+        }
+      )
+        .then((response) => response.text())
+        .then((responseJson) => {
+          console.log(responseJson);
+          let parse = JSON.parse(responseJson);
+          // setLessons(parse.data);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    };
+    getLesson();
+  }, []);
   return (
     <>
       <Container bg={theme ? lightBg.primary : darkBg.primary}>

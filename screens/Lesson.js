@@ -70,6 +70,7 @@ const Lesson = ({ navigation }) => {
         const jsonValue = await AsyncStorage.getItem("data");
         const result = jsonValue != null ? JSON.parse(jsonValue) : null;
         dispatch(dataHandler(result));
+        console.log(result);
       } catch (e) {
         console.log(e);
       }
@@ -87,28 +88,6 @@ const Lesson = ({ navigation }) => {
       //   dispatch(scrollHandler(nativeEvent.contentOffset.y));
       // }}
     >
-      {/* <Text style={styles.label}>{offsetY}</Text> */}
-
-      {/* // language: "Java",
-    // modules: [
-    //   {
-    //     key: "1",
-    //     title: "Introduction",
-    //     status: lock,unlock,done,
-    //     topic: [
-    //       {
-    //         id: "1.1",
-    //         status: true,
-    //         lesson_name: "A Quick First Look at Computer Programming",
-    //         content: [
-    //           {
-    //             heading: "",
-    //             video: "Hdf5OmERt0g",
-    //             paragraph: "",
-    //             code: [],
-    //             image: [],
-    //           }, */}
-
       <Transitioning.View ref={ref} transition={transition} style={styles.con}>
         {
           //map data from redux
@@ -173,70 +152,72 @@ const Lesson = ({ navigation }) => {
                       (
                         { lesson_name, id, key, introduction, status, content },
                         items
-                      ) => (
-                        <TouchableOpacity
-                          onPress={() => {
-                            navigation.navigate("ContentScreen", {
-                              status: status,
-                              id: id,
-                              content: content,
-                            }); //pass params to ContentScreen
-                          }}
-                          activeOpacity={0.6}
-                          style={[
-                            styles.topics,
-                            {
-                              backgroundColor: theme
-                                ? lightBg.tertiary
-                                : darkBg.secondary,
-                            },
-                          ]}
-                          // disabled={status ? false : true} //disable touchable opactity if status is false
-                          key={items}
-                        >
-                          <View>
-                            {/* {console.log("Items: " + items)} */}
-                            {/* {console.log("Topic: " + value.topic[items].status)} */}
-                            <Text
-                              style={[
-                                styles.lesson,
-                                {
-                                  color: theme ? text.dark : text.light,
-                                },
-                              ]}
-                            >
-                              Lesson: {id}
-                            </Text>
-                            {introduction && (
+                      ) => {
+                        return (
+                          <TouchableOpacity
+                            onPress={() => {
+                              navigation.navigate("List", {
+                                status: status,
+                                id: id,
+                                content: content,
+                              }); //pass params to ContentScreen
+                            }}
+                            activeOpacity={0.6}
+                            style={[
+                              styles.topics,
+                              {
+                                backgroundColor: theme
+                                  ? lightBg.tertiary
+                                  : darkBg.secondary,
+                              },
+                            ]}
+                            // disabled={status ? false : true} //disable touchable opactity if status is false
+                            key={items}
+                          >
+                            <View>
+                              {/* {console.log("Items: " + items)} */}
+                              {/* {console.log("Topic: " + value.topic[items].status)} */}
+                              <Text
+                                style={[
+                                  styles.lesson,
+                                  {
+                                    color: theme ? text.dark : text.light,
+                                  },
+                                ]}
+                              >
+                                Lesson: {id}
+                              </Text>
+                              {introduction && (
+                                <Text
+                                  style={[
+                                    styles.name,
+                                    { color: theme ? text.dark : text.light },
+                                  ]}
+                                >
+                                  {introduction}
+                                </Text>
+                              )}
                               <Text
                                 style={[
                                   styles.name,
                                   { color: theme ? text.dark : text.light },
                                 ]}
                               >
-                                {introduction}
+                                {lesson_name}
                               </Text>
-                            )}
-                            <Text
-                              style={[
-                                styles.name,
-                                { color: theme ? text.dark : text.light },
-                              ]}
-                            >
-                              {lesson_name}
-                            </Text>
-                            <View style={styles.iconContainer}>
-                              {status === "done" && <Check />}
-                              {status === "unlock" && (
-                                <LockLight bg={text.primary} />
-                              )}
-                              {status === "lock" && (
-                                <LockDark bg={text.secondary} />
-                              )}
+                              <View style={styles.iconContainer}>
+                                {status === "done" && <Check />}
+                                {status === "unlock" && (
+                                  <LockLight bg={text.primary} />
+                                )}
+                                {status === "lock" && (
+                                  <LockDark bg={text.secondary} />
+                                )}
+                              </View>
                             </View>
-                          </View>
-                        </TouchableOpacity>
-                      )
+                          </TouchableOpacity>
+                        );
+                      }
                     )}
                   </>
                 )}

@@ -13,6 +13,8 @@ import { useTheme } from "@rneui/themed";
 import { Home } from "../Data";
 import Topic from "./Topic";
 import Lesson from "./Lesson";
+import { ListsItems } from "../components/Lists.component";
+import { LessonContent } from "./LessonContent";
 
 const Topics = createNativeStackNavigator();
 
@@ -22,6 +24,7 @@ const LearnScreen = () => {
       <Topics.Navigator>
         <Topics.Screen name="Topic" component={Topic} />
         <Topics.Screen name="Lesson" component={Lesson} />
+        <Topics.Screen name="List" component={ListsItems} />
       </Topics.Navigator>
     </>
   );

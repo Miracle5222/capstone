@@ -27,7 +27,7 @@ const LoginScreen = ({ navigation }) => {
 
   const login = () => {
     fetch(
-      "https://52e1-2001-4455-16d-b00-e17f-abbe-d2fb-7acf.ap.ngrok.io/capstone/controls/test.php",
+      "https://38cf-2001-4455-16d-b00-a485-b8c7-e425-9a50.ap.ngrok.io/capstone/controls/test.php",
       {
         method: "post",
         header: {
@@ -43,8 +43,9 @@ const LoginScreen = ({ navigation }) => {
     )
       .then((response) => response.text())
       .then((responseJson) => {
-        let parse = JSON.parse(responseJson);
-        console.log(parse);
+        console.log(responseJson);
+        // let parse = JSON.parse(responseJson);
+
         // parse.map((val) => {
         //   console.log(
         //     "Title:" +

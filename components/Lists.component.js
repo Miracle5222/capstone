@@ -43,18 +43,19 @@ import { Exit } from "../src/icons/Icons";
 import YoutubeVideo from "./Youtube.component";
 //data Reducer
 import { contentStatus, contentIdHandler } from "../redux/feature/dataReducer";
+import AppLoading from "expo-app-loading";
 const { width, height } = Dimensions.get("screen");
 
 const WIDTH = width;
 const HIEGHT = height;
 
-export const ListsItems = ({ navigation }, props) => {
+export const ListsItems = ({ navigation, route }, props) => {
   const { data } = useSelector((state) => state.module);
-  const { content } = useSelector((state) => state.content);
-  const { contentId } = useSelector((state) => state.module);
+  const { contentId} = useSelector((state) => state.module);
   const { darkBg, lightBg, text, theme, buttons } = useSelector(
     (state) => state.color
   );
+
   const ref = useRef(null);
   const [index, setIndex] = useState(0);
   const [visible, setVisibility] = useState(false);
@@ -65,7 +66,7 @@ export const ListsItems = ({ navigation }, props) => {
   useLayoutEffect(() => {
     navigation.setOptions({
       headerShown: true,
-      title: `Lesson: ${contentId}`,
+      title: `Lesson: ${route.params.id}`,
       headerStyle: {
         backgroundColor: theme ? lightBg.primary : darkBg.primary,
       },
@@ -83,36 +84,6 @@ export const ListsItems = ({ navigation }, props) => {
       opacity: withSpring(opacity.value),
     };
   });
-  useEffect(() => {
-    dispatch(indexInitialState());
-  }, [content]);
-
-  //   storeData();
-  // }, []);
-
-  // language: "Java",
-  //   modules: [
-  //     {
-  //       key: "1",
-  //       title: "Introduction",
-  //       status: true,
-  //       topic: [
-  //         {
-  //           id: "1.1",
-  //           status: true,
-  //           lesson_name: "A Quick First Look at Computer Programming",
-  //           content: [
-  // data.map((val) => {
-  //   val.modules.map((value) => {
-  //     value.topic.map((vals) => {
-  //       console.log(vals.status);
-  //     });
-  //   });
-  // });
-  // useEffect(() => {
-  //   let inde = setIndex(0);
-
-  // }, []);
 
   useEffect(() => {
     ref.current?.scrollToIndex({
@@ -154,7 +125,7 @@ export const ListsItems = ({ navigation }, props) => {
       <FlatList
         ref={ref}
         initialScrollIndex={index}
-        data={content}
+        data={route.params.content}
         keyExtractor={(_, index) => index.toString()}
         horizontal
         // showsHorizontalScrollIndicator={false}
@@ -285,7 +256,7 @@ export const ListsItems = ({ navigation }, props) => {
                 )}
                 <Button
                   event={() => {
-                    if (index === content.length - 1) {
+                    if (index === route.params.content.length - 1) {
                       navigation.goBack();
                       dispatch(contentStatus());
                       setIndex(0);

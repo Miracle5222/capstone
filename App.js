@@ -50,18 +50,18 @@ const Navigator = () => {
 };
 
 const App = () => {
-  // useEffect(() => {
-  //   const storeData = async () => {
-  //     try {
-  //       const jsonValue = JSON.stringify(data);
-  //       await AsyncStorage.setItem("data", jsonValue);
-  //     } catch (e) {
-  //       console.log(e);
-  //     }
-  //   };
+  useEffect(() => {
+    const storeData = async () => {
+      try {
+        const jsonValue = JSON.stringify(data);
+        await AsyncStorage.setItem("data", jsonValue);
+      } catch (e) {
+        console.log(e);
+      }
+    };
 
-  //   storeData();
-  // });
+    storeData();
+  });
   return (
     <>
       <StatusBar style="dark" />
