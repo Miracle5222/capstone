@@ -20,7 +20,7 @@ export const Header = styled.Text`
 export const Paragraph = styled.Text`
   font-size: ${({ size }) => size + "px"};
   color: ${({ color }) => color};
-  font-weight: 500;
+  font-weight: 400;
   line-height: 20px;
 `;
 export const Spacer = styled.View`

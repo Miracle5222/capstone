@@ -38,9 +38,9 @@ const RegisterScreen = ({ navigation }) => {
     });
   }, [navigation]);
 
-  studentRegister = () => {
+  const Register = () => {
     fetch(
-      "https://6fc3-2001-4455-15b-400-a4f6-d213-81ae-3f67.ap.ngrok.io/capstone/controls/register.php",
+      "https://52e1-2001-4455-16d-b00-e17f-abbe-d2fb-7acf.ap.ngrok.io/capstone/controls/register.php",
       {
         method: "post",
         header: {
@@ -56,8 +56,9 @@ const RegisterScreen = ({ navigation }) => {
     )
       .then((response) => response.text())
       .then((responseJson) => {
+        console.log(responseJson);
         alert(responseJson);
-        navigation.replace("LoginScreen");
+        // navigation.replace("LoginScreen");
       })
       .catch((error) => {
         console.error(error);
@@ -147,7 +148,7 @@ const RegisterScreen = ({ navigation }) => {
               },
             ]}
             // onPress={() => navigation.replace("LoginScreen")}
-            onPress={studentRegister}
+            onPress={Register}
           >
             <Text
               style={[

@@ -16,9 +16,7 @@ import Lesson from "./Lesson";
 
 const Topics = createNativeStackNavigator();
 
-const LearnScreen = ({ navigation }) => {
-  const { theme } = useTheme();
-
+const LearnScreen = () => {
   return (
     <>
       <Topics.Navigator>

@@ -7,12 +7,12 @@ import {
   TouchableWithoutFeedback,
   Dimensions,
 } from "react-native";
-import React from "react";
+import React, { useEffect } from "react";
 import { useTheme } from "@rneui/themed";
 import { useLayoutEffect, useRef, useState } from "react";
 import { Container, Header, Paragraph } from "../src/styled/Container.style";
 import { Check, LockDark, LockLight } from "../src/icons/Icons";
-
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useSelector, useDispatch } from "react-redux";
 import { scrollHandler } from "../redux/feature/scrollReducer";
 
@@ -24,6 +24,8 @@ import {
   withTiming,
 } from "react-native-reanimated";
 import { indexInitialState } from "../redux/feature/contentReducer";
+import { dataHandler } from "../redux/feature/dataReducer";
+
 const { width, height } = Dimensions.get("screen");
 
 const WIDTH = width;
@@ -62,6 +64,18 @@ const Lesson = ({ navigation }) => {
     });
   }, [navigation]);
 
+  useEffect(() => {
+    const getData = async () => {
+      try {
+        const jsonValue = await AsyncStorage.getItem("data");
+        const result = jsonValue != null ? JSON.parse(jsonValue) : null;
+        dispatch(dataHandler(result));
+      } catch (e) {
+        console.log(e);
+      }
+    };
+    getData();
+  }, []);
   return (
     <ScrollView
       style={[
@@ -162,7 +176,6 @@ const Lesson = ({ navigation }) => {
                       ) => (
                         <TouchableOpacity
                           onPress={() => {
-                            dispatch(indexInitialState());
                             navigation.navigate("ContentScreen", {
                               status: status,
                               id: id,

@@ -20,7 +20,7 @@ const ProfileScreen = ({ navigation }) => {
       headerShadowVisible: false,
       headerTintColor: theme ? text.dark : text.light, //color of title
     });
-  }, [navigation]);
+  }, [navigation, theme]);
   return (
     <Container
       style={[

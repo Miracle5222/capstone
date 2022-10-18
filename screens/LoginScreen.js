@@ -27,7 +27,7 @@ const LoginScreen = ({ navigation }) => {
 
   const login = () => {
     fetch(
-      "https://6fc3-2001-4455-15b-400-a4f6-d213-81ae-3f67.ap.ngrok.io/capstone/controls/login.php",
+      "https://52e1-2001-4455-16d-b00-e17f-abbe-d2fb-7acf.ap.ngrok.io/capstone/controls/test.php",
       {
         method: "post",
         header: {
@@ -42,14 +42,26 @@ const LoginScreen = ({ navigation }) => {
       }
     )
       .then((response) => response.text())
-      .then(async (responseJson) => {
-        console.log(responseJson);
+      .then((responseJson) => {
         let parse = JSON.parse(responseJson);
-        let { username, email } = parse.data;
-        dispatch(usernameLogin(username));
-        dispatch(emailLogin(email));
+        console.log(parse);
+        // parse.map((val) => {
+        //   console.log(
+        //     "Title:" +
+        //       val.title +
+        //       " Status: " +
+        //       val.status +
+        //       " Module_ID: " +
+        //       val.module_id +
+        //       " Programming_ID: " +
+        //       val.programming_id
+        //   );
+        // });
+        // let { username, email } = parse.data;
+        // dispatch(usernameLogin(username));
+        // dispatch(emailLogin(email));
 
-        navigation.replace("HomeScreen");
+        // navigation.replace("HomeScreen");
       })
       .catch((error) => {
         console.error(error);

@@ -58,12 +58,12 @@ const dataSlice = createSlice({
   },
 });
 
-export const {
-  scrollHandler,
-  progressBar,
-  contentStatus,
-  contentIdHandler,
-  dataHandler,
-} = dataSlice.actions;
+  export const {
+    scrollHandler,
+    progressBar,
+    contentStatus,
+    contentIdHandler,
+    dataHandler,
+  } = dataSlice.actions;
 
-export default dataSlice.reducer;
+  export default dataSlice.reducer;

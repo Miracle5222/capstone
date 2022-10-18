@@ -34,7 +34,7 @@ const initialState = {
     small: 18,
     xsmall: 14,
   },
-  theme: true,
+  theme: false,
 };
 
 const colorSlice = createSlice({

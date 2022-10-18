@@ -50,13 +50,13 @@ const HIEGHT = height;
 
 export const ListsItems = ({ navigation }, props) => {
   const { data } = useSelector((state) => state.module);
-  const { content, index } = useSelector((state) => state.content);
+  const { content } = useSelector((state) => state.content);
   const { contentId } = useSelector((state) => state.module);
   const { darkBg, lightBg, text, theme, buttons } = useSelector(
     (state) => state.color
   );
   const ref = useRef(null);
-  // const [index, setIndex] = useState(0);
+  const [index, setIndex] = useState(0);
   const [visible, setVisibility] = useState(false);
   const [modalContent, setModalContent] = useState("");
   const opacity = useSharedValue(0);
@@ -76,13 +76,19 @@ export const ListsItems = ({ navigation }, props) => {
       headerShadowVisible: false,
       headerTintColor: theme ? text.dark : text.light, //color of title
     });
-  }, [navigation, contentId]);
+  }, [navigation]);
 
   const animatedStyles = useAnimatedStyle(() => {
     return {
       opacity: withSpring(opacity.value),
     };
   });
+  useEffect(() => {
+    dispatch(indexInitialState());
+  }, [content]);
+
+  //   storeData();
+  // }, []);
 
   // language: "Java",
   //   modules: [
@@ -151,7 +157,7 @@ export const ListsItems = ({ navigation }, props) => {
         data={content}
         keyExtractor={(_, index) => index.toString()}
         horizontal
-        showsHorizontalScrollIndicator={false}
+        // showsHorizontalScrollIndicator={false}
         renderItem={({ item }) => (
           <ScrollView style={styles.con}>
             <View style={styles.contentContainer}>
@@ -265,11 +271,11 @@ export const ListsItems = ({ navigation }, props) => {
                 ) : (
                   <Button
                     event={() => {
-                      // if (index === 0) {
-                      //   return;
-                      // }
-                      // setIndex(index - 1);
-                      dispatch(backHandler());
+                      if (index === 0) {
+                        return;
+                      }
+                      setIndex(index - 1);
+                      // dispatch(backHandler());
                     }}
                   >
                     <Paragraph color={text.light} size={16}>
@@ -282,11 +288,10 @@ export const ListsItems = ({ navigation }, props) => {
                     if (index === content.length - 1) {
                       navigation.goBack();
                       dispatch(contentStatus());
-
-                      dispatch(indexInitialState());
+                      setIndex(0);
                     }
-                    dispatch(nextHandler());
-                    // setIndex(index + 1);
+                    // dispatch(nextHandler());
+                    setIndex(index + 1);
                   }}
                 >
                   <Paragraph color={text.light} size={16}>

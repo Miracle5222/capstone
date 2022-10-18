@@ -24,13 +24,11 @@ const Navigator = () => {
   const { darkBg, lightBg, text, theme } = useSelector((state) => state.color);
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    dispatch(indexInitialState());
-  }, []);
   return (
     <>
       <NavigationContainer>
         <Stack.Navigator
+          // initialRouteName="HomeScreen"
           screenOptions={{
             headerShown: false,
             headerTintColor: theme ? text.dark : text.light,
