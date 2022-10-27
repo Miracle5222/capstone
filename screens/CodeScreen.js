@@ -7,20 +7,41 @@ import {
   TouchableOpacity,
 } from "react-native";
 import React, { useLayoutEffect, useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Container, Header, Paragraph } from "../src/styled/Container.style";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
-
+import { changeColor } from "../redux/feature/colorReducer";
+import { Moon, Sun } from "../src/icons/Icons";
+import { codeHandler } from "../redux/feature/codeReducer";
 const { width, height } = Dimensions.get("screen");
 
 const WIDTH = width;
 const HIEGHT = height;
+
 const CodeScreen = ({ navigation }) => {
-  const { darkBg, lightBg, text, theme } = useSelector((state) => state.color);
+  const dispatch = useDispatch();
+  const { darkBg, lightBg, text, theme, icon } = useSelector(
+    (state) => state.color
+  );
+  const { code } = useSelector((state) => state.code);
+
+  const Top = createMaterialTopTabNavigator();
 
   useLayoutEffect(() => {
     navigation.setOptions({
       headerShown: true,
+      headerRight: () => (
+        <TouchableOpacity
+          style={{ marginRight: 25 }}
+          onPress={() => dispatch(changeColor())}
+        >
+          {theme ? (
+            <Sun bg={theme ? icon.light : icon.dark} />
+          ) : (
+            <Moon bg={theme ? icon.light : icon.dark} />
+          )}
+        </TouchableOpacity>
+      ),
       title: "Code Play Ground",
       headerStyle: {
         backgroundColor: theme ? lightBg.primary : darkBg.primary,
@@ -34,7 +55,7 @@ const CodeScreen = ({ navigation }) => {
     });
   }, [navigation, theme]);
 
-  const Top = createMaterialTopTabNavigator();
+  useEffect(() => {}, []);
 
   const Problem = () => {
     return (
@@ -67,17 +88,19 @@ const CodeScreen = ({ navigation }) => {
   const ProblemCode = () => {
     const [index, setIndex] = useState([]);
     const [code, setCode] = useState("");
+    const [textValue, setTextValue] = useState("");
+    const dispatch = useDispatch();
 
-    // const numLineHandler = (e) => {
-    //   // console.log((e.nativeEvent.contentSize.height / 20).toFixed()); // prints number of lines
-
-    // };
+    const numLineHandler = (e) => {
+      console.log((e.nativeEvent.contentSize.height / 20).toFixed()); // prints number of lines
+      setIndex(index.concat((e.nativeEvent.contentSize.height / 20).toFixed()));
+    };
     const textChange = (e) => {
       setCode(e);
     };
     const sendCode = () => {
       fetch(
-        "https://52e1-2001-4455-16d-b00-e17f-abbe-d2fb-7acf.ap.ngrok.io/Test/code.php",
+        "https://c6ed-49-145-219-97.ap.ngrok.io/startbootstrap-sb-admin/dist/api/code.php",
         {
           method: "post",
           header: {
@@ -93,46 +116,87 @@ const CodeScreen = ({ navigation }) => {
         .then((responseJson) => {
           // console.log(typeof responseJson);
           let parse = JSON.parse(responseJson);
+          dispatch(codeHandler(parse.code));
           console.log(parse);
         })
         .catch((error) => {
           console.error(error);
+        })
+        .finally(() => {
+          navigation.navigate("Output");
         });
+    };
+
+    return (
+      <View
+        style={{ backgroundColor: theme ? lightBg.primary : darkBg.primary }}
+      >
+        <View style={codeStyle.box}>
+          <View style={codeStyle.sideBox}>
+            {index.map((val, index) => (
+              <Paragraph
+                key={index}
+                color={theme ? text.dark : text.light}
+                size={14}
+                style={codeStyle.sideNumber}
+              >
+                {index + 1}
+              </Paragraph>
+            ))}
+          </View>
+
+          <TextInput
+            onContentSizeChange={numLineHandler}
+            onChangeText={textChange}
+            value={code}
+            multiline={true}
+            style={codeStyle.textInput}
+            numberOfLines={12}
+          />
+          <TouchableOpacity onPress={sendCode}>
+            <Text style={{ color: "green" }}>Play</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
+    );
+  };
+  const Output = () => {
+    const [index, setIndex] = useState([]);
+
+    const [textValue, setTextValue] = useState("");
+    const dispatch = useDispatch();
+
+    const numLineHandler = (e) => {
+      console.log((e.nativeEvent.contentSize.height / 20).toFixed()); // prints number of lines
+      setIndex(index.concat((e.nativeEvent.contentSize.height / 20).toFixed()));
     };
     return (
       <View
         style={{ backgroundColor: theme ? lightBg.primary : darkBg.primary }}
       >
         <View style={codeStyle.box}>
-          <TouchableOpacity onPress={sendCode}>
-            <Text style={{ color: "green" }}>Play</Text>
-          </TouchableOpacity>
           <View style={codeStyle.sideBox}>
-            <Paragraph
-              color={theme ? text.dark : text.light}
-              size={14}
-              style={codeStyle.sideNumber}
-            ></Paragraph>
+            {index.map((val, index) => (
+              <Paragraph
+                key={index}
+                color={theme ? text.dark : text.light}
+                size={14}
+                style={codeStyle.sideNumber}
+              >
+                {index + 1}
+              </Paragraph>
+            ))}
           </View>
 
           <TextInput
-            // onContentSizeChange={numLineHandler}
-            onChangeText={textChange}
+            onContentSizeChange={numLineHandler}
             multiline={true}
             style={codeStyle.textInput}
             numberOfLines={12}
+            value={code}
           />
         </View>
       </View>
-    );
-  };
-  const Output = () => {
-    return (
-      <Container bg={theme ? lightBg.primary : darkBg.primary}>
-        <Header size={18} color={theme ? text.dark : text.light}>
-          <Text>Output View</Text>
-        </Header>
-      </Container>
     );
   };
 
@@ -176,6 +240,9 @@ const styles = StyleSheet.create({
     height: HIEGHT,
   },
   box: {
+    zIndex: 99,
+    position: "absolute",
+    overflow: "hidden",
     justifyContent: "center",
     alignItems: "center",
     borderRadius: 8,

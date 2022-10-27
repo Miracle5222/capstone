@@ -5,6 +5,8 @@ import dataReducer from "./feature/dataReducer";
 import contentReducer from "./feature/contentReducer";
 import registerReducer from "./feature/registerReducer";
 import loginReducer from "./feature/loginReducer";
+import quizReducer from "./feature/quizReducer";
+import codeReducer from "./feature/codeReducer";
 
 export const store = configureStore({
   reducer: {
@@ -14,6 +16,8 @@ export const store = configureStore({
     content: contentReducer,
     register: registerReducer,
     login: loginReducer,
+    quiz: quizReducer,
+    code: codeReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

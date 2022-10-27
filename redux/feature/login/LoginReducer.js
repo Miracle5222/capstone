@@ -2,7 +2,8 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 const initialState = {
   email: "",
-  password: "",
+  username: "",
+  errorMessage: "",
 };
 
 const counterSlice = createSlice({
@@ -16,12 +17,19 @@ const counterSlice = createSlice({
     //   state.value += action.payload;
     // },
 
-    loginHandler(state,action){
-      
-    }
+    emailHandler(state, action) {
+      state.email = action.payload;
+    },
+    usernameHandler(state, action) {
+      state.username = action.payload;
+    },
+    errorHandler(state, action) {
+      state.errorMessage = action.payload;
+    },
   },
 });
 
-export const { incremented, amountAdded } = counterSlice.actions;
+export const { emailHandler, usernameHandler, errorHandler } =
+  counterSlice.actions;
 
 export default counterSlice.reducer;

@@ -3,7 +3,7 @@ import { data } from "../../Data";
 
 const dataSlice = createSlice({
   name: "module",
-  initialState: { data, result: 0, contentId: "" },
+  initialState: { data, result: 0, contentId: "", theme: false },
   reducers: {
     scrollHandler(state, action) {
       state.offsetY = action.payload;
@@ -37,33 +37,62 @@ const dataSlice = createSlice({
     //             code: [],
     //             image: [],
     //           },
+    moduleStatusHandler(state, action) {
+      let moduleInit = 0;
 
-    contentStatus(state, action) {
-      let moduleLength = state.data[0].modules.length;
-
-      for (let i = 0; i < moduleLength; i++) {
-        // 6
-        state.data[0].modules[i].topic.filter((value) => {
-          if (value.id === state.contentId) {
-            value.status = "done";
-
-            // state.data[0].modules[i].topic[i + 1].status = "unlock";
-
-            // console.log(state.data[0].modules[i].topic[i].status);
-            // console.log(state.contentId);
+      let moduleLength = state.data[0].modules.length - 1;
+      console.log(moduleLength);
+      while (moduleInit < moduleLength) {
+        state.data[0].modules[moduleInit].topic.map((val, index) => {
+          if (val.id === action.payload) {
+            val.status = "done";
           }
+          // if (val.status === "done") {
+          //   state.data[0].modules[moduleInit].topic[index + 1].status =
+          //     "unlock";
+          // }
         });
+
+        moduleInit++;
       }
     },
+    // initDataHandler(state, action) {
+    //   let moduleInit = 0;
+    //   let moduleLength = state.data[0].modules.length;
+
+    //   while (moduleInit < moduleLength) {
+    //     // console.log(state.data[0].modules[init].status);
+
+    //     state.data[0].modules[moduleInit].topic.map((value, index) => {
+    //       if (state.data[0].modules[moduleInit].topic[index - 1] >= 1) {
+    //         if (
+    //           state.data[0].modules[moduleInit].topic[index - 1].status ===
+    //           "done"
+    //         ) {
+    //           value.status = "unlock";
+    //         }
+    //       }
+    //     });
+
+    //     moduleInit++;
+    //   }
+    // },
+    // lessonStatusHandler(state, action) {
+    //   let lessonLength = state.data[0].modules[2].topic.length;
+    //   // console.log(lessonLength);
+    // },
   },
 });
 
-  export const {
-    scrollHandler,
-    progressBar,
-    contentStatus,
-    contentIdHandler,
-    dataHandler,
-  } = dataSlice.actions;
+export const {
+  scrollHandler,
+  progressBar,
+  contentStatus,
+  contentIdHandler,
+  dataHandler,
+  moduleStatusHandler,
+  lessonStatusHandler,
+  initDataHandler,
+} = dataSlice.actions;
 
-  export default dataSlice.reducer;
+export default dataSlice.reducer;

@@ -14,11 +14,12 @@ import { Home } from "../Data";
 
 import { useSelector, useDispatch } from "react-redux";
 //icons
-import { Java } from "../src/icons/Icons";
+import { Java, Moon, Sun } from "../src/icons/Icons";
 import { usernameLogin } from "../redux/feature/loginReducer";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { dataHandler } from "../redux/feature/dataReducer";
-
+// import { changeColor } from "../redux/feature/ColorReducer";
+import { changeColor } from "../redux/feature/colorReducer";
 //fonts
 // import { useFonts } from "expo-font";
 // import AppLoading from "expo-app-loading";
@@ -30,15 +31,29 @@ const HIEGHT = height;
 
 const Topic = ({ navigation }) => {
   const dispatch = useDispatch();
-  const { darkBg, lightBg, text, theme } = useSelector((state) => state.color);
+  const { darkBg, lightBg, text, theme, icon } = useSelector(
+    (state) => state.color
+  );
   const { data } = useSelector((state) => state.module);
 
   const { email, password, username } = useSelector((state) => state.login);
 
   useLayoutEffect(() => {
     navigation.setOptions({
+      headerRight: () => (
+        <TouchableOpacity
+          style={{ marginRight: 9 }}
+          onPress={() => dispatch(changeColor())}
+        >
+          {theme ? (
+            <Sun bg={theme ? icon.light : icon.dark} />
+          ) : (
+            <Moon bg={theme ? icon.light : icon.dark} />
+          )}
+        </TouchableOpacity>
+      ),
       headerShown: true,
-      title: "Learn",
+      title: "Language",
       headerStyle: {
         backgroundColor: theme ? lightBg.primary : darkBg.primary,
       },
@@ -51,46 +66,6 @@ const Topic = ({ navigation }) => {
     });
   }, [navigation, theme]);
 
-  // useEffect(() => {
-  //   const getData = async () => {
-  //     try {
-  //       const jsonValue = await AsyncStorage.getItem("data");
-  //       const result = jsonValue != null ? JSON.parse(jsonValue) : null;
-  //       dispatch(dataHandler(result));
-  //     } catch (e) {
-  //       // error reading value
-  //       console.log(e);
-  //     }
-  //   };
-  //   getData();
-  // });
-  useEffect(() => {
-    const getLesson = async () => {
-      fetch(
-        "https://38cf-2001-4455-16d-b00-a485-b8c7-e425-9a50.ap.ngrok.io/startbootstrap-sb-admin/dist/api/lesson.php",
-        {
-          method: "post",
-          header: {
-            Accept: "application/json",
-            "Content-type": "application/json",
-          },
-          body: JSON.stringify({
-            module_id: 27,
-          }),
-        }
-      )
-        .then((response) => response.text())
-        .then((responseJson) => {
-          console.log(responseJson);
-          let parse = JSON.parse(responseJson);
-          // setLessons(parse.data);
-        })
-        .catch((error) => {
-          console.error(error);
-        });
-    };
-    getLesson();
-  }, []);
   return (
     <>
       <Container bg={theme ? lightBg.primary : darkBg.primary}>
@@ -158,5 +133,11 @@ const styles = StyleSheet.create({
 
     marginTop: -40,
     alignItems: "center",
+  },
+  box: {
+    justifyContent: "center",
+    alignItems: "center",
+    width: 24,
+    height: 24,
   },
 });

@@ -20,15 +20,12 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 const Stack = createNativeStackNavigator();
 
 const Navigator = () => {
-  const { index } = useSelector((state) => state.content);
   const { darkBg, lightBg, text, theme } = useSelector((state) => state.color);
-  const dispatch = useDispatch();
 
   return (
     <>
       <NavigationContainer>
         <Stack.Navigator
-          // initialRouteName="HomeScreen"
           screenOptions={{
             headerShown: false,
             headerTintColor: theme ? text.dark : text.light,
@@ -61,7 +58,7 @@ const App = () => {
     };
 
     storeData();
-  });
+  }, []);
   return (
     <>
       <StatusBar style="dark" />

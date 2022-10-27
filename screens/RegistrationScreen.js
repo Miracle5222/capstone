@@ -13,16 +13,22 @@ import { useDispatch, useSelector } from "react-redux";
 import { Container, Header, Paragraph } from "../src/styled/Container.style";
 import {
   usernameHandler,
-  passwordHandler,
   emailHandler,
+  errorEmailHandler,
+  errorUsernameHandler,
+  errorEmaildHandler,
+  registeredHandler,
+  passwordHandler,
 } from "../redux/feature/registerReducer";
 const RegisterScreen = ({ navigation }) => {
   const dispatch = useDispatch();
   const { darkBg, lightBg, text, theme, buttons, sizes } = useSelector(
     (state) => state.color
   );
-  const { username, email, password } = useSelector((state) => state.register);
-  const [count, setCount] = useState(0);
+  const { username, email, password, registered } = useSelector(
+    (state) => state.register
+  );
+
   useLayoutEffect(() => {
     navigation.setOptions({
       headerShown: true,
@@ -40,7 +46,7 @@ const RegisterScreen = ({ navigation }) => {
 
   const Register = () => {
     fetch(
-      "https://38cf-2001-4455-16d-b00-a485-b8c7-e425-9a50.ap.ngrok.io/capstone/controls/register.php",
+      "https://25c0-2001-4455-126-f200-d064-9ddd-d9fe-3e7c.ap.ngrok.io/startbootstrap-sb-admin/dist/api/register.php",
       {
         method: "post",
         header: {
@@ -57,12 +63,27 @@ const RegisterScreen = ({ navigation }) => {
       .then((response) => response.text())
       .then((responseJson) => {
         console.log(responseJson);
-        // alert(responseJson);
+        let parse = JSON.parse(responseJson);
+        console.log(parse);
+        if (parse[0].registered != null) {
+          dispatch(registeredHandler(parse[0].registered));
+        } else if (
+          !parse[1].username == undefined &&
+          !parse[0].email == undefined
+        ) {
+          dispatch(errorUsernameHandler(parse[1].username));
+
+          dispatch(errorEmailHandler(parse[0].email));
+        } else {
+          alert("Check Internet Connection");
+        }
+
         // navigation.replace("LoginScreen");
       })
       .catch((error) => {
         console.error(error);
       });
+
     Keyboard.dismiss();
   };
 

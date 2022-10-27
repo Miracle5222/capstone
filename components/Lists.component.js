@@ -30,8 +30,7 @@ import { useSelector, useDispatch } from "react-redux";
 import Button from "./Button.component";
 //code highlighter
 import { Highlighter } from "./CodeHighlighter.component";
-import { Inter_200ExtraLight } from "@expo-google-fonts/inter";
-import { ButonIndicator } from "./ButonIndicator.component";
+
 //reanimated Import
 import Animated, {
   useAnimatedStyle,
@@ -42,8 +41,14 @@ import Animated, {
 import { Exit } from "../src/icons/Icons";
 import YoutubeVideo from "./Youtube.component";
 //data Reducer
-import { contentStatus, contentIdHandler } from "../redux/feature/dataReducer";
+import {
+  contentStatus,
+  contentIdHandler,
+  lessonStatusHandler,
+  moduleStatusHandler,
+} from "../redux/feature/dataReducer";
 import AppLoading from "expo-app-loading";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 const { width, height } = Dimensions.get("screen");
 
 const WIDTH = width;
@@ -51,25 +56,44 @@ const HIEGHT = height;
 
 export const ListsItems = ({ navigation, route }, props) => {
   const { data } = useSelector((state) => state.module);
-  const { contentId} = useSelector((state) => state.module);
+  const { contentId } = useSelector((state) => state.module);
+  // const { index } = useSelector((state) => state.content);
   const { darkBg, lightBg, text, theme, buttons } = useSelector(
     (state) => state.color
   );
-
-  const ref = useRef(null);
+  const [isready, setReady] = useState(false);
   const [index, setIndex] = useState(0);
+  const ref = useRef(null);
   const [visible, setVisibility] = useState(false);
+  const [visible1, setVisibility1] = useState(false);
   const [modalContent, setModalContent] = useState("");
   const opacity = useSharedValue(0);
   const dispatch = useDispatch();
 
+  console.log(index);
+
   useLayoutEffect(() => {
     navigation.setOptions({
+      headerLeft: () => (
+        <TouchableOpacity
+          style={{ marginRight: 25 }}
+          onPress={() => {
+            dispatch(indexInitialState());
+            navigation.goBack();
+          }}
+        >
+          <Paragraph color={theme ? text.dark : text.light} size={16}>
+            Back
+          </Paragraph>
+        </TouchableOpacity>
+      ),
+
       headerShown: true,
       title: `Lesson: ${route.params.id}`,
       headerStyle: {
         backgroundColor: theme ? lightBg.primary : darkBg.primary,
       },
+
       headerTitleStyle: {
         fontWeight: "300",
         fontSize: 18,
@@ -78,6 +102,37 @@ export const ListsItems = ({ navigation, route }, props) => {
       headerTintColor: theme ? text.dark : text.light, //color of title
     });
   }, [navigation]);
+
+  useEffect(() => {
+    // console.log(route.params.name);
+
+    if (route.params.name === "Quiz") {
+      navigation.replace("Quiz", {
+        id: route.params.id,
+        name: route.params.name,
+      });
+    }
+  }, []);
+
+  useEffect(() => {
+    dispatch(indexInitialState());
+  }, []);
+  useEffect(() => {
+    dispatch(contentIdHandler(route.params.id));
+  }, []);
+
+  useEffect(() => {
+    const storeData = async () => {
+      try {
+        const jsonValue = JSON.stringify(data);
+        await AsyncStorage.setItem("data", jsonValue);
+      } catch (e) {
+        console.log(e);
+      }
+    };
+
+    storeData();
+  }, [data]);
 
   const animatedStyles = useAnimatedStyle(() => {
     return {
@@ -121,6 +176,20 @@ export const ListsItems = ({ navigation, route }, props) => {
           </Highlighter>
         </Animated.View>
       )}
+      {visible1 && (
+        <Animated.View style={[styles.modalContainer, animatedStyles]}>
+          <TouchableOpacity
+            onPress={() => {
+              setVisibility1(!visible1);
+              visible1 ? (opacity.value = 0) : (opacity.value = 1);
+            }}
+            style={styles.exit}
+          >
+            <Exit />
+          </TouchableOpacity>
+          <Text>Hello WOrld</Text>
+        </Animated.View>
+      )}
 
       <FlatList
         ref={ref}
@@ -128,7 +197,16 @@ export const ListsItems = ({ navigation, route }, props) => {
         data={route.params.content}
         keyExtractor={(_, index) => index.toString()}
         horizontal
-        // showsHorizontalScrollIndicator={false}
+        onScrollToIndexFailed={(info) => {
+          console.log(info);
+          const wait = new Promise((resolve) => setTimeout(resolve, 500));
+          wait.then(() => {
+            ref.current?.scrollToIndex({
+              index: info.index,
+              animated: true,
+            });
+          });
+        }}
         renderItem={({ item }) => (
           <ScrollView style={styles.con}>
             <View style={styles.contentContainer}>
@@ -144,7 +222,7 @@ export const ListsItems = ({ navigation, route }, props) => {
                   },
                 ]}
               >
-                <YoutubeVideo id={item.video} />
+                <YoutubeVideo id={item?.video} />
               </View>
 
               <Spacer />
@@ -152,7 +230,7 @@ export const ListsItems = ({ navigation, route }, props) => {
                 style={[
                   styles.boxContent,
                   {
-                    display: item.heading.length <= 0 ? "none" : "flex",
+                    display: item?.heading.length <= 0 ? "none" : "flex",
                     backgroundColor: theme
                       ? lightBg.fortiary
                       : darkBg.secondary,
@@ -160,7 +238,7 @@ export const ListsItems = ({ navigation, route }, props) => {
                 ]}
               >
                 <Paragraph color={theme ? text.dark : text.light} size={14}>
-                  {item.heading.trim()}
+                  {item?.heading.trim()}
                 </Paragraph>
               </View>
 
@@ -170,7 +248,7 @@ export const ListsItems = ({ navigation, route }, props) => {
                   <Image
                     key={index}
                     style={{
-                      display: item.image.length <= 0 ? "none" : "flex",
+                      display: item?.image.length <= 0 ? "none" : "flex",
                       width: contentId === "2.1" ? "90%" : "100%",
                       height:
                         contentId[0] === "2"
@@ -193,7 +271,7 @@ export const ListsItems = ({ navigation, route }, props) => {
                 return (
                   <TouchableOpacity
                     onPress={() => {
-                      setModalContent(val.textCode);
+                      setModalContent(val?.textCode);
                       setVisibility(!visible);
                       visible ? (opacity.value = 0) : (opacity.value = 1);
                     }}
@@ -209,8 +287,8 @@ export const ListsItems = ({ navigation, route }, props) => {
                     ]}
                   >
                     <Highlighter
-                      language={val.language}
-                      height={val.textCode.trim().length < 100 ? "auto" : 180}
+                      language={val?.language}
+                      height={val?.textCode.trim().length < 100 ? "auto" : 180}
                     >
                       {val.textCode.trim()}
                     </Highlighter>
@@ -230,7 +308,7 @@ export const ListsItems = ({ navigation, route }, props) => {
                 ]}
               >
                 <Paragraph color={theme ? text.dark : text.light} size={14}>
-                  {item.paragraph.trim()}
+                  {item?.paragraph.trim()}
                 </Paragraph>
               </View>
 
@@ -254,13 +332,15 @@ export const ListsItems = ({ navigation, route }, props) => {
                     </Paragraph>
                   </Button>
                 )}
+
                 <Button
                   event={() => {
                     if (index === route.params.content.length - 1) {
+                      dispatch(moduleStatusHandler(route.params.id));
+                      dispatch(indexInitialState());
                       navigation.goBack();
-                      dispatch(contentStatus());
-                      setIndex(0);
                     }
+
                     // dispatch(nextHandler());
                     setIndex(index + 1);
                   }}

@@ -14,7 +14,7 @@ const initialState = {
 
   icon: {
     dark: "#FFFFFF",
-    light: "#0091B5",
+    light: "#FFB800",
   },
   text: {
     light: "#ffffff",
@@ -48,7 +48,7 @@ const colorSlice = createSlice({
     //   state.value += action.payload;
     // },
     changeColor(state) {
-      state;
+      state.theme = !state.theme;
     },
   },
 });

@@ -1,4 +1,11 @@
-import { StyleSheet, Text, View, Image, StatusBar } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  StatusBar,
+  TouchableOpacity,
+} from "react-native";
 
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
@@ -7,6 +14,7 @@ import {
   SettingsIcons,
   CodeIcons,
   ProfileIcons,
+  Home,
 } from "../src/icons/Icons";
 
 import { useTheme } from "@rneui/themed";
@@ -40,6 +48,7 @@ const HomeScreen = ({ navigation }) => {
       <Tab.Navigator
         screenOptions={{
           headerShown: false,
+
           tabBarActiveBackgroundColor: theme
             ? lightBg.primary
             : darkBg.secondary,
@@ -65,9 +74,9 @@ const HomeScreen = ({ navigation }) => {
         <Tab.Screen
           name="Learn"
           options={{
-            tabBarLabel: "Learn",
+            tabBarLabel: "Home",
             tabBarIcon: () => (
-              <LearnIcons bg={theme ? text.secondary : text.primary} />
+              <Home bg={theme ? text.secondary : text.primary} />
             ),
           }}
           component={LearnScreen}

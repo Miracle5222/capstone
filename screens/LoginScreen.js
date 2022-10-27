@@ -27,7 +27,7 @@ const LoginScreen = ({ navigation }) => {
 
   const login = () => {
     fetch(
-      "https://38cf-2001-4455-16d-b00-a485-b8c7-e425-9a50.ap.ngrok.io/capstone/controls/test.php",
+      "https://c6ed-49-145-219-97.ap.ngrok.io/startbootstrap-sb-admin/dist/api/login.php",
       {
         method: "post",
         header: {
@@ -43,26 +43,16 @@ const LoginScreen = ({ navigation }) => {
     )
       .then((response) => response.text())
       .then((responseJson) => {
-        console.log(responseJson);
-        // let parse = JSON.parse(responseJson);
-
-        // parse.map((val) => {
-        //   console.log(
-        //     "Title:" +
-        //       val.title +
-        //       " Status: " +
-        //       val.status +
-        //       " Module_ID: " +
-        //       val.module_id +
-        //       " Programming_ID: " +
-        //       val.programming_id
-        //   );
-        // });
-        // let { username, email } = parse.data;
-        // dispatch(usernameLogin(username));
-        // dispatch(emailLogin(email));
-
-        // navigation.replace("HomeScreen");
+        // console.log(responseJson);
+        let parse = JSON.parse(responseJson);
+        console.log(parse.length);
+        if (parse.length > 0) {
+          dispatch(emailLogin(parse[0].email));
+          dispatch(usernameLogin(parse[0].username));
+          navigation.replace("HomeScreen");
+        } else {
+          alert("Make field is not empty");
+        }
       })
       .catch((error) => {
         console.error(error);
@@ -139,8 +129,8 @@ const LoginScreen = ({ navigation }) => {
                 backgroundColor: theme ? buttons.dark : buttons.light,
               },
             ]}
-            // onPress={login}
-            onPress={() => navigation.navigate("HomeScreen")}
+            onPress={login}
+            // onPress={() => navigation.navigate("HomeScreen")}
           >
             <Paragraph color={text.light} size={sizes.small}>
               Sign-in

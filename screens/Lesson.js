@@ -24,7 +24,13 @@ import {
   withTiming,
 } from "react-native-reanimated";
 import { indexInitialState } from "../redux/feature/contentReducer";
-import { dataHandler } from "../redux/feature/dataReducer";
+import {
+  dataHandler,
+  initDataHandler,
+  lessonStatusHandler,
+  moduleStatusHandler,
+  statusHandler,
+} from "../redux/feature/dataReducer";
 
 const { width, height } = Dimensions.get("screen");
 
@@ -51,7 +57,7 @@ const Lesson = ({ navigation }) => {
   useLayoutEffect(() => {
     navigation.setOptions({
       headerShown: true,
-      title: "Topic",
+      title: "Modules",
       headerStyle: {
         backgroundColor: theme ? lightBg.primary : darkBg.primary,
       },
@@ -62,7 +68,26 @@ const Lesson = ({ navigation }) => {
       headerShadowVisible: false,
       headerTintColor: theme ? text.dark : text.light, //color of title
     });
-  }, [navigation]);
+  }, [navigation, theme]);
+
+  // useEffect(() => {
+  //   dispatch(initDataHandler());
+  // }, []);
+  useEffect(() => {
+    dispatch(indexInitialState());
+  }, []);
+  useEffect(() => {
+    const storeData = async () => {
+      try {
+        const jsonValue = JSON.stringify(data);
+        await AsyncStorage.setItem("data", jsonValue);
+      } catch (e) {
+        console.log(e);
+      }
+    };
+
+    storeData();
+  }, []);
 
   useEffect(() => {
     const getData = async () => {
@@ -70,13 +95,13 @@ const Lesson = ({ navigation }) => {
         const jsonValue = await AsyncStorage.getItem("data");
         const result = jsonValue != null ? JSON.parse(jsonValue) : null;
         dispatch(dataHandler(result));
-        console.log(result);
       } catch (e) {
         console.log(e);
       }
     };
     getData();
   }, []);
+
   return (
     <ScrollView
       style={[
@@ -88,6 +113,8 @@ const Lesson = ({ navigation }) => {
       //   dispatch(scrollHandler(nativeEvent.contentOffset.y));
       // }}
     >
+      {/* <Text style={styles.label}>{offsetY}</Text> */}
+
       <Transitioning.View ref={ref} transition={transition} style={styles.con}>
         {
           //map data from redux
@@ -160,6 +187,7 @@ const Lesson = ({ navigation }) => {
                                 status: status,
                                 id: id,
                                 content: content,
+                                name: lesson_name,
                               }); //pass params to ContentScreen
                             }}
                             activeOpacity={0.6}

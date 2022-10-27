@@ -376,6 +376,21 @@ that is, ones (1s) and zeroes (0s), also called binary values.`,
               },
             ],
           },
+          {
+            id: "1.6",
+            status: "lock",
+            lesson_name: "Quiz",
+            content: [
+              {
+                heading: ``,
+
+                video: ``,
+                paragraph: ``,
+                code: [],
+                image: [],
+              },
+            ],
+          },
         ],
       },
       {

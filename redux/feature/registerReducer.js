@@ -6,6 +6,10 @@ const registerSlice = createSlice({
     username: "",
     password: "",
     email: "",
+
+    errorEmail: "",
+    errorUsername: "",
+    registered: "",
   },
 
   reducers: {
@@ -18,10 +22,25 @@ const registerSlice = createSlice({
     emailHandler(state, action) {
       state.email = action.payload;
     },
+    registeredHandler(state, action) {
+      state.registered = action.payload;
+    },
+    errorEmaildHandler(state, action) {
+      state.errorEmail = action.payload;
+    },
+    errorUsernameHandler(state, action) {
+      state.errorUsername = action.payload;
+    },
   },
 });
 
-export const { emailHandler, passwordHandler, usernameHandler } =
-  registerSlice.actions;
+export const {
+  emailHandler,
+  passwordHandler,
+  usernameHandler,
+  registeredHandler,
+  errorUsernameHandler,
+  errorEmaildHandler,
+} = registerSlice.actions;
 
 export default registerSlice.reducer;
