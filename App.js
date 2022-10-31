@@ -26,6 +26,7 @@ const Navigator = () => {
     <>
       <NavigationContainer>
         <Stack.Navigator
+          initialRouteName="HomeScreen"
           screenOptions={{
             headerShown: false,
             headerTintColor: theme ? text.dark : text.light,

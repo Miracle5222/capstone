@@ -27,7 +27,7 @@ const LoginScreen = ({ navigation }) => {
 
   const login = () => {
     fetch(
-      "https://c6ed-49-145-219-97.ap.ngrok.io/startbootstrap-sb-admin/dist/api/login.php",
+      "https://b8bc-2001-4455-16f-9b00-792e-9353-efe2-b940.ap.ngrok.io/startbootstrap-sb-admin/dist/api/login.php",
       {
         method: "post",
         header: {

@@ -15,7 +15,7 @@ import { Home } from "../Data";
 
 import { useSelector, useDispatch } from "react-redux";
 //icons
-import { Java, Moon, Sun } from "../src/icons/Icons";
+import { Celeb, Exit, Java, Moon, Sun } from "../src/icons/Icons";
 import { usernameLogin } from "../redux/feature/loginReducer";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { dataHandler } from "../redux/feature/dataReducer";
@@ -27,10 +27,14 @@ import { clearScore, scoreHandler } from "../redux/feature/quizReducer";
 // import { useFonts } from "expo-font";
 // import AppLoading from "expo-app-loading";
 
+{
+  /* <Celeb bg={theme ? text.secondary : text.primary} />; */
+}
+
 const { width, height } = Dimensions.get("screen");
 
 const WIDTH = width;
-const HIEGHT = height;
+const HEIGHT = height;
 
 const QuizScreen = ({ navigation, route }) => {
   const dispatch = useDispatch();
@@ -44,6 +48,7 @@ const QuizScreen = ({ navigation, route }) => {
   const [time, setTime] = useState();
   const [level, setLevel] = useState("");
   const [count, setCount] = useState(1);
+  const [visible, setVisible] = useState(false);
 
   // useEffect(() => {
   //   const interval = setInterval(() => {
@@ -150,6 +155,48 @@ const QuizScreen = ({ navigation, route }) => {
       ]}
       bg={theme ? lightBg.primary : darkBg.primary}
     >
+      <View style={[styles.nextPhase, { display: visible ? "flex" : "none" }]}>
+        <View style={{ position: "absolute", right: 10, zIndex: 100 }}>
+          <TouchableOpacity
+            onPress={() => {
+              setVisible(!visible);
+            }}
+          >
+            <Exit />
+          </TouchableOpacity>
+        </View>
+        <View
+          style={{
+            fontSize: 24,
+            alignItems: "center",
+          }}
+        >
+          <Text style={[{ color: "#FF7700", fontSize: 26, paddingTop: 40 }]}>
+            Test 1 Complete!
+          </Text>
+        </View>
+        <View
+          style={{
+            height: "100%",
+            justifyContent: "space-around",
+            alignItems: "flex-end",
+            flexDirection: "row",
+            marginTop: -100,
+          }}
+        >
+          <Celeb bg={"#FF7700"} />
+          <Button event={() => navigation.navigate("Code")}>
+            <Text
+              style={[
+                { color: theme ? text.dark : text.light },
+                styles.textItem,
+              ]}
+            >
+              Continue
+            </Text>
+          </Button>
+        </View>
+      </View>
       <View>
         <FlatList
           ref={ref}
@@ -229,26 +276,37 @@ const QuizScreen = ({ navigation, route }) => {
                   </Text>
                 </View>
                 <View style={styles.choicesContainer}>
-                  {item.choices.map((val, ind) => (
-                    <TouchableOpacity
-                      activeOpacity={0.8}
-                      key={ind}
-                      style={styles.choicesItem}
-                      onPress={() => {
-                        if (index === item.choices.length - 1) {
-                          navigation.goBack();
-                          dispatch(clearScore());
-                        }
-                        if (val.isCorrect) {
-                          dispatch(scoreHandler());
-                        }
-                        setCount(count + 1);
-                        setCurrIndex(index + 1);
-                      }}
-                    >
-                      <Text style={{ color: text.light }}>{val.answer}</Text>
-                    </TouchableOpacity>
-                  ))}
+                  {item.choices.map((val, ind) => {
+                    return (
+                      <TouchableOpacity
+                        activeOpacity={0.8}
+                        key={ind}
+                        style={styles.choicesItem}
+                        onPress={() => {
+                          if (index === item.choices.length - 1) {
+                            setVisible(!visible);
+                            // navigation.goBack();
+
+                            dispatch(clearScore());
+                          }
+                          if (index === item.choices.length - 2) {
+                            setVisible(!visible);
+                          }
+                          if (val.isCorrect) {
+                            dispatch(scoreHandler());
+                          }
+
+                          if (!index === item.choices.length) {
+                            setCount(count + 1);
+                            setCurrIndex(index);
+                          }
+                          setCurrIndex(index + 1);
+                        }}
+                      >
+                        <Text style={{ color: text.light }}>{val.answer}</Text>
+                      </TouchableOpacity>
+                    );
+                  })}
                 </View>
                 {/* <View style={styles.buttonContainer}>
               <Button event={() => setCurrIndex(index + 1)}>
@@ -272,11 +330,11 @@ const styles = StyleSheet.create({
   mainContainer: {
     backgroundColor: "#021F26",
     width: WIDTH - 40,
-    height: HIEGHT - 40,
+    height: HEIGHT - 40,
   },
   itemContainer: {
     width: WIDTH,
-    height: HIEGHT,
+    height: HEIGHT,
     flex: 1,
     alignItems: "center",
   },
@@ -296,7 +354,7 @@ const styles = StyleSheet.create({
   textItem: {
     textAlign: "center",
     fontSize: 18,
-    paddingVertical: 8,
+    paddingVertical: 2,
   },
   items: {
     flexGrow: 0.8,
@@ -323,5 +381,19 @@ const styles = StyleSheet.create({
     marginRight: 20,
     width: "80%",
     alignItems: "flex-end",
+  },
+
+  nextPhase: {
+    flex: 1,
+
+    zIndex: 99,
+    borderRadius: 12,
+    position: "absolute",
+    top: HEIGHT / 4,
+    left: WIDTH / 10,
+
+    width: 280,
+    height: 180,
+    backgroundColor: "#FFE8C5",
   },
 });

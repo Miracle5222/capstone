@@ -127,7 +127,7 @@ const Lesson = ({ navigation }) => {
                   ref.current.animateNextTransition();
                   setCurrentIndex(index === currentIndex ? null : index);
                 }}
-                // disabled={value.status ? false : true} //disable touchable opactity if status is false
+                disabled={value.status == "lock" ? true : false} //disable touchable opactity if status is false
                 activeOpacity={0.5}
                 key={index}
               >
@@ -195,11 +195,15 @@ const Lesson = ({ navigation }) => {
                               styles.topics,
                               {
                                 backgroundColor: theme
-                                  ? lightBg.tertiary
+                                  ? lightBg.secondary
                                   : darkBg.secondary,
                               },
                             ]}
-                            // disabled={status ? false : true} //disable touchable opactity if status is false
+                            // disabled={
+                            //   !status == "lock" || status == "done"
+                            //     ? false
+                            //     : true
+                            // } //disable touchable opactity if status is false
                             key={items}
                           >
                             <View>

@@ -3,7 +3,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 const codeSlice = createSlice({
   name: "code",
   initialState: {
-    code: "",
+    codeResult: "",
     problem: "",
   },
 

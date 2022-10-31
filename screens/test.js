@@ -21,13 +21,12 @@ const WIDTH = width;
 const HIEGHT = height;
 
 const CodeScreen = ({ navigation }) => {
-  const { codeResult } = useSelector((state) => state.code);
   const dispatch = useDispatch();
   const { darkBg, lightBg, text, theme, icon } = useSelector(
     (state) => state.color
   );
+  const { codeResult } = useSelector((state) => state.code);
 
-  console.log(codeResult);
   const Top = createMaterialTopTabNavigator();
 
   useLayoutEffect(() => {
@@ -74,14 +73,7 @@ const CodeScreen = ({ navigation }) => {
             >
               Problem:
             </Header>
-            <View
-              style={[
-                styles.box,
-                {
-                  backgroundColor: theme ? lightBg.secondary : darkBg.secondary,
-                },
-              ]}
-            >
+            <View style={styles.box}>
               <Paragraph
                 color={theme ? text.dark : text.light}
                 size={14}
@@ -99,7 +91,6 @@ const CodeScreen = ({ navigation }) => {
     const [index, setIndex] = useState([]);
     const [code, setCode] = useState("");
     const [textValue, setTextValue] = useState("");
-    const { codeResult } = useSelector((state) => state.code);
     const dispatch = useDispatch();
     const [visible, setVisible] = useState(false);
 
@@ -107,6 +98,7 @@ const CodeScreen = ({ navigation }) => {
       //Toggling the visibility state of the bottom sheet
       setVisible(!visible);
     };
+
     const numLineHandler = (e) => {
       console.log((e.nativeEvent.contentSize.height / 20).toFixed()); // prints number of lines
       setIndex(index.concat((e.nativeEvent.contentSize.height / 20).toFixed()));
@@ -132,8 +124,7 @@ const CodeScreen = ({ navigation }) => {
         .then((responseJson) => {
           // console.log(typeof responseJson);
           let parse = JSON.parse(responseJson);
-          // dispatch(codeHandler(parse.code));
-          setTextValue(parse.code);
+          dispatch(codeHandler(parse.code));
           console.log(parse);
         })
         .catch((error) => {
@@ -166,7 +157,6 @@ const CodeScreen = ({ navigation }) => {
           <TextInput
             onContentSizeChange={numLineHandler}
             onChangeText={textChange}
-            value={code}
             multiline={true}
             style={codeStyle.textInput}
             numberOfLines={12}
@@ -200,16 +190,18 @@ const CodeScreen = ({ navigation }) => {
               key={index}
               color={theme ? text.dark : text.light}
               size={18}
-              style={codeStyle.sideNumber1}
+              style={codeStyle.sideNumber}
             >
               Output
             </Paragraph>
-            <View style={{ position: "absolute", top: 10, left: 10 }}>
-              <Text
-                style={[{ color: "#FF7700", fontSize: 12, paddingTop: 40 }]}
+            <View>
+              <Paragraph
+                key={index}
+                color={theme ? text.dark : text.light}
+                size={18}
               >
-                {textValue}
-              </Text>
+                {codeResult}
+              </Paragraph>
             </View>
           </View>
         </BottomSheet>
@@ -218,7 +210,7 @@ const CodeScreen = ({ navigation }) => {
   };
   const Output = () => {
     const [index, setIndex] = useState([]);
-    const { codeResult } = useSelector((state) => state.code);
+
     const [textValue, setTextValue] = useState("");
     const dispatch = useDispatch();
 
@@ -249,7 +241,7 @@ const CodeScreen = ({ navigation }) => {
             multiline={true}
             style={codeStyle.textInput}
             numberOfLines={12}
-            value={codeResult}
+            value={code}
           />
         </View>
       </View>
@@ -280,11 +272,11 @@ const CodeScreen = ({ navigation }) => {
         component={ProblemCode}
         options={{ tabBarLabel: "Code" }}
       />
-      {/* <Top.Screen
+      <Top.Screen
         name="Output"
         component={Output}
         options={{ tabBarLabel: "Output" }}
-      /> */}
+      />
     </Top.Navigator>
   );
 };
@@ -305,7 +297,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
     width: "90%",
     padding: 20,
-    // backgroundColor: "#171616",
+    backgroundColor: "#171616",
   },
   heading: {
     alignSelf: "flex-start",
@@ -335,9 +327,6 @@ const codeStyle = StyleSheet.create({
     textAlignVertical: "top",
   },
   sideNumber: {
-    textAlign: "center",
-  },
-  sideNumber1: {
     textAlign: "center",
     paddingVertical: 10,
   },
