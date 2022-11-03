@@ -51,6 +51,7 @@ const Lesson = ({ navigation }) => {
   const { darkBg, lightBg, text, theme } = useSelector((state) => state.color);
   const { offsetY } = useSelector((state) => state.scroll);
   const [currentIndex, setCurrentIndex] = useState(null);
+
   const ref = useRef();
   const dispatch = useDispatch();
 
@@ -70,37 +71,20 @@ const Lesson = ({ navigation }) => {
     });
   }, [navigation, theme]);
 
+  // const getData = async () => {
+  //   try {
+  //     const jsonValue = await AsyncStorage.getItem("data");
+  //     const result = jsonValue != null ? JSON.parse(jsonValue) : null;
+  //     // setStorage(result);
+  //     dispatch(dataHandler(result));
+  //     // console.log(result[0].modules[0].topic);
+  //   } catch (e) {
+  //     console.log(e);
+  //   }
+  // };
   // useEffect(() => {
-  //   dispatch(initDataHandler());
+  //   getData();
   // }, []);
-  useEffect(() => {
-    dispatch(indexInitialState());
-  }, []);
-  useEffect(() => {
-    const storeData = async () => {
-      try {
-        const jsonValue = JSON.stringify(data);
-        await AsyncStorage.setItem("data", jsonValue);
-      } catch (e) {
-        console.log(e);
-      }
-    };
-
-    storeData();
-  }, []);
-
-  useEffect(() => {
-    const getData = async () => {
-      try {
-        const jsonValue = await AsyncStorage.getItem("data");
-        const result = jsonValue != null ? JSON.parse(jsonValue) : null;
-        dispatch(dataHandler(result));
-      } catch (e) {
-        console.log(e);
-      }
-    };
-    getData();
-  }, []);
 
   return (
     <ScrollView
@@ -109,7 +93,7 @@ const Lesson = ({ navigation }) => {
         { backgroundColor: theme ? lightBg.primary : darkBg.primary },
       ]}
       // onScroll={({ nativeEvent }) => {
-      //    get the offsetY value when scrolling  and dispatch to scrollhandler reducer
+      //   //  get the offsetY value when scrolling  and dispatch to scrollhandler reducer
       //   dispatch(scrollHandler(nativeEvent.contentOffset.y));
       // }}
     >
@@ -127,7 +111,7 @@ const Lesson = ({ navigation }) => {
                   ref.current.animateNextTransition();
                   setCurrentIndex(index === currentIndex ? null : index);
                 }}
-                disabled={value.status == "lock" ? true : false} //disable touchable opactity if status is false
+                // disabled={value.status == "lock" ? true : false} //disable touchable opactity if status is false
                 activeOpacity={0.5}
                 key={index}
               >

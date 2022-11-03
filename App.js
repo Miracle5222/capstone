@@ -21,11 +21,15 @@ const Stack = createNativeStackNavigator();
 
 const Navigator = () => {
   const { darkBg, lightBg, text, theme } = useSelector((state) => state.color);
+  const { email, username } = useSelector((state) => state.login);
 
   return (
     <>
       <NavigationContainer>
         <Stack.Navigator
+          // initialRouteName={
+          //   email != "" && username != "" ? "HomeScreen" : "LandingScreen"
+          // }
           initialRouteName="HomeScreen"
           screenOptions={{
             headerShown: false,
@@ -37,6 +41,7 @@ const Navigator = () => {
         >
           <Stack.Screen name="LandingScreen" component={LandingScreen} />
           <Stack.Screen name="LoginScreen" component={LoginScreen} />
+
           <Stack.Screen name="HomeScreen" component={HomeScreen} />
           <Stack.Screen name="Register" component={RegisterScreen} />
           <Stack.Screen name="ForgotPassword" component={ForgotPassword} />

@@ -46,7 +46,7 @@ const RegisterScreen = ({ navigation }) => {
 
   const Register = () => {
     fetch(
-      "https://25c0-2001-4455-126-f200-d064-9ddd-d9fe-3e7c.ap.ngrok.io/startbootstrap-sb-admin/dist/api/register.php",
+      "https://c172-2001-4455-16f-9b00-f883-5172-5281-8ca4.ap.ngrok.io/startbootstrap-sb-admin/dist/api/register.php",
       {
         method: "post",
         header: {

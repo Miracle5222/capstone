@@ -27,7 +27,7 @@ const LoginScreen = ({ navigation }) => {
 
   const login = () => {
     fetch(
-      "https://b8bc-2001-4455-16f-9b00-792e-9353-efe2-b940.ap.ngrok.io/startbootstrap-sb-admin/dist/api/login.php",
+      "https://c172-2001-4455-16f-9b00-f883-5172-5281-8ca4.ap.ngrok.io/startbootstrap-sb-admin/dist/api/login.php",
       {
         method: "post",
         header: {
@@ -45,7 +45,7 @@ const LoginScreen = ({ navigation }) => {
       .then((responseJson) => {
         // console.log(responseJson);
         let parse = JSON.parse(responseJson);
-        console.log(parse.length);
+
         if (parse.length > 0) {
           dispatch(emailLogin(parse[0].email));
           dispatch(usernameLogin(parse[0].username));

@@ -38,6 +38,7 @@ const Topic = ({ navigation }) => {
 
   const { email, password, username } = useSelector((state) => state.login);
 
+
   useLayoutEffect(() => {
     navigation.setOptions({
       headerRight: () => (

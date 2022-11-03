@@ -48,6 +48,7 @@ low level, where the levels are, of course, relative.
                 code: [],
                 image: [],
               },
+
               {
                 heading: `Two general types of programming languages:
 High-level language- code is very similar to English so that almost all computer
@@ -64,6 +65,7 @@ Disadvantages:
   a) generally slower than low-level languages
   b) less efficient in the use of computer resources than low-level languages
   (Prakash, 2017)
+
                 `,
 
                 video: "",

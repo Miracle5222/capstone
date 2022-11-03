@@ -40,8 +40,8 @@ const dataSlice = createSlice({
     moduleStatusHandler(state, action) {
       let moduleInit = 0;
 
-      let moduleLength = state.data[0].modules.length - 1;
-      console.log(moduleLength);
+      let moduleLength = state.data[0].modules.length;
+      // console.log(moduleLength);
       while (moduleInit < moduleLength) {
         state.data[0].modules[moduleInit].topic.map((val, index) => {
           if (val.id === action.payload) {

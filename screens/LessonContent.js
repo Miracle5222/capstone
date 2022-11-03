@@ -52,7 +52,6 @@ export const LessonContent = ({ navigation, route }) => {
 
   useEffect(() => {
     setModules(getData());
-    modules.data[0]
   }, []);
   return (
     <View

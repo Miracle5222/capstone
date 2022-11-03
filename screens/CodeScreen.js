@@ -116,7 +116,7 @@ const CodeScreen = ({ navigation }) => {
     };
     const sendCode = () => {
       fetch(
-        "https://b8bc-2001-4455-16f-9b00-792e-9353-efe2-b940.ap.ngrok.io/startbootstrap-sb-admin/dist/api/code.php",
+        "https://c172-2001-4455-16f-9b00-f883-5172-5281-8ca4.ap.ngrok.io/startbootstrap-sb-admin/dist/api/code.php",
         {
           method: "post",
           header: {

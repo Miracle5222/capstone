@@ -46,6 +46,7 @@ import {
   contentIdHandler,
   lessonStatusHandler,
   moduleStatusHandler,
+  dataHandler,
 } from "../redux/feature/dataReducer";
 import AppLoading from "expo-app-loading";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -70,7 +71,32 @@ export const ListsItems = ({ navigation, route }, props) => {
   const opacity = useSharedValue(0);
   const dispatch = useDispatch();
 
-  console.log(index);
+  const storeData = async () => {
+    try {
+      const jsonValue = JSON.stringify(data);
+      await AsyncStorage.setItem("data", jsonValue);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  // const getData = async () => {
+  //   try {
+  //     const jsonValue = await AsyncStorage.getItem("data");
+  //     const result = jsonValue != null ? JSON.parse(jsonValue) : null;
+  //     // setStorage(result);
+  //     dispatch(dataHandler(result));
+  //     // console.log(result[0].modules[0].topic);
+  //     result[0].modules[0].topic.map((value, index) => {
+  //       console.log(value.status);
+  //     });
+  //   } catch (e) {
+  //     console.log(e);
+  //   }
+  // };
+  // useEffect(() => {
+  //   getData();
+  // }, []);
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -105,7 +131,7 @@ export const ListsItems = ({ navigation, route }, props) => {
 
   useEffect(() => {
     // console.log(route.params.name);
-
+    dispatch(contentIdHandler(route.params.id));
     if (route.params.name === "Quiz") {
       navigation.replace("Quiz", {
         id: route.params.id,
@@ -114,25 +140,12 @@ export const ListsItems = ({ navigation, route }, props) => {
     }
   }, []);
 
-  useEffect(() => {
-    dispatch(indexInitialState());
-  }, []);
-  useEffect(() => {
-    dispatch(contentIdHandler(route.params.id));
-  }, []);
-
-  useEffect(() => {
-    const storeData = async () => {
-      try {
-        const jsonValue = JSON.stringify(data);
-        await AsyncStorage.setItem("data", jsonValue);
-      } catch (e) {
-        console.log(e);
-      }
-    };
-
-    storeData();
-  }, [data]);
+  // useEffect(() => {
+  //   dispatch(indexInitialState());
+  // }, []);
+  // useEffect(() => {
+  //   dispatch(contentIdHandler(route.params.id));
+  // }, []);
 
   const animatedStyles = useAnimatedStyle(() => {
     return {
@@ -195,10 +208,11 @@ export const ListsItems = ({ navigation, route }, props) => {
         ref={ref}
         initialScrollIndex={index}
         data={route.params.content}
+        scrollEnabled={false}
         keyExtractor={(_, index) => index.toString()}
         horizontal
         onScrollToIndexFailed={(info) => {
-          console.log(info);
+          // console.log(info);
           const wait = new Promise((resolve) => setTimeout(resolve, 500));
           wait.then(() => {
             ref.current?.scrollToIndex({
@@ -337,7 +351,8 @@ export const ListsItems = ({ navigation, route }, props) => {
                   event={() => {
                     if (index === route.params.content.length - 1) {
                       dispatch(moduleStatusHandler(route.params.id));
-                      dispatch(indexInitialState());
+                      // dispatch(indexInitialState());
+                      // storeData();
                       navigation.goBack();
                     }
 

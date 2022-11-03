@@ -45,19 +45,10 @@ const QuizScreen = ({ navigation, route }) => {
   const { score } = useSelector((state) => state.quiz);
   const ref = useRef(null);
   const [status, setStatus] = useState("");
-  const [time, setTime] = useState();
+  const [time, setTime] = useState(0);
   const [level, setLevel] = useState("");
   const [count, setCount] = useState(1);
   const [visible, setVisible] = useState(false);
-
-  // useEffect(() => {
-  //   const interval = setInterval(() => {
-  //     console.log(count);
-  //     setCount(count + 1);
-  //   }, 1000);
-
-  //   return () => clearInterval(interval);
-  // }, []);
 
   const [quiz, setQuiz] = useState([
     {
@@ -132,9 +123,26 @@ const QuizScreen = ({ navigation, route }) => {
     setCurrIndex(0);
     dispatch(clearScore());
 
-    console.log(route.params.id);
-    console.log(route.params.name);
+    // console.log(route.params.id);
+    // console.log(route.params.name);
   }, []);
+
+  useEffect(() => {
+    let quizz = quiz.map((val) => {
+      return val.time;
+    });
+
+    let interv = setInterval(() => {
+      // console.log(quizz[index]);
+
+      if (index === quiz.length - 1) {
+        navigation.goBack();
+      }
+      setCurrIndex(index + 1);
+    }, quizz[index] * 1000);
+
+    return () => clearInterval(interv);
+  }, [index]);
 
   useEffect(() => {
     ref.current?.scrollToIndex({
@@ -242,8 +250,7 @@ const QuizScreen = ({ navigation, route }) => {
                         styles.textItem,
                       ]}
                     >
-                      {}
-                      {item.time}
+                      {item.time + " sec"}
                     </Text>
                   </View>
                   <View style={styles.items}>
@@ -284,12 +291,12 @@ const QuizScreen = ({ navigation, route }) => {
                         style={styles.choicesItem}
                         onPress={() => {
                           if (index === item.choices.length - 1) {
-                            setVisible(!visible);
-                            // navigation.goBack();
-
+                            navigation.goBack();
+                            // setVisible(!visible);
                             dispatch(clearScore());
                           }
-                          if (index === item.choices.length - 2) {
+
+                          if (index === item.choices.length - 1) {
                             setVisible(!visible);
                           }
                           if (val.isCorrect) {
