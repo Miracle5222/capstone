@@ -51,6 +51,7 @@ const Lesson = ({ navigation }) => {
   const { darkBg, lightBg, text, theme } = useSelector((state) => state.color);
   const { offsetY } = useSelector((state) => state.scroll);
   const [currentIndex, setCurrentIndex] = useState(null);
+  const [modules, setModules] = useState([]);
 
   const ref = useRef();
   const dispatch = useDispatch();
@@ -85,28 +86,29 @@ const Lesson = ({ navigation }) => {
   // useEffect(() => {
   //   getData();
   // }, []);
+  useEffect(() => {
+    fetch(
+      "https://7313-2001-4455-161-0-a01c-6dc2-3b77-3316.ap.ngrok.io/startbootstrap-sb-admin/dist/control/test.php",
+      {
+        method: "post",
+        header: {
+          Accept: "application/json",
+          "Content-type": "application/json",
+        },
+      }
+    )
+      .then((response) => response.text())
+      .then((responseJson) => {
+        console.log(responseJson);
+        let parse = JSON.parse(responseJson);
 
-  // language: "Java",
-  // modules: [
-  //   {
-  //     key: "1",
-  //     title: "Introduction",
-  //     status: true,
-  //     topic: [
-  //       {
-  //         id: "1.1",
-  //         status: true,
-  //         lesson_name: "A Quick First Look at Computer Programming",
-  //         content: [
-  //           {
-  //             heading: "",
-  //             video: "Hdf5OmERt0g",
-  //             paragraph: "",
-  //             code: [],
-  //             image: [],
-  //           },
+        setModules(parse.data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }, []);
 
-  useEffect(() => {}, []);
   return (
     <ScrollView
       style={[
@@ -123,7 +125,7 @@ const Lesson = ({ navigation }) => {
       <Transitioning.View ref={ref} transition={transition} style={styles.con}>
         {
           //map data from redux
-          data[0].modules.map((value, index) => {
+          modules.map((value, index) => {
             //map data.modules from redux
             // console.log(index);
             return (
