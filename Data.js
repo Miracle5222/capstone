@@ -85,14 +85,14 @@ you will be learning in this course:`,
                 paragraph: "",
                 code: [
                   {
-                    language: `javascript`,
-                    textCode: `A1.(from the browser console) 
+                    language: `java`,
+                    textCode: `"A1.(from the browser console) 
 console.log('Hello world!'); 
 A2. (or, mixed in with the HTML) 
 <button id='button' href='#' onclick='alert("Hello World")'>Click Me</a> 
 A3. (or, away from HTML, inside its own <script> tags: 
 <script> const btn = document.getElementById('button'); 
-btn.addEventListener('click', function() { alert('Hello World!'); }); </script>
+btn.addEventListener('click', function() { alert('Hello World!'); }); </script>"
                                   `,
                   },
                 ],
@@ -352,7 +352,7 @@ https://www.oracle.com/java/technologies/mobile-devices-downloads.html. Or, you
 can use a favorite alternative of your co-majors in the higher years- Learn Java:
 Programming and Tutorials. You can download it from the Play Store into your
 smartphone.
-                )`,
+                `,
                 code: [],
                 image: [],
               },

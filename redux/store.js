@@ -1,5 +1,5 @@
 import { configureStore } from "@reduxjs/toolkit";
-import colorReducer from "./feature/colorReducer";
+import colorReducer from "./feature/ColorReducer";
 import scrollReducer from "./feature/scrollReducer";
 import dataReducer from "./feature/dataReducer";
 import contentReducer from "./feature/contentReducer";

@@ -10,7 +10,7 @@ import React, { useLayoutEffect, useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Container, Header, Paragraph } from "../src/styled/Container.style";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
-import { changeColor } from "../redux/feature/colorReducer";
+import { changeColor } from "../redux/feature/ColorReducer";
 import { Moon, Play, Sun } from "../src/icons/Icons";
 import { codeHandler } from "../redux/feature/codeReducer";
 import { BottomSheet } from "react-native-btr";

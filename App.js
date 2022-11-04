@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { View, Text, StyleSheet, StatusBar } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
@@ -14,7 +14,7 @@ import { Provider } from "react-redux";
 import { store } from "./redux/store";
 import { useSelector, useDispatch } from "react-redux";
 import ContentScreen from "./screens/ContentScreen";
-import { data } from "./Data";
+
 import { indexInitialState } from "./redux/feature/contentReducer";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 const Stack = createNativeStackNavigator();
@@ -53,18 +53,7 @@ const Navigator = () => {
 };
 
 const App = () => {
-  useEffect(() => {
-    const storeData = async () => {
-      try {
-        const jsonValue = JSON.stringify(data);
-        await AsyncStorage.setItem("data", jsonValue);
-      } catch (e) {
-        console.log(e);
-      }
-    };
-
-    storeData();
-  }, []);
+  
   return (
     <>
       <StatusBar style="dark" />

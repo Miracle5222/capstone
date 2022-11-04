@@ -20,7 +20,7 @@ import { usernameLogin } from "../redux/feature/loginReducer";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { dataHandler, moduleStatusHandler } from "../redux/feature/dataReducer";
 // import { changeColor } from "../redux/feature/ColorReducer";
-import { changeColor } from "../redux/feature/colorReducer";
+import { changeColor } from "../redux/feature/ColorReducer";
 import Button from "../components/Button.component";
 import { clearScore, scoreHandler } from "../redux/feature/quizReducer";
 //fonts

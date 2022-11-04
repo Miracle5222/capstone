@@ -2,7 +2,7 @@ import { View, Text, TouchableOpacity } from "react-native";
 import React, { useLayoutEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Container, Header, Paragraph } from "../src/styled/Container.style";
-import { changeColor } from "../redux/feature/colorReducer";
+import { changeColor } from "../redux/feature/ColorReducer";
 import { Moon, Sun } from "../src/icons/Icons";
 const ProfileScreen = ({ navigation }) => {
   const { darkBg, lightBg, text, theme, icon } = useSelector(

@@ -19,11 +19,11 @@ import { usernameLogin } from "../redux/feature/loginReducer";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { dataHandler } from "../redux/feature/dataReducer";
 // import { changeColor } from "../redux/feature/ColorReducer";
-import { changeColor } from "../redux/feature/colorReducer";
+import { changeColor } from "../redux/feature/ColorReducer";
 //fonts
 // import { useFonts } from "expo-font";
 // import AppLoading from "expo-app-loading";
-
+import { subLessonHandler, codeHandler } from "../redux/feature/dataReducer";
 const { width, height } = Dimensions.get("screen");
 
 const WIDTH = width;
@@ -34,11 +34,39 @@ const Topic = ({ navigation }) => {
   const { darkBg, lightBg, text, theme, icon } = useSelector(
     (state) => state.color
   );
+
   const { data } = useSelector((state) => state.module);
 
   const { email, password, username } = useSelector((state) => state.login);
 
+  const [code, setCode] = useState([]);
+  const [sub_lesson, setSubLesson] = useState([]);
 
+  useEffect(() => {
+    fetch(
+      "https://fd5c-2001-4455-170-8100-64b7-cfcb-aad5-8ccc.ap.ngrok.io/startbootstrap-sb-admin/dist/control/sub_lesson.php",
+      {
+        method: "post",
+        header: {
+          Accept: "application/json",
+          "Content-type": "application/json",
+        },
+      }
+    )
+      .then((response) => response.text())
+      .then((responseJson) => {
+        // console.log(responseJson);
+        let parse = JSON.parse(responseJson);
+        // console.log(parse.data[0].sub_lesson);
+        // setSubLesson(parse.data[0].sub_lesson);
+        dispatch(codeHandler(parse.data[1].snippets));
+        dispatch(subLessonHandler(parse.data[0].sub_lesson));
+        // setCode(parse.data[1].snippets);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }, []);
   useLayoutEffect(() => {
     navigation.setOptions({
       headerRight: () => (

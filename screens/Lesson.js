@@ -29,6 +29,7 @@ import {
   initDataHandler,
   lessonStatusHandler,
   moduleStatusHandler,
+  sample,
   statusHandler,
 } from "../redux/feature/dataReducer";
 
@@ -49,10 +50,13 @@ const Lesson = ({ navigation }) => {
   const { data } = useSelector((state) => state.module);
 
   const { darkBg, lightBg, text, theme } = useSelector((state) => state.color);
+  const { subLesson, code } = useSelector((state) => state.module);
   const { offsetY } = useSelector((state) => state.scroll);
   const [currentIndex, setCurrentIndex] = useState(null);
   const [modules, setModules] = useState([]);
   const [lesson, setLesson] = useState([]);
+  const [content, setContent] = useState([]);
+  const [id, setId] = useState("");
 
   const ref = useRef();
   const dispatch = useDispatch();
@@ -73,23 +77,21 @@ const Lesson = ({ navigation }) => {
     });
   }, [navigation, theme]);
 
-  // const getData = async () => {
-  //   try {
-  //     const jsonValue = await AsyncStorage.getItem("data");
-  //     const result = jsonValue != null ? JSON.parse(jsonValue) : null;
-  //     // setStorage(result);
-  //     dispatch(dataHandler(result));
-  //     // console.log(result[0].modules[0].topic);
-  //   } catch (e) {
-  //     console.log(e);
-  //   }
-  // };
   // useEffect(() => {
-  //   getData();
+  //   const cont = subLesson
+  //     .filter((val) => {
+  //       return val.lesson_id === route.params.id;
+  //     })
+  //     .map((val) => {
+  //       return val;
+  //     });
+
+  //   setContent(cont);
   // }, []);
+
   useEffect(() => {
     fetch(
-      "https://7313-2001-4455-161-0-a01c-6dc2-3b77-3316.ap.ngrok.io/startbootstrap-sb-admin/dist/control/lesson.php",
+      "https://fd5c-2001-4455-170-8100-64b7-cfcb-aad5-8ccc.ap.ngrok.io/startbootstrap-sb-admin/dist/control/lesson.php",
       {
         method: "post",
         header: {
@@ -100,9 +102,9 @@ const Lesson = ({ navigation }) => {
     )
       .then((response) => response.text())
       .then((responseJson) => {
-        console.log(responseJson);
+        // console.log(responseJson);
         let parse = JSON.parse(responseJson);
-        console.log(parse.data[1].lesson);
+        // console.log(parse.data[1].lesson);
 
         setModules(parse.data[0].module);
         setLesson(parse.data[1].lesson);
@@ -204,11 +206,13 @@ const Lesson = ({ navigation }) => {
                           return (
                             <TouchableOpacity
                               onPress={() => {
+                                setId(lesson_id);
+                                // console.log(content);
                                 navigation.navigate("List", {
-                                  status: status,
+                                  // status: status,
                                   id: lesson_id,
-                                  content: content,
-                                  name: lesson_name,
+
+                                  // name: lesson_name,
                                 }); //pass params to ContentScreen
                               }}
                               activeOpacity={0.6}

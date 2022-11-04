@@ -56,13 +56,14 @@ const WIDTH = width;
 const HIEGHT = height;
 
 export const ListsItems = ({ navigation, route }, props) => {
+  const { subLesson, code } = useSelector((state) => state.module);
   const { data } = useSelector((state) => state.module);
   const { contentId } = useSelector((state) => state.module);
   // const { index } = useSelector((state) => state.content);
   const { darkBg, lightBg, text, theme, buttons } = useSelector(
     (state) => state.color
   );
-  const [isready, setReady] = useState(false);
+  const [isReady, setReady] = useState(false);
   const [index, setIndex] = useState(0);
   const ref = useRef(null);
   const [visible, setVisibility] = useState(false);
@@ -70,33 +71,7 @@ export const ListsItems = ({ navigation, route }, props) => {
   const [modalContent, setModalContent] = useState("");
   const opacity = useSharedValue(0);
   const dispatch = useDispatch();
-
-  const storeData = async () => {
-    try {
-      const jsonValue = JSON.stringify(data);
-      await AsyncStorage.setItem("data", jsonValue);
-    } catch (e) {
-      console.log(e);
-    }
-  };
-
-  // const getData = async () => {
-  //   try {
-  //     const jsonValue = await AsyncStorage.getItem("data");
-  //     const result = jsonValue != null ? JSON.parse(jsonValue) : null;
-  //     // setStorage(result);
-  //     dispatch(dataHandler(result));
-  //     // console.log(result[0].modules[0].topic);
-  //     result[0].modules[0].topic.map((value, index) => {
-  //       console.log(value.status);
-  //     });
-  //   } catch (e) {
-  //     console.log(e);
-  //   }
-  // };
-  // useEffect(() => {
-  //   getData();
-  // }, []);
+  const [content, setContent] = useState([]);
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -130,23 +105,45 @@ export const ListsItems = ({ navigation, route }, props) => {
   }, [navigation]);
 
   useEffect(() => {
-    // console.log(route.params.name);
-    dispatch(contentIdHandler(route.params.id));
-    if (route.params.name === "Quiz") {
-      navigation.replace("Quiz", {
-        id: route.params.id,
-        name: route.params.name,
-      });
-    }
+    // console.log(route.params.content);
+    // const cont = data[0].modules.map((val) => {
+    //   val.topic
+    //     .filter((values) => {
+    //       return values.id == route.params.id;
+    //     })
+    //     .map((value) => {
+    //       return value;
+    //     });
+    // });
+
+    data[0].modules.map((val) => {
+      val.topic
+        .map((values, index) => {
+          return values;
+        })
+        .filter((item) => {
+          return item.id == route.params.id;
+        })
+        .map((items) => {
+          // console.log(items);
+          setContent(items);
+        });
+    });
+
+    // console.log(cont);
   }, []);
-
+  console.log(content);
   // useEffect(() => {
-  //   dispatch(indexInitialState());
-  // }, []);
-  // useEffect(() => {
+  //   // console.log(route.params.name);
   //   dispatch(contentIdHandler(route.params.id));
+  //   if (route.params.name === "Quiz") {
+  //     navigation.replace("Quiz", {
+  //       id: route.params.id,
+  //       name: route.params.name,
+  //     });
+  //   }
   // }, []);
-
+  // console.log(content);
   const animatedStyles = useAnimatedStyle(() => {
     return {
       opacity: withSpring(opacity.value),
@@ -160,7 +157,6 @@ export const ListsItems = ({ navigation, route }, props) => {
       // viewPosition: 0,
     });
   }, [index]);
-
   return (
     <Container
       bg={theme ? lightBg.primary : darkBg.primary}
@@ -204,10 +200,10 @@ export const ListsItems = ({ navigation, route }, props) => {
         </Animated.View>
       )}
 
-      <FlatList
+      {/* <FlatList
         ref={ref}
         initialScrollIndex={index}
-        data={route.params.content}
+        data={content}
         scrollEnabled={false}
         keyExtractor={(_, index) => index.toString()}
         horizontal
@@ -238,7 +234,6 @@ export const ListsItems = ({ navigation, route }, props) => {
               >
                 <YoutubeVideo id={item?.video} />
               </View>
-
               <Spacer />
               <View
                 style={[
@@ -255,7 +250,6 @@ export const ListsItems = ({ navigation, route }, props) => {
                   {item?.heading.trim()}
                 </Paragraph>
               </View>
-
               <Spacer />
               {item.image.map((_, index) => {
                 return (
@@ -280,7 +274,6 @@ export const ListsItems = ({ navigation, route }, props) => {
                   />
                 );
               })}
-
               {item.code.map((val, index) => {
                 return (
                   <TouchableOpacity
@@ -325,9 +318,7 @@ export const ListsItems = ({ navigation, route }, props) => {
                   {item?.paragraph.trim()}
                 </Paragraph>
               </View>
-
-              {/* buttons */}
-
+              buttons
               <View style={styles.buttonContainer}>
                 {index === 0 ? (
                   <View></View>
@@ -369,7 +360,7 @@ export const ListsItems = ({ navigation, route }, props) => {
             <Spacer />
           </ScrollView>
         )}
-      />
+      /> */}
     </Container>
   );
 };

@@ -3,7 +3,14 @@ import { data } from "../../Data";
 
 const dataSlice = createSlice({
   name: "module",
-  initialState: { data, result: 0, contentId: "", theme: false },
+  initialState: {
+    data,
+    result: 0,
+    contentId: "",
+    theme: false,
+    subLesson: [],
+    code: [],
+  },
   reducers: {
     scrollHandler(state, action) {
       state.offsetY = action.payload;
@@ -17,6 +24,12 @@ const dataSlice = createSlice({
 
     dataHandler(state, action) {
       state.data = action.payload;
+    },
+    subLessonHandler(state, action) {
+      state.subLesson = action.payload;
+    },
+    codeHandler(state, action) {
+      state.code = action.payload;
     },
     // language: "Java",
     // modules: [
@@ -85,6 +98,8 @@ const dataSlice = createSlice({
 });
 
 export const {
+  subLessonHandler,
+  codeHandler,
   scrollHandler,
   progressBar,
   contentStatus,
