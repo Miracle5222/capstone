@@ -89,7 +89,7 @@ const Lesson = ({ navigation }) => {
   // }, []);
   useEffect(() => {
     fetch(
-      "https://7313-2001-4455-161-0-a01c-6dc2-3b77-3316.ap.ngrok.io/startbootstrap-sb-admin/dist/control/test.php",
+      "https://7313-2001-4455-161-0-a01c-6dc2-3b77-3316.ap.ngrok.io/startbootstrap-sb-admin/dist/control/lesson.php",
       {
         method: "post",
         header: {
@@ -102,8 +102,10 @@ const Lesson = ({ navigation }) => {
       .then((responseJson) => {
         console.log(responseJson);
         let parse = JSON.parse(responseJson);
+        console.log(parse.data[1].lesson);
 
-        setModules(parse.data);
+        setModules(parse.data[0].module);
+        setLesson(parse.data[1].lesson);
       })
       .catch((error) => {
         console.error(error);
@@ -182,83 +184,94 @@ const Lesson = ({ navigation }) => {
 
                 {index === currentIndex && (
                   <>
-                    {value.topic.map(
-                      //map data from redux
-                      (
-                        { lesson_name, id, key, introduction, status, content },
-                        items
-                      ) => {
-                        return (
-                          <TouchableOpacity
-                            onPress={() => {
-                              navigation.navigate("List", {
-                                status: status,
-                                id: id,
-                                content: content,
-                                name: lesson_name,
-                              }); //pass params to ContentScreen
-                            }}
-                            activeOpacity={0.6}
-                            style={[
-                              styles.topics,
-                              {
-                                backgroundColor: theme
-                                  ? lightBg.secondary
-                                  : darkBg.secondary,
-                              },
-                            ]}
-                            // disabled={
-                            //   !status == "lock" || status == "done"
-                            //     ? false
-                            //     : true
-                            // } //disable touchable opactity if status is false
-                            key={items}
-                          >
-                            <View>
-                              {/* {console.log("Items: " + items)} */}
-                              {/* {console.log("Topic: " + value.topic[items].status)} */}
-                              <Text
-                                style={[
-                                  styles.lesson,
-                                  {
-                                    color: theme ? text.dark : text.light,
-                                  },
-                                ]}
-                              >
-                                Lesson: {id}
-                              </Text>
-                              {introduction && (
+                    {lesson
+                      .filter((val) => {
+                        return val.module_id == value.module_id;
+                      })
+                      .map(
+                        //map data from redux
+                        (
+                          {
+                            lesson_name,
+                            lesson_id,
+                            key,
+                            introduction,
+                            status,
+                            content,
+                          },
+                          items
+                        ) => {
+                          return (
+                            <TouchableOpacity
+                              onPress={() => {
+                                navigation.navigate("List", {
+                                  status: status,
+                                  id: lesson_id,
+                                  content: content,
+                                  name: lesson_name,
+                                }); //pass params to ContentScreen
+                              }}
+                              activeOpacity={0.6}
+                              style={[
+                                styles.topics,
+                                {
+                                  backgroundColor: theme
+                                    ? lightBg.secondary
+                                    : darkBg.secondary,
+                                },
+                              ]}
+                              // disabled={
+                              //   !status == "lock" || status == "done"
+                              //     ? false
+                              //     : true
+                              // } //disable touchable opactity if status is false
+                              key={items}
+                            >
+                              <View>
+                                {/* {console.log("Items: " + items)} */}
+                                {/* {console.log("Topic: " + value.topic[items].status)} */}
+                                <Text
+                                  style={[
+                                    styles.lesson,
+                                    {
+                                      color: theme ? text.dark : text.light,
+                                    },
+                                  ]}
+                                >
+                                  Lesson: {lesson_id}
+                                </Text>
+                                {introduction && (
+                                  <Text
+                                    style={[
+                                      styles.name,
+                                      { color: theme ? text.dark : text.light },
+                                    ]}
+                                  >
+                                    {introduction}
+                                  </Text>
+                                )}
                                 <Text
                                   style={[
                                     styles.name,
                                     { color: theme ? text.dark : text.light },
                                   ]}
                                 >
-                                  {introduction}
+                                  {lesson_name}
                                 </Text>
-                              )}
-                              <Text
-                                style={[
-                                  styles.name,
-                                  { color: theme ? text.dark : text.light },
-                                ]}
-                              >
-                                {lesson_name}
-                              </Text>
-                              <View style={styles.iconContainer}>
-                                {status === "done" && <Check />}
-                                {status === "unlock" && (
-                                  <LockLight bg={text.primary} />
-                                )}
-                                {status === "lock" && (
-                                  <LockDark bg={text.secondary} />
-                                )}
+                                <View style={styles.iconContainer}>
+                                  {status === "done" && <Check />}
+                                  {status === "unlock" && (
+                                    <LockLight bg={text.primary} />
+                                  )}
+                                  {status === "lock" && (
+                                    <LockDark bg={text.secondary} />
+                                  )}
+                                </View>
                               </View>
-                            </View>
-                          </TouchableOpacity>
-                        );
-                      }
-                    )}
+                            </TouchableOpacity>
+                          );
+                        }
+                      )}
                   </>
                 )}
               </TouchableOpacity>
