@@ -52,6 +52,7 @@ const Lesson = ({ navigation }) => {
   const { offsetY } = useSelector((state) => state.scroll);
   const [currentIndex, setCurrentIndex] = useState(null);
   const [modules, setModules] = useState([]);
+  const [lesson, setLesson] = useState([]);
 
   const ref = useRef();
   const dispatch = useDispatch();
