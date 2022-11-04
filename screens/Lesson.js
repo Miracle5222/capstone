@@ -91,7 +91,7 @@ const Lesson = ({ navigation }) => {
 
   useEffect(() => {
     fetch(
-      "https://fd5c-2001-4455-170-8100-64b7-cfcb-aad5-8ccc.ap.ngrok.io/startbootstrap-sb-admin/dist/control/lesson.php",
+      "https://7616-2001-4455-170-8100-64b7-cfcb-aad5-8ccc.ap.ngrok.io/startbootstrap-sb-admin/dist/control/lesson.php",
       {
         method: "post",
         header: {
