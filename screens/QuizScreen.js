@@ -18,7 +18,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { Celeb, Exit, Java, Moon, Sun } from "../src/icons/Icons";
 import { usernameLogin } from "../redux/feature/loginReducer";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { dataHandler } from "../redux/feature/dataReducer";
+import { dataHandler, moduleStatusHandler } from "../redux/feature/dataReducer";
 // import { changeColor } from "../redux/feature/ColorReducer";
 import { changeColor } from "../redux/feature/colorReducer";
 import Button from "../components/Button.component";
@@ -53,7 +53,7 @@ const QuizScreen = ({ navigation, route }) => {
   const [quiz, setQuiz] = useState([
     {
       key: "1",
-      time: 15,
+      time: 5,
       difficulty: "easy",
       type: "multiple choice",
       discription:
@@ -66,7 +66,7 @@ const QuizScreen = ({ navigation, route }) => {
     },
     {
       key: "2",
-      time: 20,
+      time: 6,
       difficulty: "medium",
       type: "multiple choice",
       discription:
@@ -79,7 +79,7 @@ const QuizScreen = ({ navigation, route }) => {
     },
     {
       key: "3",
-      time: 15,
+      time: 5,
       difficulty: "easy",
       type: "multiple choice",
       discription:
@@ -131,6 +131,9 @@ const QuizScreen = ({ navigation, route }) => {
     let quizz = quiz.map((val) => {
       return val.time;
     });
+    if (index === quiz.length - 1) {
+      dispatch(moduleStatusHandler(route.params.id));
+    }
 
     let interv = setInterval(() => {
       // console.log(quizz[index]);

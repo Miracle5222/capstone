@@ -86,6 +86,27 @@ const Lesson = ({ navigation }) => {
   //   getData();
   // }, []);
 
+  // language: "Java",
+  // modules: [
+  //   {
+  //     key: "1",
+  //     title: "Introduction",
+  //     status: true,
+  //     topic: [
+  //       {
+  //         id: "1.1",
+  //         status: true,
+  //         lesson_name: "A Quick First Look at Computer Programming",
+  //         content: [
+  //           {
+  //             heading: "",
+  //             video: "Hdf5OmERt0g",
+  //             paragraph: "",
+  //             code: [],
+  //             image: [],
+  //           },
+
+  useEffect(() => {}, []);
   return (
     <ScrollView
       style={[
