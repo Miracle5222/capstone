@@ -32,6 +32,7 @@ import {
   sample,
   statusHandler,
   subLessonHandler,
+  updateHandler,
 } from "../redux/feature/dataReducer";
 
 const { width, height } = Dimensions.get("screen");
@@ -58,6 +59,7 @@ const Lesson = ({ navigation }) => {
   const [lesson, setLesson] = useState([]);
   const [content, setContent] = useState([]);
   const [id, setId] = useState("");
+  const [updateId, setUpdateId] = useState("");
 
   const ref = useRef();
   const dispatch = useDispatch();
@@ -104,6 +106,37 @@ const Lesson = ({ navigation }) => {
   //       });
   //   });
   // }, [id]);
+
+  useEffect(() => {
+    for (let i = 0; i < lesson.length; i++) {
+      if (lesson[i].status == "done") {
+        setUpdateId(lesson[i + 1].lesson_id);
+      }
+      fetch(
+        "https://1769-2001-4455-10c-8a00-f97b-d87-b964-a70b.ap.ngrok.io/startbootstrap-sb-admin/dist/api/update.php",
+        {
+          method: "post",
+          header: {
+            Accept: "application/json",
+            "Content-type": "application/json",
+          },
+          body: JSON.stringify({
+            lesson_id: updateId,
+            status: "unlock",
+          }),
+        }
+      )
+        .then((response) => response.text())
+        .then((responseJson) => {
+          dispatch(updateHandler());
+          console.log(responseJson);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+      // console.log(lesson[i].status);
+    }
+  }, []);
 
   useEffect(() => {
     fetch(
@@ -228,7 +261,7 @@ const Lesson = ({ navigation }) => {
                                   // status: status,
                                   id: lesson_id,
 
-                                  // name: lesson_name,
+                                  name: lesson_name,
                                 }); //pass params to ContentScreen
                               }}
                               activeOpacity={0.6}

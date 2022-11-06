@@ -143,16 +143,16 @@ export const ListsItems = ({ navigation, route }, props) => {
     // console.log(cont);
   }, []);
   // console.log(subLesson);
-  // useEffect(() => {
-  //   // console.log(route.params.name);
-  //   dispatch(contentIdHandler(route.params.id));
-  //   if (route.params.name === "Quiz") {
-  //     navigation.replace("Quiz", {
-  //       id: route.params.id,
-  //       name: route.params.name,
-  //     });
-  //   }
-  // }, []);
+  useEffect(() => {
+    // console.log(route.params.name);
+    dispatch(contentIdHandler(route.params.id));
+    if (route.params.name === "Quiz") {
+      navigation.replace("Quiz", {
+        id: route.params.id,
+        name: route.params.name,
+      });
+    }
+  }, []);
   // console.log(content);
 
   const updateLesson = () => {
