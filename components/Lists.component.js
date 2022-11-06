@@ -47,6 +47,8 @@ import {
   lessonStatusHandler,
   moduleStatusHandler,
   dataHandler,
+  subLessonHandler,
+  updateHandler,
 } from "../redux/feature/dataReducer";
 import AppLoading from "expo-app-loading";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -103,9 +105,10 @@ export const ListsItems = ({ navigation, route }, props) => {
       headerTintColor: theme ? text.dark : text.light, //color of title
     });
   }, [navigation]);
+  // console.log(subLesson);
 
   useEffect(() => {
-    // console.log(route.params.content);
+    // console.log(route.params.id);
     // const cont = data[0].modules.map((val) => {
     //   val.topic
     //     .filter((values) => {
@@ -115,24 +118,31 @@ export const ListsItems = ({ navigation, route }, props) => {
     //       return value;
     //     });
     // });
-
-    data[0].modules.map((val) => {
-      val.topic
-        .map((values, index) => {
-          return values;
-        })
-        .filter((item) => {
-          return item.id == route.params.id;
-        })
-        .map((items) => {
-          // console.log(items);
-          setContent(items);
-        });
-    });
-
+    // data[0].modules.map((val) => {
+    //   val.topic.map((values, index) => {
+    //     if (values.id == route.params.id) {
+    //       console.log(values);
+    //       setContent(values);
+    //       // console.log(values.length);
+    //     }
+    //   });
+    // });
+    // data[0].modules.map((val) => {
+    //   val.topic
+    //     .map((values, index) => {
+    //       return values;
+    //     })
+    //     .filter((item) => {
+    //       return item.id == "1.1";
+    //     })
+    //     .map((items) => {
+    //       // console.log(items);
+    //       setContent(items);
+    //     });
+    // });
     // console.log(cont);
   }, []);
-  console.log(content);
+  // console.log(subLesson);
   // useEffect(() => {
   //   // console.log(route.params.name);
   //   dispatch(contentIdHandler(route.params.id));
@@ -144,6 +154,46 @@ export const ListsItems = ({ navigation, route }, props) => {
   //   }
   // }, []);
   // console.log(content);
+
+  const updateLesson = () => {
+    fetch(
+      "https://1769-2001-4455-10c-8a00-f97b-d87-b964-a70b.ap.ngrok.io/startbootstrap-sb-admin/dist/api/updateLesson.php",
+      {
+        method: "post",
+        header: {
+          Accept: "application/json",
+          "Content-type": "application/json",
+        },
+        body: JSON.stringify({
+          lesson_id: route.params.id,
+        }),
+      }
+    )
+      .then((response) => response.text())
+      .then((responseJson) => {
+        dispatch(updateHandler());
+        console.log(responseJson);
+        // let parse = JSON.parse(responseJson);
+        // // dispatch(codeHandler(parse.code));
+        // setTextValue(parse.code);
+        // console.log(parse);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+
+  useEffect(() => {
+    data[0].modules.map((val) => {
+      val.topic.map((values, index) => {
+        if (values.id === route.params.id) {
+          console.log(values);
+          dispatch(subLessonHandler(values.content));
+        }
+      });
+    });
+  }, []);
+
   const animatedStyles = useAnimatedStyle(() => {
     return {
       opacity: withSpring(opacity.value),
@@ -200,10 +250,10 @@ export const ListsItems = ({ navigation, route }, props) => {
         </Animated.View>
       )}
 
-      {/* <FlatList
+      <FlatList
         ref={ref}
         initialScrollIndex={index}
-        data={content}
+        data={subLesson}
         scrollEnabled={false}
         keyExtractor={(_, index) => index.toString()}
         horizontal
@@ -251,29 +301,73 @@ export const ListsItems = ({ navigation, route }, props) => {
                 </Paragraph>
               </View>
               <Spacer />
-              {item.image.map((_, index) => {
+              {item.image ? (
+                item.image.map((_, index) => {
+                  return (
+                    <Image
+                      key={index}
+                      style={{
+                        display: item?.image.length <= 0 ? "none" : "flex",
+                        width: "100%",
+                        height: 400,
+                      }}
+                      resizeMode="contain"
+                      source={item.image[index]}
+                    />
+                  );
+                })
+              ) : (
+                <View></View>
+              )}
+              {item.code ? (
+                item.code.map((val, index) => {
+                  return (
+                    <TouchableOpacity
+                      onPress={() => {
+                        setModalContent(val?.textCode);
+                        setVisibility(!visible);
+                        visible ? (opacity.value = 0) : (opacity.value = 1);
+                      }}
+                      activeOpacity={0.9}
+                      key={index}
+                      style={[
+                        styles.boxContent,
+                        {
+                          backgroundColor: theme
+                            ? lightBg.fortiary
+                            : darkBg.secondary,
+                        },
+                      ]}
+                    >
+                      <Highlighter
+                        language={val?.language}
+                        height={
+                          val?.textCode.trim().length < 100 ? "auto" : 180
+                        }
+                      >
+                        {val.textCode.trim()}
+                      </Highlighter>
+                    </TouchableOpacity>
+                  );
+                })
+              ) : (
+                <View></View>
+              )}
+              {/* {item.image.map((_, index) => {
                 return (
                   <Image
                     key={index}
                     style={{
                       display: item?.image.length <= 0 ? "none" : "flex",
-                      width: contentId === "2.1" ? "90%" : "100%",
-                      height:
-                        contentId[0] === "2"
-                          ? 180
-                          : 400 && contentId[0] === "4"
-                          ? 180
-                          : 400 && contentId[0] === "5"
-                          ? 180
-                          : 400 && contentId[0] === "6"
-                          ? 180
-                          : 400,
+                      width: "100%",
+                      height: 400,
                     }}
                     resizeMode="contain"
                     source={item.image[index]}
                   />
                 );
               })}
+              
               {item.code.map((val, index) => {
                 return (
                   <TouchableOpacity
@@ -301,7 +395,7 @@ export const ListsItems = ({ navigation, route }, props) => {
                     </Highlighter>
                   </TouchableOpacity>
                 );
-              })}
+              })} */}
               <Spacer />
               <View
                 style={[
@@ -318,7 +412,7 @@ export const ListsItems = ({ navigation, route }, props) => {
                   {item?.paragraph.trim()}
                 </Paragraph>
               </View>
-              buttons
+
               <View style={styles.buttonContainer}>
                 {index === 0 ? (
                   <View></View>
@@ -340,10 +434,11 @@ export const ListsItems = ({ navigation, route }, props) => {
 
                 <Button
                   event={() => {
-                    if (index === route.params.content.length - 1) {
-                      dispatch(moduleStatusHandler(route.params.id));
+                    if (index === subLesson.length - 1) {
+                      // dispatch(moduleStatusHandler(route.params.id));
                       // dispatch(indexInitialState());
                       // storeData();
+                      updateLesson();
                       navigation.goBack();
                     }
 
@@ -360,7 +455,7 @@ export const ListsItems = ({ navigation, route }, props) => {
             <Spacer />
           </ScrollView>
         )}
-      /> */}
+      />
     </Container>
   );
 };

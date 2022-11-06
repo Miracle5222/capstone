@@ -10,8 +10,12 @@ const dataSlice = createSlice({
     theme: false,
     subLesson: [],
     code: [],
+    update: false,
   },
   reducers: {
+    updateHandler(state, action) {
+      state.update = !state.update;
+    },
     scrollHandler(state, action) {
       state.offsetY = action.payload;
     },
@@ -98,6 +102,7 @@ const dataSlice = createSlice({
 });
 
 export const {
+  updateHandler,
   subLessonHandler,
   codeHandler,
   scrollHandler,

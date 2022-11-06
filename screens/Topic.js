@@ -35,7 +35,7 @@ const Topic = ({ navigation }) => {
     (state) => state.color
   );
 
-  const { data } = useSelector((state) => state.module);
+  const { data, update } = useSelector((state) => state.module);
 
   const { email, password, username } = useSelector((state) => state.login);
 
@@ -44,7 +44,7 @@ const Topic = ({ navigation }) => {
 
   useEffect(() => {
     fetch(
-      "https://7616-2001-4455-170-8100-64b7-cfcb-aad5-8ccc.ap.ngrok.io/startbootstrap-sb-admin/dist/control/sub_lesson.php",
+      "https://1769-2001-4455-10c-8a00-f97b-d87-b964-a70b.ap.ngrok.io/startbootstrap-sb-admin/dist/control/sub_lesson.php",
       {
         method: "post",
         header: {
@@ -66,7 +66,8 @@ const Topic = ({ navigation }) => {
       .catch((error) => {
         console.error(error);
       });
-  }, []);
+  }, [update]);
+
   useLayoutEffect(() => {
     navigation.setOptions({
       headerRight: () => (
