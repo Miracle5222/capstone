@@ -28,6 +28,7 @@ const RegisterScreen = ({ navigation }) => {
   const { username, email, password, registered } = useSelector(
     (state) => state.register
   );
+  const { baseUrl } = useSelector((state) => state.module);
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -45,21 +46,18 @@ const RegisterScreen = ({ navigation }) => {
   }, [navigation]);
 
   const Register = () => {
-    fetch(
-      "https://c172-2001-4455-16f-9b00-f883-5172-5281-8ca4.ap.ngrok.io/startbootstrap-sb-admin/dist/api/register.php",
-      {
-        method: "post",
-        header: {
-          Accept: "application/json",
-          "Content-type": "application/json",
-        },
-        body: JSON.stringify({
-          name: username,
-          email: email,
-          password: password,
-        }),
-      }
-    )
+    fetch(`${baseUrl}/startbootstrap-sb-admin/dist/api/register.php`, {
+      method: "post",
+      header: {
+        Accept: "application/json",
+        "Content-type": "application/json",
+      },
+      body: JSON.stringify({
+        name: username,
+        email: email,
+        password: password,
+      }),
+    })
       .then((response) => response.text())
       .then((responseJson) => {
         console.log(responseJson);

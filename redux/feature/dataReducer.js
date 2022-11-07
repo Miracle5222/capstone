@@ -11,8 +11,26 @@ const dataSlice = createSlice({
     subLesson: [],
     code: [],
     update: false,
+    length: 0,
+    done: 0,
+    unlock: 0,
+    lock: 0,
+    baseUrl: "https://f691-2001-4455-1dc-b00-c8f6-ba6a-bf6a-ea88.ap.ngrok.io",
   },
+
   reducers: {
+    doneHandler(state, action) {
+      state.done = (action.payload * 100) / action.payload;
+    },
+    unlockHandler(state, action) {
+      state.unlock = (action.payload * 100) / action.payload;
+    },
+    lockHandler(state, action) {
+      state.lock = (action.payload * 100) / action.payload;
+    },
+    lengthHandler(state, action) {
+      state.length = action.payload;
+    },
     updateHandler(state, action) {
       state.update = !state.update;
     },
@@ -35,73 +53,33 @@ const dataSlice = createSlice({
     codeHandler(state, action) {
       state.code = action.payload;
     },
-    // language: "Java",
-    // modules: [
-    //   {
-    //     key: "1",
-    //     title: "Introduction",
-    //     status: true,
-    //     topic: [
-    //       {
-    //         id: "1.1",
-    //         status: true,
-    //         lesson_name: "A Quick First Look at Computer Programming",
-    //         content: [
-    //           {
-    //             heading: "",
-    //             video: "Hdf5OmERt0g",
-    //             paragraph: "",
-    //             code: [],
-    //             image: [],
-    //           },
-    moduleStatusHandler(state, action) {
-      let moduleInit = 0;
-
-      let moduleLength = state.data[0].modules.length;
-      // console.log(moduleLength);
-      while (moduleInit < moduleLength) {
-        state.data[0].modules[moduleInit].topic.map((val, index) => {
-          if (val.id === action.payload) {
-            val.status = "done";
-          }
-          // if (val.status === "done") {
-          //   state.data[0].modules[moduleInit].topic[index + 1].status =
-          //     "unlock";
-          // }
-        });
-
-        moduleInit++;
-      }
-    },
-    // initDataHandler(state, action) {
+    // moduleStatusHandler(state, action) {
     //   let moduleInit = 0;
+
     //   let moduleLength = state.data[0].modules.length;
-
+    //   // console.log(moduleLength);
     //   while (moduleInit < moduleLength) {
-    //     // console.log(state.data[0].modules[init].status);
-
-    //     state.data[0].modules[moduleInit].topic.map((value, index) => {
-    //       if (state.data[0].modules[moduleInit].topic[index - 1] >= 1) {
-    //         if (
-    //           state.data[0].modules[moduleInit].topic[index - 1].status ===
-    //           "done"
-    //         ) {
-    //           value.status = "unlock";
-    //         }
+    //     state.data[0].modules[moduleInit].topic.map((val, index) => {
+    //       if (val.id === action.payload) {
+    //         val.status = "done";
     //       }
+    //       // if (val.status === "done") {
+    //       //   state.data[0].modules[moduleInit].topic[index + 1].status =
+    //       //     "unlock";
+    //       // }
     //     });
 
     //     moduleInit++;
     //   }
     // },
-    // lessonStatusHandler(state, action) {
-    //   let lessonLength = state.data[0].modules[2].topic.length;
-    //   // console.log(lessonLength);
-    // },
   },
 });
 
 export const {
+  lengthHandler,
+  lockHandler,
+  unlockHandler,
+  doneHandler,
   updateHandler,
   subLessonHandler,
   codeHandler,

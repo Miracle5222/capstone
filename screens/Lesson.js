@@ -49,7 +49,7 @@ const transition = (
 );
 
 const Lesson = ({ navigation }) => {
-  const { data, update } = useSelector((state) => state.module);
+  const { data, update, baseUrl } = useSelector((state) => state.module);
 
   const { darkBg, lightBg, text, theme } = useSelector((state) => state.color);
   const { subLesson, code } = useSelector((state) => state.module);
@@ -107,48 +107,41 @@ const Lesson = ({ navigation }) => {
   //   });
   // }, [id]);
 
+  // useEffect(() => {
+  //   for (let i = 0; i < lesson.length; i++) {
+  //     if (lesson[i].status == "done") {
+  //       setUpdateId(lesson[i + 1].lesson_id);
+  //     }
+  //     fetch(`${baseUrl}/startbootstrap-sb-admin/dist/api/update.php`, {
+  //       method: "post",
+  //       header: {
+  //         Accept: "application/json",
+  //         "Content-type": "application/json",
+  //       },
+  //       body: JSON.stringify({
+  //         lesson_id: updateId,
+  //         status: "unlock",
+  //       }),
+  //     })
+  //       .then((response) => response.text())
+  //       .then((responseJson) => {
+  //         dispatch(updateHandler());
+  //         console.log(responseJson);
+  //       })
+  //       .catch((error) => {
+  //         console.error(error);
+  //       });
+  //     // console.log(lesson[i].status);
+  //   }
+  // }, []);
   useEffect(() => {
-    for (let i = 0; i < lesson.length; i++) {
-      if (lesson[i].status == "done") {
-        setUpdateId(lesson[i + 1].lesson_id);
-      }
-      fetch(
-        "https://1769-2001-4455-10c-8a00-f97b-d87-b964-a70b.ap.ngrok.io/startbootstrap-sb-admin/dist/api/update.php",
-        {
-          method: "post",
-          header: {
-            Accept: "application/json",
-            "Content-type": "application/json",
-          },
-          body: JSON.stringify({
-            lesson_id: updateId,
-            status: "unlock",
-          }),
-        }
-      )
-        .then((response) => response.text())
-        .then((responseJson) => {
-          dispatch(updateHandler());
-          console.log(responseJson);
-        })
-        .catch((error) => {
-          console.error(error);
-        });
-      // console.log(lesson[i].status);
-    }
-  }, []);
-
-  useEffect(() => {
-    fetch(
-      "https://1769-2001-4455-10c-8a00-f97b-d87-b964-a70b.ap.ngrok.io/startbootstrap-sb-admin/dist/control/lesson.php",
-      {
-        method: "post",
-        header: {
-          Accept: "application/json",
-          "Content-type": "application/json",
-        },
-      }
-    )
+    fetch(`${baseUrl}/startbootstrap-sb-admin/dist/control/lesson.php`, {
+      method: "post",
+      header: {
+        Accept: "application/json",
+        "Content-type": "application/json",
+      },
+    })
       .then((response) => response.text())
       .then((responseJson) => {
         // console.log(responseJson);
@@ -163,6 +156,7 @@ const Lesson = ({ navigation }) => {
       });
   }, [update]);
 
+  // console.log(lesson);
   return (
     <ScrollView
       style={[
@@ -188,7 +182,7 @@ const Lesson = ({ navigation }) => {
                   ref.current.animateNextTransition();
                   setCurrentIndex(index === currentIndex ? null : index);
                 }}
-                // disabled={value.status == "lock" ? true : false} //disable touchable opactity if status is false
+                disabled={value.status == "lock" ? true : false} //disable touchable opactity if status is false
                 activeOpacity={0.5}
                 key={index}
               >
@@ -249,6 +243,7 @@ const Lesson = ({ navigation }) => {
                             introduction,
                             status,
                             content,
+                            module_id,
                           },
                           items
                         ) => {
@@ -260,7 +255,7 @@ const Lesson = ({ navigation }) => {
                                 navigation.navigate("List", {
                                   // status: status,
                                   id: lesson_id,
-
+                                  module_id: module_id,
                                   name: lesson_name,
                                 }); //pass params to ContentScreen
                               }}
@@ -273,11 +268,7 @@ const Lesson = ({ navigation }) => {
                                     : darkBg.secondary,
                                 },
                               ]}
-                              // disabled={
-                              //   !status == "lock" || status == "done"
-                              //     ? false
-                              //     : true
-                              // } //disable touchable opactity if status is false
+                              disabled={status == "lock" ? true : false}
                               key={items}
                             >
                               <View>

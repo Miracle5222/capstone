@@ -18,7 +18,11 @@ import { useSelector, useDispatch } from "react-redux";
 import { Celeb, Exit, Java, Moon, Sun } from "../src/icons/Icons";
 import { usernameLogin } from "../redux/feature/loginReducer";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { dataHandler, moduleStatusHandler, updateHandler } from "../redux/feature/dataReducer";
+import {
+  dataHandler,
+  moduleStatusHandler,
+  updateHandler,
+} from "../redux/feature/dataReducer";
 // import { changeColor } from "../redux/feature/ColorReducer";
 import { changeColor } from "../redux/feature/ColorReducer";
 import Button from "../components/Button.component";
@@ -41,6 +45,7 @@ const QuizScreen = ({ navigation, route }) => {
   const { darkBg, lightBg, text, theme, icon } = useSelector(
     (state) => state.color
   );
+  const { baseUrl } = useSelector((state) => state.module);
   const [index, setCurrIndex] = useState(0);
   const { score } = useSelector((state) => state.quiz);
   const ref = useRef(null);
@@ -120,23 +125,21 @@ const QuizScreen = ({ navigation, route }) => {
   }, [navigation, theme]);
 
   const updateLesson = () => {
-    fetch(
-      "https://1769-2001-4455-10c-8a00-f97b-d87-b964-a70b.ap.ngrok.io/startbootstrap-sb-admin/dist/api/updateLesson.php",
-      {
-        method: "post",
-        header: {
-          Accept: "application/json",
-          "Content-type": "application/json",
-        },
-        body: JSON.stringify({
-          lesson_id: route.params.id,
-        }),
-      }
-    )
+    fetch(`${baseUrl}/startbootstrap-sb-admin/dist/api/updateLesson.php`, {
+      method: "post",
+      header: {
+        Accept: "application/json",
+        "Content-type": "application/json",
+      },
+      body: JSON.stringify({
+        lesson_id: route.params.id,
+        module_id: route.params.module_id,
+      }),
+    })
       .then((response) => response.text())
       .then((responseJson) => {
         dispatch(updateHandler());
-        console.log(responseJson);
+        // console.log(responseJson);
         // let parse = JSON.parse(responseJson);
         // // dispatch(codeHandler(parse.code));
         // setTextValue(parse.code);
@@ -146,7 +149,7 @@ const QuizScreen = ({ navigation, route }) => {
         console.error(error);
       });
   };
-
+  console.log(route.params.module_id);
   useEffect(() => {
     setCurrIndex(0);
     dispatch(clearScore());
@@ -159,9 +162,9 @@ const QuizScreen = ({ navigation, route }) => {
     let quizz = quiz.map((val) => {
       return val.time;
     });
-    if (index === quiz.length - 1) {
-      dispatch(moduleStatusHandler(route.params.id));
-    }
+    // if (index === quiz.length - 1) {
+    //   dispatch(moduleStatusHandler(route.params.id));
+    // }
 
     let interv = setInterval(() => {
       // console.log(quizz[index]);

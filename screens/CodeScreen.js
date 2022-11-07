@@ -5,6 +5,7 @@ import {
   Dimensions,
   TextInput,
   TouchableOpacity,
+  ScrollView,
 } from "react-native";
 import React, { useLayoutEffect, useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -14,6 +15,7 @@ import { changeColor } from "../redux/feature/ColorReducer";
 import { Moon, Play, Sun } from "../src/icons/Icons";
 import { codeHandler } from "../redux/feature/codeReducer";
 import { BottomSheet } from "react-native-btr";
+import { Highlighter } from "../components/CodeHighlighter.component";
 
 const { width, height } = Dimensions.get("screen");
 
@@ -21,6 +23,7 @@ const WIDTH = width;
 const HIEGHT = height;
 
 const CodeScreen = ({ navigation }) => {
+  const { baseUrl } = useSelector((state) => state.module);
   const { codeResult } = useSelector((state) => state.code);
   const dispatch = useDispatch();
   const { darkBg, lightBg, text, theme, icon } = useSelector(
@@ -57,8 +60,6 @@ const CodeScreen = ({ navigation }) => {
       headerTintColor: theme ? text.dark : text.light, //color of title
     });
   }, [navigation, theme]);
-
-  useEffect(() => {}, []);
 
   const Problem = () => {
     return (
@@ -102,7 +103,6 @@ const CodeScreen = ({ navigation }) => {
     const { codeResult } = useSelector((state) => state.code);
     const dispatch = useDispatch();
     const [visible, setVisible] = useState(false);
-
     const toggleBottomNavigationView = () => {
       //Toggling the visibility state of the bottom sheet
       setVisible(!visible);
@@ -115,19 +115,16 @@ const CodeScreen = ({ navigation }) => {
       setCode(e);
     };
     const sendCode = () => {
-      fetch(
-        "https://7313-2001-4455-161-0-a01c-6dc2-3b77-3316.ap.ngrok.io/startbootstrap-sb-admin/dist/api/code.php",
-        {
-          method: "post",
-          header: {
-            Accept: "application/json",
-            "Content-type": "application/json",
-          },
-          body: JSON.stringify({
-            code: code,
-          }),
-        }
-      )
+      fetch(`${baseUrl}/startbootstrap-sb-admin/dist/api/code.php`, {
+        method: "post",
+        header: {
+          Accept: "application/json",
+          "Content-type": "application/json",
+        },
+        body: JSON.stringify({
+          code: code,
+        }),
+      })
         .then((response) => response.text())
         .then((responseJson) => {
           // console.log(typeof responseJson);
@@ -146,74 +143,93 @@ const CodeScreen = ({ navigation }) => {
     };
 
     return (
-      <View
-        style={{ backgroundColor: theme ? lightBg.primary : darkBg.primary }}
-      >
-        <View style={codeStyle.box}>
-          <View style={codeStyle.sideBox}>
-            {index.map((val, index) => (
+      <ScrollView>
+        <View
+          style={{ backgroundColor: theme ? lightBg.primary : darkBg.primary }}
+        >
+          <View style={codeStyle.box}>
+            <View style={codeStyle.sideBox}>
+              {index.map((val, index) => (
+                <Paragraph
+                  key={index}
+                  color={theme ? text.dark : text.light}
+                  size={14}
+                  style={codeStyle.sideNumber}
+                >
+                  {index + 1}
+                </Paragraph>
+              ))}
+            </View>
+
+            <TextInput
+              onContentSizeChange={numLineHandler}
+              onChangeText={textChange}
+              value={code}
+              multiline={true}
+              style={codeStyle.textInput}
+              numberOfLines={12}
+            />
+
+            <View
+              style={{
+                height: 50,
+                width: WIDTH,
+                flexDirection: "row",
+                justifyContent: "space-between",
+                alignItems: "center",
+              }}
+            >
+              <TouchableOpacity
+                onPress={() => toggleBottomNavigationView()}
+                style={{ marginLeft: 20 }}
+              >
+                {/* <Text style={{ color: "green", fontSize: 20 }}>Play</Text> */}
+                <Text style={{ color: theme ? text.dark : text.light }}>
+                  Show Results
+                </Text>
+              </TouchableOpacity>
+              <TouchableOpacity onPress={sendCode} style={{ marginRight: 20 }}>
+                {/* <Text style={{ color: "green", fontSize: 20 }}>Play</Text> */}
+                <Play bg={"green"} />
+              </TouchableOpacity>
+            </View>
+          </View>
+          <BottomSheet
+            visible={visible}
+            //setting the visibility state of the bottom shee
+            onBackButtonPress={toggleBottomNavigationView}
+            //Toggling the visibility state on the click of the back botton
+            onBackdropPress={toggleBottomNavigationView}
+            //Toggling the visibility state on the clicking out side of the sheet
+          >
+            <View
+              style={{
+                flex: 0.5,
+                borderRadius: 18,
+                flexDirection: "column",
+                justifyContent: "space-between",
+                backgroundColor: theme ? lightBg.primary : darkBg.primary,
+              }}
+            >
               <Paragraph
                 key={index}
                 color={theme ? text.dark : text.light}
-                size={14}
-                style={codeStyle.sideNumber}
+                size={18}
+                style={codeStyle.sideNumber1}
               >
-                {index + 1}
+                Output
               </Paragraph>
-            ))}
-          </View>
-
-          <TextInput
-            onContentSizeChange={numLineHandler}
-            onChangeText={textChange}
-            value={code}
-            multiline={true}
-            style={codeStyle.textInput}
-            numberOfLines={12}
-          />
-          <TouchableOpacity
-            onPress={sendCode}
-            style={{ alignSelf: "flex-end", marginHorizontal: 40, padding: 10 }}
-          >
-            {/* <Text style={{ color: "green", fontSize: 20 }}>Play</Text> */}
-            <Play bg={"green"} />
-          </TouchableOpacity>
-        </View>
-        <BottomSheet
-          visible={visible}
-          //setting the visibility state of the bottom shee
-          onBackButtonPress={toggleBottomNavigationView}
-          //Toggling the visibility state on the click of the back botton
-          onBackdropPress={toggleBottomNavigationView}
-          //Toggling the visibility state on the clicking out side of the sheet
-        >
-          <View
-            style={{
-              flex: 0.5,
-              borderRadius: 18,
-              flexDirection: "column",
-              justifyContent: "space-between",
-              backgroundColor: theme ? lightBg.primary : darkBg.primary,
-            }}
-          >
-            <Paragraph
-              key={index}
-              color={theme ? text.dark : text.light}
-              size={18}
-              style={codeStyle.sideNumber1}
-            >
-              Output
-            </Paragraph>
-            <View style={{ position: "absolute", top: 10, left: 10 }}>
-              <Text
-                style={[{ color: "#FF7700", fontSize: 12, paddingTop: 40 }]}
-              >
-                {textValue}
-              </Text>
+              <View style={{ position: "absolute", top: 10, left: 10 }}>
+                <Text
+                  style={[{ color: "#FF7700", fontSize: 12, paddingTop: 40 }]}
+                >
+                  {textValue}
+                </Text>
+              </View>
             </View>
-          </View>
-        </BottomSheet>
-      </View>
+          </BottomSheet>
+        </View>
+      </ScrollView>
     );
   };
   const Output = () => {

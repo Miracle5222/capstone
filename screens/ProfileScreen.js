@@ -1,9 +1,15 @@
-import { View, Text, TouchableOpacity } from "react-native";
+import { View, Text, TouchableOpacity, Dimensions } from "react-native";
 import React, { useLayoutEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Container, Header, Paragraph } from "../src/styled/Container.style";
 import { changeColor } from "../redux/feature/ColorReducer";
 import { Moon, Sun } from "../src/icons/Icons";
+import { ProgressChart } from "react-native-chart-kit";
+const { width, height } = Dimensions.get("screen");
+
+const WIDTH = width;
+const HIEGHT = height;
+
 const ProfileScreen = ({ navigation }) => {
   const { darkBg, lightBg, text, theme, icon } = useSelector(
     (state) => state.color
@@ -36,6 +42,21 @@ const ProfileScreen = ({ navigation }) => {
       headerTintColor: theme ? text.dark : text.light, //color of title
     });
   }, [navigation, theme]);
+
+  const data = {
+    labels: ["Done", "Unlock", "Lock"], // optional
+    data: [0.4, 0.6, 0.8],
+  };
+  const chartConfig = {
+    backgroundGradientFrom: "#1E2923",
+    backgroundGradientFromOpacity: 0,
+    backgroundGradientTo: "#08130D",
+    backgroundGradientToOpacity: 0.5,
+    color: (opacity = 1) => `rgba(26, 255, 146, ${opacity})`,
+    strokeWidth: 2, // optional, default 3
+    barPercentage: 0.5,
+    useShadowColorFromDataset: false, // optional
+  };
   return (
     <Container
       style={[
@@ -47,9 +68,15 @@ const ProfileScreen = ({ navigation }) => {
       ]}
       bg={theme ? lightBg.primary : darkBg.primary}
     >
-      <Paragraph color={theme ? text.dark : text.light} size={14}>
-        Mary Grace Buagas
-      </Paragraph>
+      <ProgressChart
+        data={data}
+        width={WIDTH}
+        height={220}
+        strokeWidth={16}
+        radius={32}
+        chartConfig={chartConfig}
+        hideLegend={false}
+      />
     </Container>
   );
 };

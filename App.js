@@ -14,23 +14,78 @@ import { Provider } from "react-redux";
 import { store } from "./redux/store";
 import { useSelector, useDispatch } from "react-redux";
 import ContentScreen from "./screens/ContentScreen";
-
+import {
+  doneHandler,
+  unlockHandler,
+  lockHandler,
+  lengthHandler,
+} from "./redux/feature/dataReducer";
 import { indexInitialState } from "./redux/feature/contentReducer";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { progressBar } from "./redux/feature/dataReducer";
 const Stack = createNativeStackNavigator();
 
 const Navigator = () => {
   const { darkBg, lightBg, text, theme } = useSelector((state) => state.color);
   const { email, username } = useSelector((state) => state.login);
+  const { baseUrl, update } = useSelector((state) => state.module);
+  const [length, setLength] = useState(0);
+  const [done, setDone] = useState(0);
+  const [unlock, setUnLock] = useState(0);
+  const [lock, setLock] = useState(0);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    fetch(`${baseUrl}/startbootstrap-sb-admin/dist/api/progress.php`, {
+      method: "post",
+      header: {
+        Accept: "application/json",
+        "Content-type": "application/json",
+      },
+    })
+      .then((response) => response.text())
+      .then((responseJson) => {
+        console.log(responseJson);
+
+        let parse = JSON.parse(responseJson);
+        dispatch(doneHandler(parse.data.done));
+        dispatch(unlockHandler(parse.data.unlock));
+        dispatch(lockHandler(parse.data.lock));
+        dispatch(lengthHandler(parse.data.leagth));
+        // setLength(parse.data.length);
+        // setDone(parse.data.done);
+        // setUnLock(parse.data.unlock);
+        // setLock(parse.data.lock);
+        // console.log(parse.data[0].sub_lesson);
+        // setSubLesson(parse.data[0].sub_lesson);
+        dispatch(
+          progressBar(((parse.data.done * 100) / parse.data.length).toFixed())
+        );
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }, [update]);
 
   return (
     <>
+      <StatusBar
+        style={{ color: "light" }}
+        // dark-content, light-content and default
+        hidden={false}
+        //To hide statusBar
+        backgroundColor={theme ? "orangered" : "#00BCD4"}
+        //Background color of statusBar
+        translucent={false}
+        //allowing light, but not detailed shapes
+        networkActivityIndicatorVisible={true}
+      />
       <NavigationContainer>
         <Stack.Navigator
-          // initialRouteName={
-          //   email != "" && username != "" ? "HomeScreen" : "LandingScreen"
-          // }
-          initialRouteName="HomeScreen"
+          initialRouteName={
+            email != "" && username != "" ? "HomeScreen" : "LandingScreen"
+          }
+          // initialRouteName="HomeScreen"
           screenOptions={{
             headerShown: false,
             headerTintColor: theme ? text.dark : text.light,
@@ -53,7 +108,6 @@ const Navigator = () => {
 };
 
 const App = () => {
-  
   return (
     <>
       <StatusBar style="dark" />

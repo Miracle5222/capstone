@@ -35,7 +35,9 @@ const Topic = ({ navigation }) => {
     (state) => state.color
   );
 
-  const { data, update } = useSelector((state) => state.module);
+  const { data, update, baseUrl, result } = useSelector(
+    (state) => state.module
+  );
 
   const { email, password, username } = useSelector((state) => state.login);
 
@@ -43,16 +45,13 @@ const Topic = ({ navigation }) => {
   const [sub_lesson, setSubLesson] = useState([]);
 
   useEffect(() => {
-    fetch(
-      "https://1769-2001-4455-10c-8a00-f97b-d87-b964-a70b.ap.ngrok.io/startbootstrap-sb-admin/dist/control/sub_lesson.php",
-      {
-        method: "post",
-        header: {
-          Accept: "application/json",
-          "Content-type": "application/json",
-        },
-      }
-    )
+    fetch(`${baseUrl}/startbootstrap-sb-admin/dist/control/sub_lesson.php`, {
+      method: "post",
+      header: {
+        Accept: "application/json",
+        "Content-type": "application/json",
+      },
+    })
       .then((response) => response.text())
       .then((responseJson) => {
         // console.log(responseJson);
@@ -94,7 +93,7 @@ const Topic = ({ navigation }) => {
       headerShadowVisible: false,
       headerTintColor: theme ? text.dark : text.light, //color of title
     });
-  }, [navigation, theme]);
+  }, [navigation, theme, result]);
 
   return (
     <>

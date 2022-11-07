@@ -59,7 +59,7 @@ const HIEGHT = height;
 
 export const ListsItems = ({ navigation, route }, props) => {
   const { subLesson, code } = useSelector((state) => state.module);
-  const { data } = useSelector((state) => state.module);
+  const { data, baseUrl } = useSelector((state) => state.module);
   const { contentId } = useSelector((state) => state.module);
   // const { index } = useSelector((state) => state.content);
   const { darkBg, lightBg, text, theme, buttons } = useSelector(
@@ -146,29 +146,27 @@ export const ListsItems = ({ navigation, route }, props) => {
   useEffect(() => {
     // console.log(route.params.name);
     dispatch(contentIdHandler(route.params.id));
-    if (route.params.name === "Quiz") {
+    if (route.params.name.trim() === "Quiz") {
       navigation.replace("Quiz", {
         id: route.params.id,
         name: route.params.name,
+        module_id: route.params.module_id,
       });
     }
   }, []);
   // console.log(content);
 
   const updateLesson = () => {
-    fetch(
-      "https://1769-2001-4455-10c-8a00-f97b-d87-b964-a70b.ap.ngrok.io/startbootstrap-sb-admin/dist/api/updateLesson.php",
-      {
-        method: "post",
-        header: {
-          Accept: "application/json",
-          "Content-type": "application/json",
-        },
-        body: JSON.stringify({
-          lesson_id: route.params.id,
-        }),
-      }
-    )
+    fetch(`${baseUrl}/startbootstrap-sb-admin/dist/api/updateLesson.php`, {
+      method: "post",
+      header: {
+        Accept: "application/json",
+        "Content-type": "application/json",
+      },
+      body: JSON.stringify({
+        lesson_id: route.params.id,
+      }),
+    })
       .then((response) => response.text())
       .then((responseJson) => {
         dispatch(updateHandler());
@@ -183,11 +181,12 @@ export const ListsItems = ({ navigation, route }, props) => {
       });
   };
 
+  console.log(route.params.module_id);
   useEffect(() => {
     data[0].modules.map((val) => {
       val.topic.map((values, index) => {
         if (values.id === route.params.id) {
-          console.log(values);
+          // console.log(values);
           dispatch(subLessonHandler(values.content));
         }
       });
@@ -308,8 +307,17 @@ export const ListsItems = ({ navigation, route }, props) => {
                       key={index}
                       style={{
                         display: item?.image.length <= 0 ? "none" : "flex",
-                        width: "100%",
-                        height: 400,
+                        width: route.params.id === "2.1" ? "90%" : "100%",
+                        height:
+                          contentId[0] === "2"
+                            ? 180
+                            : 400 && contentId[0] === "4"
+                            ? 180
+                            : 400 && contentId[0] === "5"
+                            ? 180
+                            : 400 && contentId[0] === "6"
+                            ? 180
+                            : 400,
                       }}
                       resizeMode="contain"
                       source={item.image[index]}

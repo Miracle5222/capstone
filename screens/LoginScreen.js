@@ -19,6 +19,7 @@ import {
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const LoginScreen = ({ navigation }) => {
+  const { baseUrl } = useSelector((state) => state.module);
   const dispatch = useDispatch();
   const { darkBg, lightBg, text, theme, buttons, sizes } = useSelector(
     (state) => state.color
@@ -26,21 +27,18 @@ const LoginScreen = ({ navigation }) => {
   const { email, password } = useSelector((state) => state.login);
 
   const login = () => {
-    fetch(
-      "https://7313-2001-4455-161-0-a01c-6dc2-3b77-3316.ap.ngrok.io/startbootstrap-sb-admin/dist/api/login.php",
-      {
-        method: "post",
-        header: {
-          Accept: "application/json",
-          "Content-type": "application/json",
-        },
-        body: JSON.stringify({
-          // we will pass our input data to server
-          email: email,
-          password: password,
-        }),
-      }
-    )
+    fetch(`${baseUrl}/startbootstrap-sb-admin/dist/api/login.php`, {
+      method: "post",
+      header: {
+        Accept: "application/json",
+        "Content-type": "application/json",
+      },
+      body: JSON.stringify({
+        // we will pass our input data to server
+        email: email,
+        password: password,
+      }),
+    })
       .then((response) => response.text())
       .then((responseJson) => {
         // console.log(responseJson);
@@ -51,7 +49,7 @@ const LoginScreen = ({ navigation }) => {
           dispatch(usernameLogin(parse[0].username));
           navigation.replace("HomeScreen");
         } else {
-          alert("Make field is not empty");
+          alert("Make sure field is not empty");
         }
       })
       .catch((error) => {

@@ -6,6 +6,7 @@ const loginSlice = createSlice({
     username: "",
     password: "",
     email: "",
+
   },
 
   reducers: {
