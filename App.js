@@ -29,10 +29,6 @@ const Navigator = () => {
   const { darkBg, lightBg, text, theme } = useSelector((state) => state.color);
   const { email, username } = useSelector((state) => state.login);
   const { baseUrl, update } = useSelector((state) => state.module);
-  const [length, setLength] = useState(0);
-  const [done, setDone] = useState(0);
-  const [unlock, setUnLock] = useState(0);
-  const [lock, setLock] = useState(0);
   const dispatch = useDispatch();
 
   useEffect(() => {

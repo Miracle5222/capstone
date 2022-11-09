@@ -74,6 +74,7 @@ export const ListsItems = ({ navigation, route }, props) => {
   const opacity = useSharedValue(0);
   const dispatch = useDispatch();
   const [content, setContent] = useState([]);
+  const { fontSize } = useSelector((state) => state.content);
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -165,6 +166,7 @@ export const ListsItems = ({ navigation, route }, props) => {
       },
       body: JSON.stringify({
         lesson_id: route.params.id,
+        module_id: route.params.module_id,
       }),
     })
       .then((response) => response.text())
@@ -181,7 +183,6 @@ export const ListsItems = ({ navigation, route }, props) => {
       });
   };
 
-  console.log(route.params.module_id);
   useEffect(() => {
     data[0].modules.map((val) => {
       val.topic.map((values, index) => {
@@ -245,7 +246,7 @@ export const ListsItems = ({ navigation, route }, props) => {
           >
             <Exit />
           </TouchableOpacity>
-          <Text>Hello WOrld</Text>
+          {/* <Text>Hello WOrld</Text> */}
         </Animated.View>
       )}
 
@@ -295,7 +296,10 @@ export const ListsItems = ({ navigation, route }, props) => {
                   },
                 ]}
               >
-                <Paragraph color={theme ? text.dark : text.light} size={14}>
+                <Paragraph
+                  color={theme ? text.dark : text.light}
+                  size={fontSize}
+                >
                   {item?.heading.trim()}
                 </Paragraph>
               </View>
@@ -361,49 +365,7 @@ export const ListsItems = ({ navigation, route }, props) => {
               ) : (
                 <View></View>
               )}
-              {/* {item.image.map((_, index) => {
-                return (
-                  <Image
-                    key={index}
-                    style={{
-                      display: item?.image.length <= 0 ? "none" : "flex",
-                      width: "100%",
-                      height: 400,
-                    }}
-                    resizeMode="contain"
-                    source={item.image[index]}
-                  />
-                );
-              })}
-              
-              {item.code.map((val, index) => {
-                return (
-                  <TouchableOpacity
-                    onPress={() => {
-                      setModalContent(val?.textCode);
-                      setVisibility(!visible);
-                      visible ? (opacity.value = 0) : (opacity.value = 1);
-                    }}
-                    activeOpacity={0.9}
-                    key={index}
-                    style={[
-                      styles.boxContent,
-                      {
-                        backgroundColor: theme
-                          ? lightBg.fortiary
-                          : darkBg.secondary,
-                      },
-                    ]}
-                  >
-                    <Highlighter
-                      language={val?.language}
-                      height={val?.textCode.trim().length < 100 ? "auto" : 180}
-                    >
-                      {val.textCode.trim()}
-                    </Highlighter>
-                  </TouchableOpacity>
-                );
-              })} */}
+
               <Spacer />
               <View
                 style={[
@@ -416,7 +378,10 @@ export const ListsItems = ({ navigation, route }, props) => {
                   },
                 ]}
               >
-                <Paragraph color={theme ? text.dark : text.light} size={14}>
+                <Paragraph
+                  color={theme ? text.dark : text.light}
+                  size={fontSize}
+                >
                   {item?.paragraph.trim()}
                 </Paragraph>
               </View>
@@ -485,6 +450,7 @@ const styles = StyleSheet.create({
   },
   boxContent: {
     width: "90%",
+
     backgroundColor: "#131313",
     borderRadius: 10,
     paddingHorizontal: 20,

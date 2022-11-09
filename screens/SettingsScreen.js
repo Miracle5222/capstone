@@ -1,13 +1,20 @@
 import { View, Text, TouchableOpacity } from "react-native";
-import React, { useLayoutEffect } from "react";
+import React, { useLayoutEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Container, Header, Paragraph } from "../src/styled/Container.style";
 import { changeColor } from "../redux/feature/ColorReducer";
 import { Moon, Sun } from "../src/icons/Icons";
+
+import Slider from "@react-native-community/slider";
+import { fontSizeHandler } from "../redux/feature/contentReducer";
+
 const SettingsScreen = ({ navigation }) => {
   const { darkBg, lightBg, text, theme, icon } = useSelector(
     (state) => state.color
   );
+  const { fontSize } = useSelector((state) => state.content);
+
+
   const dispatch = useDispatch();
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -47,9 +54,18 @@ const SettingsScreen = ({ navigation }) => {
       ]}
       bg={theme ? lightBg.primary : darkBg.primary}
     >
-      <Paragraph color={theme ? text.dark : text.light} size={14}>
-        Mary Grace Buagas
-      </Paragraph>
+      <Text style={{ fontSize: fontSize, color: "white" }}>
+        Font Size: {fontSize}
+      </Text>
+      <Slider
+        style={{ width: 200, height: 40 }}
+        minimumValue={8}
+        maximumValue={36}
+        value={18}
+        onValueChange={(value) => dispatch(fontSizeHandler(parseInt(value)))}
+        minimumTrackTintColor="#FFFFFF"
+        maximumTrackTintColor="#000000"
+      />
     </Container>
   );
 };

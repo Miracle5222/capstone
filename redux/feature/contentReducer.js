@@ -3,8 +3,17 @@ import { BackHandler } from "react-native-web";
 
 const contentSlice = createSlice({
   name: "module",
-  initialState: { contentId: "", content: [], index: 0, status: null },
+  initialState: {
+    contentId: "",
+    content: [],
+    index: 0,
+    status: null,
+    fontSize: 14,
+  },
   reducers: {
+    fontSizeHandler(state, action) {
+      state.fontSize = action.payload;
+    },
     contentHandler(state, action) {
       state.content = action.payload;
     },
@@ -27,6 +36,7 @@ const contentSlice = createSlice({
 });
 
 export const {
+  fontSizeHandler,
   contentHandler,
   contentIdHandler,
   indexInitialState,

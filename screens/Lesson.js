@@ -60,6 +60,7 @@ const Lesson = ({ navigation }) => {
   const [content, setContent] = useState([]);
   const [id, setId] = useState("");
   const [updateId, setUpdateId] = useState("");
+  const { fontSize } = useSelector((state) => state.content);
 
   const ref = useRef();
   const dispatch = useDispatch();
@@ -219,7 +220,7 @@ const Lesson = ({ navigation }) => {
                   </View>
 
                   <Header
-                    size={18}
+                    size={fontSize + 2}
                     color={theme ? text.dark : text.light}
                     style={{ paddingLeft: 10 }}
                   >
@@ -279,6 +280,7 @@ const Lesson = ({ navigation }) => {
                                     styles.lesson,
                                     {
                                       color: theme ? text.dark : text.light,
+                                      fontSize: fontSize,
                                     },
                                   ]}
                                 >
@@ -288,7 +290,10 @@ const Lesson = ({ navigation }) => {
                                   <Text
                                     style={[
                                       styles.name,
-                                      { color: theme ? text.dark : text.light },
+                                      {
+                                        color: theme ? text.dark : text.light,
+                                        fontSize: fontSize,
+                                      },
                                     ]}
                                   >
                                     {introduction}
@@ -297,7 +302,10 @@ const Lesson = ({ navigation }) => {
                                 <Text
                                   style={[
                                     styles.name,
-                                    { color: theme ? text.dark : text.light },
+                                    {
+                                      color: theme ? text.dark : text.light,
+                                      fontSize: fontSize,
+                                    },
                                   ]}
                                 >
                                   {lesson_name}

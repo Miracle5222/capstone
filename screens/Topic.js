@@ -34,6 +34,7 @@ const Topic = ({ navigation }) => {
   const { darkBg, lightBg, text, theme, icon } = useSelector(
     (state) => state.color
   );
+  const { fontSize } = useSelector((state) => state.content);
 
   const { data, update, baseUrl, result } = useSelector(
     (state) => state.module
@@ -99,10 +100,10 @@ const Topic = ({ navigation }) => {
     <>
       <Container bg={theme ? lightBg.primary : darkBg.primary}>
         <View style={styles.headerBox}>
-          <Header color={theme ? text.dark : text.light} size={42}>
+          <Header color={theme ? text.dark : text.light} size={fontSize + 24}>
             Hello, {username}
           </Header>
-          <Paragraph color={theme ? text.dark : text.light} size={14}>
+          <Paragraph color={theme ? text.dark : text.light} size={fontSize}>
             Start learning your first programming language
           </Paragraph>
         </View>
@@ -120,7 +121,7 @@ const Topic = ({ navigation }) => {
             return (
               <Header
                 key={index}
-                size={24}
+                size={fontSize + 12}
                 color={theme ? text.dark : text.light}
               >
                 {val.language}

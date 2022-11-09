@@ -15,7 +15,7 @@ const dataSlice = createSlice({
     done: 0,
     unlock: 0,
     lock: 0,
-    baseUrl: "https://f691-2001-4455-1dc-b00-c8f6-ba6a-bf6a-ea88.ap.ngrok.io",
+    baseUrl: "https://4164-2001-4455-192-2b00-10b7-67f9-d6f-ad60.ap.ngrok.io",
   },
 
   reducers: {
