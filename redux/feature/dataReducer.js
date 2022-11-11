@@ -15,10 +15,22 @@ const dataSlice = createSlice({
     done: 0,
     unlock: 0,
     lock: 0,
-    baseUrl: "https://4164-2001-4455-192-2b00-10b7-67f9-d6f-ad60.ap.ngrok.io",
+    codeQuiz: [],
+    multipleQuiz: [],
+    choice: [],
+    baseUrl: "https://c9d3-2001-4455-1b8-d00-10da-b162-f9fc-f5ea.ap.ngrok.io",
   },
 
   reducers: {
+    choicesQuizHandler(state, action) {
+      state.choice = action.payload;
+    },
+    multipleQuizHandler(state, action) {
+      state.multipleQuiz = action.payload;
+    },
+    codeQuizQuizHandler(state, action) {
+      state.codeQuiz = action.payload;
+    },
     doneHandler(state, action) {
       state.done = (action.payload * 100) / action.payload;
     },
@@ -76,6 +88,9 @@ const dataSlice = createSlice({
 });
 
 export const {
+  choicesQuizHandler,
+  multipleQuizHandler,
+  codeQuizQuizHandler,
   lengthHandler,
   lockHandler,
   unlockHandler,

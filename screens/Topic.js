@@ -17,7 +17,11 @@ import { useSelector, useDispatch } from "react-redux";
 import { Java, Moon, Sun } from "../src/icons/Icons";
 import { usernameLogin } from "../redux/feature/loginReducer";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { dataHandler } from "../redux/feature/dataReducer";
+import {
+  choicesQuizHandler,
+  dataHandler,
+  multipleQuizHandler,
+} from "../redux/feature/dataReducer";
 // import { changeColor } from "../redux/feature/ColorReducer";
 import { changeColor } from "../redux/feature/ColorReducer";
 //fonts
@@ -39,11 +43,33 @@ const Topic = ({ navigation }) => {
   const { data, update, baseUrl, result } = useSelector(
     (state) => state.module
   );
-
   const { email, password, username } = useSelector((state) => state.login);
-
   const [code, setCode] = useState([]);
   const [sub_lesson, setSubLesson] = useState([]);
+
+  // useEffect(() => {
+  //   fetch(`${baseUrl}/startbootstrap-sb-admin/dist/control/test.php`, {
+  //     method: "post",
+  //     header: {
+  //       Accept: "application/json",
+  //       "Content-type": "application/json",
+  //     },
+  //   })
+  //     .then((response) => response.text())
+  //     .then((responseJson) => {
+  //       // console.log(responseJson);
+
+  //       let parse = JSON.parse(responseJson);
+  //       // console.log(parse);
+  //       dispatch(multipleQuizHandler(parse.data.questions));
+  //       dispatch(choicesQuizHandler(parse.data.choices));
+
+  //       // dispatch(multipleQuizHandler(parse.questions.));
+  //     })
+  //     .catch((error) => {
+  //       console.error(error);
+  //     });
+  // }, []);
 
   useEffect(() => {
     fetch(`${baseUrl}/startbootstrap-sb-admin/dist/control/sub_lesson.php`, {
@@ -57,6 +83,7 @@ const Topic = ({ navigation }) => {
       .then((responseJson) => {
         // console.log(responseJson);
         let parse = JSON.parse(responseJson);
+        // console.log(responseJson);
         // console.log(parse.data[0].sub_lesson);
         // setSubLesson(parse.data[0].sub_lesson);
         dispatch(codeHandler(parse.data[1].snippets));

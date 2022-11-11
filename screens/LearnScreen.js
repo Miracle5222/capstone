@@ -13,6 +13,7 @@ import Lesson from "./Lesson";
 import ContentScreen from "./ContentScreen";
 import { ListsItems } from "../components/Lists.component";
 import QuizScreen from "./QuizScreen";
+import QuizHomeScreen from "./QuizHomeScreen";
 
 const Topics = createNativeStackNavigator();
 
@@ -23,7 +24,7 @@ const LearnScreen = () => {
         <Topics.Screen name="Topic" component={Topic} />
         <Topics.Screen name="Lesson" component={Lesson} />
         <Topics.Screen name="List" component={ListsItems} />
-        <Topics.Screen name="Quiz" component={QuizScreen} />
+        <Topics.Screen name="QuizHome" component={QuizHomeScreen} />
       </Topics.Navigator>
     </>
   );

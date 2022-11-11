@@ -57,7 +57,7 @@ const { width, height } = Dimensions.get("screen");
 const WIDTH = width;
 const HIEGHT = height;
 
-export const ListsItems = ({ navigation, route }, props) => {
+export const ListsItems = ({ navigation, route }) => {
   const { subLesson, code } = useSelector((state) => state.module);
   const { data, baseUrl } = useSelector((state) => state.module);
   const { contentId } = useSelector((state) => state.module);
@@ -148,7 +148,7 @@ export const ListsItems = ({ navigation, route }, props) => {
     // console.log(route.params.name);
     dispatch(contentIdHandler(route.params.id));
     if (route.params.name.trim() === "Quiz") {
-      navigation.replace("Quiz", {
+      navigation.replace("QuizHome", {
         id: route.params.id,
         name: route.params.name,
         module_id: route.params.module_id,
@@ -270,6 +270,24 @@ export const ListsItems = ({ navigation, route }, props) => {
         renderItem={({ item }) => (
           <ScrollView style={styles.con}>
             <View style={styles.contentContainer}>
+              <Spacer />
+              <View
+                style={[
+                  styles.boxContent,
+                  {
+                    backgroundColor: theme
+                      ? lightBg.fortiary
+                      : darkBg.secondary,
+                  },
+                ]}
+              >
+                <Paragraph
+                  color={theme ? text.dark : text.light}
+                  size={fontSize + 2}
+                >
+                  {route.params.name}
+                </Paragraph>
+              </View>
               <Spacer />
               <View
                 style={[

@@ -8,7 +8,7 @@ const quizSlice = createSlice({
 
   reducers: {
     scoreHandler(state, action) {
-      state.score += 1;
+      state.score = action.payload;
     },
     clearScore(state, action) {
       state.score = 0;

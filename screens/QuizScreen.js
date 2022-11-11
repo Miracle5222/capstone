@@ -45,84 +45,18 @@ const QuizScreen = ({ navigation, route }) => {
   const { darkBg, lightBg, text, theme, icon } = useSelector(
     (state) => state.color
   );
-  const { baseUrl } = useSelector((state) => state.module);
+  const { baseUrl, multipleQuiz, choice } = useSelector(
+    (state) => state.module
+  );
   const [index, setCurrIndex] = useState(0);
-  const { score } = useSelector((state) => state.quiz);
+  const [scores, setScore] = useState(0);
   const ref = useRef(null);
   const [status, setStatus] = useState("");
   const [time, setTime] = useState(0);
   const [level, setLevel] = useState("");
-  const [count, setCount] = useState(1);
+  const [count, setCount] = useState(0);
   const [visible, setVisible] = useState(false);
-
-  const [quiz, setQuiz] = useState([
-    {
-      key: "1",
-      time: 5,
-      difficulty: "easy",
-      type: "multiple choice",
-      discription:
-        "Which of the following is the correct syntax to add the header file in the C++ program?",
-      choices: [
-        { answer: "a. #include<userdefined>", isCorrect: true },
-        { answer: "a. #include<userdefined>", isCorrect: false },
-        { answer: "a. #include<userdefined>", isCorrect: false },
-      ],
-    },
-    {
-      key: "2",
-      time: 6,
-      difficulty: "medium",
-      type: "multiple choice",
-      discription:
-        "Which of the following is the correct syntax to add the header file in the C++ program?",
-      choices: [
-        { answer: "a. #include<userdefined>", isCorrect: false },
-        { answer: "a. #include<userdefined>", isCorrect: true },
-        { answer: "a. #include<userdefined>", isCorrect: false },
-      ],
-    },
-    {
-      key: "3",
-      time: 5,
-      difficulty: "easy",
-      type: "multiple choice",
-      discription:
-        "Which of the following is the correct syntax to add the header file in the C++ program?",
-      choices: [
-        { answer: "a. #include<userdefined>", isCorrect: false },
-        { answer: "b. #include 'userdefined.h'", isCorrect: true },
-        { answer: "c. Both A and B", isCorrect: false },
-      ],
-    },
-  ]);
-  useLayoutEffect(() => {
-    navigation.setOptions({
-      headerRight: () => (
-        <TouchableOpacity
-          style={{ marginRight: 9 }}
-          onPress={() => dispatch(changeColor())}
-        >
-          {theme ? (
-            <Sun bg={theme ? icon.light : icon.dark} />
-          ) : (
-            <Moon bg={theme ? icon.light : icon.dark} />
-          )}
-        </TouchableOpacity>
-      ),
-      headerShown: true,
-      title: "Quiz",
-      headerStyle: {
-        backgroundColor: theme ? lightBg.primary : darkBg.primary,
-      },
-      headerTitleStyle: {
-        fontWeight: "500",
-        fontSize: 18,
-      },
-      headerShadowVisible: false,
-      headerTintColor: theme ? text.dark : text.light, //color of title
-    });
-  }, [navigation, theme]);
+  const { score } = useSelector((state) => state.quiz);
 
   const updateLesson = () => {
     fetch(`${baseUrl}/startbootstrap-sb-admin/dist/api/updateLesson.php`, {
@@ -139,17 +73,14 @@ const QuizScreen = ({ navigation, route }) => {
       .then((response) => response.text())
       .then((responseJson) => {
         dispatch(updateHandler());
-        // console.log(responseJson);
-        // let parse = JSON.parse(responseJson);
-        // // dispatch(codeHandler(parse.code));
-        // setTextValue(parse.code);
-        // console.log(parse);
       })
       .catch((error) => {
         console.error(error);
       });
   };
-  console.log(route.params.module_id);
+
+  // console.log(multipleQuiz);
+
   useEffect(() => {
     setCurrIndex(0);
     dispatch(clearScore());
@@ -157,9 +88,10 @@ const QuizScreen = ({ navigation, route }) => {
     // console.log(route.params.id);
     // console.log(route.params.name);
   }, []);
-
   useEffect(() => {
-    let quizz = quiz.map((val) => {
+    dispatch(scoreHandler(scores));
+
+    let quizz = multipleQuiz.map((val) => {
       return val.time;
     });
     // if (index === quiz.length - 1) {
@@ -169,7 +101,7 @@ const QuizScreen = ({ navigation, route }) => {
     let interv = setInterval(() => {
       // console.log(quizz[index]);
 
-      if (index === quiz.length - 1) {
+      if (index === multipleQuiz.length - 1) {
         updateLesson();
         navigation.goBack();
       }
@@ -243,10 +175,12 @@ const QuizScreen = ({ navigation, route }) => {
       <View>
         <FlatList
           ref={ref}
-          data={quiz}
-          keyExtractor={(item) => item.key}
+          data={multipleQuiz}
+          keyExtractor={(item) => item.question_id.toString()}
           initialScrollIndex={index}
           horizontal
+          numRows={multipleQuiz.length + 1}
+          // onEndReached={() => navigation.navigate("Code")}
           scrollEnabled={false}
           renderItem={({ item }) => {
             return (
@@ -267,7 +201,7 @@ const QuizScreen = ({ navigation, route }) => {
                         styles.textItem,
                       ]}
                     >
-                      {`${index + 1}/${quiz.length}`}
+                      {`${index + 1}/${multipleQuiz.length}`}
                     </Text>
                   </View>
                   <View style={styles.items}>
@@ -303,7 +237,7 @@ const QuizScreen = ({ navigation, route }) => {
                         styles.textItem,
                       ]}
                     >
-                      {item.difficulty}
+                      {item.difficulty_level}
                     </Text>
                   </View>
                 </View>
@@ -314,42 +248,49 @@ const QuizScreen = ({ navigation, route }) => {
                       styles.description,
                     ]}
                   >
-                    {item.discription}
+                    {item.description}
                   </Text>
                 </View>
                 <View style={styles.choicesContainer}>
-                  {item.choices.map((val, ind) => {
-                    return (
-                      <TouchableOpacity
-                        activeOpacity={0.8}
-                        key={ind}
-                        style={styles.choicesItem}
-                        onPress={() => {
-                          if (index === item.choices.length - 1) {
-                            updateLesson();
-                            navigation.goBack();
-                            // setVisible(!visible);
-                            dispatch(clearScore());
-                          }
+                  {choice
+                    .filter((val) => {
+                      return val.question_id == item.question_id;
+                    })
+                    .map(({ answer, choice_description }, ind) => {
+                      return (
+                        <TouchableOpacity
+                          activeOpacity={0.8}
+                          key={ind}
+                          style={styles.choicesItem}
+                          onPress={() => {
+                            // if (index === choice.length - 1) {
+                            //   setVisible(!visible);
+                            // }
 
-                          if (index === item.choices.length - 1) {
-                            setVisible(!visible);
-                          }
-                          if (val.isCorrect) {
-                            dispatch(scoreHandler());
-                          }
+                            if (!index === choice.length) {
+                              setCount(count + 1);
+                              setCurrIndex(index);
+                            }
+                            if (answer === "true") {
+                              setScore(scores + 1);
+                            }
+                            if (index === multipleQuiz.length - 1) {
+                              updateLesson();
 
-                          if (!index === item.choices.length) {
-                            setCount(count + 1);
-                            setCurrIndex(index);
-                          }
-                          setCurrIndex(index + 1);
-                        }}
-                      >
-                        <Text style={{ color: text.light }}>{val.answer}</Text>
-                      </TouchableOpacity>
-                    );
-                  })}
+                              dispatch(clearScore());
+                              navigation.goBack();
+                              // setVisible(!visible);
+                            }
+
+                            setCurrIndex(index + 1);
+                          }}
+                        >
+                          <Text style={{ color: text.light }}>
+                            {choice_description}
+                          </Text>
+                        </TouchableOpacity>
+                      );
+                    })}
                 </View>
                 {/* <View style={styles.buttonContainer}>
               <Button event={() => setCurrIndex(index + 1)}>
@@ -405,6 +346,7 @@ const styles = StyleSheet.create({
   descriptionContainer: {
     width: "90%",
     paddingTop: 150,
+    paddingLeft: 20,
   },
   description: {
     fontSize: 18,

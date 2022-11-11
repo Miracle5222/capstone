@@ -19,6 +19,8 @@ import {
   unlockHandler,
   lockHandler,
   lengthHandler,
+  multipleQuizHandler,
+  choicesQuizHandler,
 } from "./redux/feature/dataReducer";
 import { indexInitialState } from "./redux/feature/contentReducer";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -32,6 +34,28 @@ const Navigator = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    fetch(`${baseUrl}/startbootstrap-sb-admin/dist/control/test.php`, {
+      method: "post",
+      header: {
+        Accept: "application/json",
+        "Content-type": "application/json",
+      },
+    })
+      .then((response) => response.text())
+      .then((responseJson) => {
+
+        let parse = JSON.parse(responseJson);
+
+        dispatch(multipleQuizHandler(parse.data.questions));
+        dispatch(choicesQuizHandler(parse.data.choices));
+
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }, []);
+
+  useEffect(() => {
     fetch(`${baseUrl}/startbootstrap-sb-admin/dist/api/progress.php`, {
       method: "post",
       header: {
@@ -41,7 +65,7 @@ const Navigator = () => {
     })
       .then((response) => response.text())
       .then((responseJson) => {
-        console.log(responseJson);
+        // console.log(responseJson);
 
         let parse = JSON.parse(responseJson);
         dispatch(doneHandler(parse.data.done));
@@ -78,10 +102,10 @@ const Navigator = () => {
       />
       <NavigationContainer>
         <Stack.Navigator
-          initialRouteName={
-            email != "" && username != "" ? "HomeScreen" : "LandingScreen"
-          }
-          // initialRouteName="HomeScreen"
+          // initialRouteName={
+          //   email != "" && username != "" ? "HomeScreen" : "LandingScreen"
+          // }
+          initialRouteName="HomeScreen"
           screenOptions={{
             headerShown: false,
             headerTintColor: theme ? text.dark : text.light,

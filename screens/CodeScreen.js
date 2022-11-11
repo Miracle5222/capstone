@@ -30,7 +30,7 @@ const CodeScreen = ({ navigation }) => {
     (state) => state.color
   );
 
-  console.log(codeResult);
+  // console.log(codeResult);
   const Top = createMaterialTopTabNavigator();
 
   useLayoutEffect(() => {
@@ -108,7 +108,7 @@ const CodeScreen = ({ navigation }) => {
       setVisible(!visible);
     };
     const numLineHandler = (e) => {
-      console.log((e.nativeEvent.contentSize.height / 20).toFixed()); // prints number of lines
+      // console.log((e.nativeEvent.contentSize.height / 20).toFixed()); // prints number of lines
       setIndex(index.concat((e.nativeEvent.contentSize.height / 20).toFixed()));
     };
     const textChange = (e) => {
@@ -131,7 +131,7 @@ const CodeScreen = ({ navigation }) => {
           let parse = JSON.parse(responseJson);
           // dispatch(codeHandler(parse.code));
           setTextValue(parse.code);
-          console.log(parse);
+          // console.log(parse);
         })
         .catch((error) => {
           console.error(error);
@@ -239,7 +239,7 @@ const CodeScreen = ({ navigation }) => {
     const dispatch = useDispatch();
 
     const numLineHandler = (e) => {
-      console.log((e.nativeEvent.contentSize.height / 20).toFixed()); // prints number of lines
+      // console.log((e.nativeEvent.contentSize.height / 20).toFixed()); // prints number of lines
       setIndex(index.concat((e.nativeEvent.contentSize.height / 20).toFixed()));
     };
     return (

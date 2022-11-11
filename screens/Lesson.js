@@ -275,17 +275,22 @@ const Lesson = ({ navigation }) => {
                               <View>
                                 {/* {console.log("Items: " + items)} */}
                                 {/* {console.log("Topic: " + value.topic[items].status)} */}
-                                <Text
-                                  style={[
-                                    styles.lesson,
-                                    {
-                                      color: theme ? text.dark : text.light,
-                                      fontSize: fontSize,
-                                    },
-                                  ]}
-                                >
-                                  Lesson: {lesson_id}
-                                </Text>
+
+                                {lesson_name === "Quiz" ? (
+                                  <Text></Text>
+                                ) : (
+                                  <Text
+                                    style={[
+                                      styles.lesson,
+                                      {
+                                        color: theme ? text.dark : text.light,
+                                        fontSize: fontSize,
+                                      },
+                                    ]}
+                                  >
+                                    Lesson: {lesson_id}
+                                  </Text>
+                                )}
                                 {introduction && (
                                   <Text
                                     style={[
@@ -305,6 +310,8 @@ const Lesson = ({ navigation }) => {
                                     {
                                       color: theme ? text.dark : text.light,
                                       fontSize: fontSize,
+                                      marginTop:
+                                        lesson_name === "Quiz" ? -20 : 0,
                                     },
                                   ]}
                                 >
