@@ -23,13 +23,16 @@ const WIDTH = width;
 const HIEGHT = height;
 
 const CodeScreen = ({ navigation }) => {
-  const { baseUrl } = useSelector((state) => state.module);
+  const { baseUrl, codeQuiz } = useSelector((state) => state.module);
   const { codeResult } = useSelector((state) => state.code);
   const dispatch = useDispatch();
   const { darkBg, lightBg, text, theme, icon } = useSelector(
     (state) => state.color
   );
-
+  const [descript, setDescription] = useState("");
+  const [time, setTime] = useState(0);
+  const [level, setLevel] = useState("");
+  const [index, setIndex] = useState(0);
   // console.log(codeResult);
   const Top = createMaterialTopTabNavigator();
 
@@ -48,7 +51,7 @@ const CodeScreen = ({ navigation }) => {
           )}
         </TouchableOpacity>
       ),
-      title: "Code Play Ground",
+      title: "Problem Solving",
       headerStyle: {
         backgroundColor: theme ? lightBg.primary : darkBg.primary,
       },
@@ -60,39 +63,137 @@ const CodeScreen = ({ navigation }) => {
       headerTintColor: theme ? text.dark : text.light, //color of title
     });
   }, [navigation, theme]);
+  // console.log(codeQuiz);
+  // console.log(codeQuiz.length);
+  // useEffect(() => {
+  //   console.log(codeQuiz[0].description);
+  //   let interval = setInterval(() => {
+  //     setDescription(codeQuiz[index].description);
+  //     if (index != codeQuiz.length - 1) {
+  //       setIndex(index + 1);
+  //       console.log(codeQuiz[index].description);
+  //     } else {
+  //       navigation.goBack();
+  //     }
+  //   }, codeQuiz[index].time * 1000);
 
+  //   return () => clearInterval(interval);
+  // }, [index]);
+
+  useEffect(() => {
+    let quizz = codeQuiz.map((val) => {
+      return val.time;
+    });
+    setDescription(codeQuiz[index].description);
+    setLevel(codeQuiz[index].difficulty_level);
+    setTime(codeQuiz[index].time);
+    // if (index === quiz.length - 1) {
+    //   dispatch(moduleStatusHandler(route.params.id));
+    // }
+
+    let interv = setInterval(() => {
+      // console.log(quizz[index]);
+
+      if (index === codeQuiz.length - 1) {
+        navigation.goBack();
+      }
+      setIndex(index + 1);
+    }, quizz[index] * 1000);
+
+    return () => clearInterval(interv);
+  }, [index]);
   const Problem = () => {
     return (
       <View
         style={{ backgroundColor: theme ? lightBg.primary : darkBg.primary }}
       >
-        <Header size={18} color={theme ? text.dark : text.light}>
-          <View style={styles.problem}>
-            <Header
-              color={theme ? text.dark : text.light}
-              size={16}
-              style={styles.heading}
-            >
-              Problem:
-            </Header>
-            <View
+        <View style={styles.header}>
+          <View style={styles.items}>
+            <Text
               style={[
-                styles.box,
-                {
-                  backgroundColor: theme ? lightBg.secondary : darkBg.secondary,
-                },
+                { color: theme ? text.dark : text.light },
+                styles.textHeader,
               ]}
             >
-              <Paragraph
-                color={theme ? text.dark : text.light}
-                size={14}
-                style={styles.discripton}
-              >
-                The quick brown fox jumps
-              </Paragraph>
-            </View>
+              Status
+            </Text>
+            <Text
+              style={[
+                { color: theme ? text.dark : text.light },
+                styles.textItem,
+              ]}
+            >
+              {`${index + 1}/${codeQuiz.length}`}
+            </Text>
           </View>
-        </Header>
+          <View style={styles.items}>
+            <Text
+              style={[
+                { color: theme ? text.dark : text.light },
+                styles.textHeader,
+              ]}
+            >
+              Time
+            </Text>
+            <Text
+              style={[
+                { color: theme ? text.dark : text.light },
+                styles.textItem,
+              ]}
+            >
+              {time}
+            </Text>
+          </View>
+          <View style={styles.items}>
+            <Text
+              style={[
+                { color: theme ? text.dark : text.light },
+                styles.textHeader,
+              ]}
+            >
+              Level
+            </Text>
+            <Text
+              style={[
+                { color: theme ? text.dark : text.light },
+                styles.textItem,
+              ]}
+            >
+              {level}
+            </Text>
+          </View>
+        </View>
+        <View style={styles.problDescription}>
+          <Header size={18} color={theme ? text.dark : text.light}>
+            <View style={styles.problem}>
+              <Header
+                color={theme ? text.dark : text.light}
+                size={16}
+                style={styles.heading}
+              >
+                Problem:
+              </Header>
+              <View
+                style={[
+                  styles.box,
+                  {
+                    backgroundColor: theme
+                      ? lightBg.secondary
+                      : darkBg.secondary,
+                  },
+                ]}
+              >
+                <Paragraph
+                  color={theme ? text.dark : text.light}
+                  size={14}
+                  style={styles.discripton}
+                >
+                  {descript}
+                </Paragraph>
+              </View>
+            </View>
+          </Header>
+        </View>
       </View>
     );
   };
@@ -232,45 +333,6 @@ const CodeScreen = ({ navigation }) => {
       </ScrollView>
     );
   };
-  const Output = () => {
-    const [index, setIndex] = useState([]);
-    const { codeResult } = useSelector((state) => state.code);
-    const [textValue, setTextValue] = useState("");
-    const dispatch = useDispatch();
-
-    const numLineHandler = (e) => {
-      // console.log((e.nativeEvent.contentSize.height / 20).toFixed()); // prints number of lines
-      setIndex(index.concat((e.nativeEvent.contentSize.height / 20).toFixed()));
-    };
-    return (
-      <View
-        style={{ backgroundColor: theme ? lightBg.primary : darkBg.primary }}
-      >
-        <View style={codeStyle.box}>
-          <View style={codeStyle.sideBox}>
-            {index.map((val, index) => (
-              <Paragraph
-                key={index}
-                color={theme ? text.dark : text.light}
-                size={14}
-                style={codeStyle.sideNumber}
-              >
-                {index + 1}
-              </Paragraph>
-            ))}
-          </View>
-
-          <TextInput
-            onContentSizeChange={numLineHandler}
-            multiline={true}
-            style={codeStyle.textInput}
-            numberOfLines={12}
-            value={codeResult}
-          />
-        </View>
-      </View>
-    );
-  };
 
   return (
     <Top.Navigator
@@ -292,7 +354,7 @@ const CodeScreen = ({ navigation }) => {
         options={{ tabBarLabel: "Problem" }}
       />
       <Top.Screen
-        name="ProblemCode"
+        name="ProblemSolving"
         component={ProblemCode}
         options={{ tabBarLabel: "Code" }}
       />
@@ -305,8 +367,32 @@ const CodeScreen = ({ navigation }) => {
   );
 };
 const styles = StyleSheet.create({
+  problDescription: {
+    marginTop: 90,
+  },
+  header: {
+    position: "absolute",
+    width: "90%",
+    height: 100,
+    flexDirection: "row",
+  },
+  textHeader: {
+    textAlign: "center",
+    fontSize: 18,
+    borderBottomColor: "#021F26",
+    borderBottomWidth: 1,
+    paddingVertical: 10,
+  },
+  textItem: {
+    textAlign: "center",
+    fontSize: 18,
+    paddingVertical: 2,
+  },
+  items: {
+    flexGrow: 0.8,
+  },
   problem: {
-    alignContent: "flex-start",
+    alignContent: "center",
     alignItems: "center",
     width: WIDTH,
     height: HIEGHT,

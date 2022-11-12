@@ -18,7 +18,7 @@ const dataSlice = createSlice({
     codeQuiz: [],
     multipleQuiz: [],
     choice: [],
-    baseUrl: "https://c9d3-2001-4455-1b8-d00-10da-b162-f9fc-f5ea.ap.ngrok.io",
+    baseUrl: "https://5a47-2001-4455-1b8-d00-45c4-72f2-7fa5-9c2d.ap.ngrok.io",
   },
 
   reducers: {
@@ -27,6 +27,7 @@ const dataSlice = createSlice({
     },
     multipleQuizHandler(state, action) {
       state.multipleQuiz = action.payload;
+   
     },
     codeQuizQuizHandler(state, action) {
       state.codeQuiz = action.payload;

@@ -21,6 +21,7 @@ import {
   contentIdHandler,
   multipleQuizHandler,
   choicesQuizHandler,
+  codeQuizQuizHandler,
 } from "../redux/feature/dataReducer";
 import QuizScreen from "./QuizScreen";
 import { Moon, Sun } from "../src/icons/Icons";
@@ -38,10 +39,11 @@ const HIEGHT = height;
 const QuizHomeScreen = ({ route, navigation }) => {
   const [qestions, setQuestions] = useState([]);
   const dispatch = useDispatch();
-  const { darkBg, lightBg, text, theme, icon } = useSelector(
+  const { darkBg, lightBg, text, theme, icon, quizColor } = useSelector(
     (state) => state.color
   );
-  const { baseUrl, multipleQuiz, choice } = useSelector(
+  const { fontSize } = useSelector((state) => state.content);
+  const { baseUrl, multipleQuiz, choice, codeQuiz } = useSelector(
     (state) => state.module
   );
   const { score } = useSelector((state) => state.quiz);
@@ -76,7 +78,17 @@ const QuizHomeScreen = ({ route, navigation }) => {
           .map((value) => {
             return value;
           });
+        let code = response
+          .filter((val) => {
+            return val.question_type == "Problem Solving";
+          })
+          .map((problem) => {
+            return problem;
+          });
+        dispatch(codeQuizQuizHandler(code));
+
         dispatch(multipleQuizHandler(response));
+
         // dispatch(multipleQuizHandler(parse.data.questions));
         // dispatch(choicesQuizHandler(parse.data.choices));
 
@@ -103,8 +115,9 @@ const QuizHomeScreen = ({ route, navigation }) => {
             <Text>Multiple Choice</Text>
           </TouchableOpacity> */}
 
-          <Button
-            event={() =>
+          <TouchableOpacity
+            style={styles.quizzes}
+            onPress={() =>
               navigation.navigate("MultipleChoice", {
                 id: route.params.id,
                 name: route.params.name,
@@ -112,24 +125,71 @@ const QuizHomeScreen = ({ route, navigation }) => {
               })
             }
           >
-            <Text style={[{ color: theme ? text.dark : text.light }]}>
-              Multiple Choice
-            </Text>
-          </Button>
+            <Text style={[{ color: text.light }]}>Multiple Choice</Text>
+          </TouchableOpacity>
 
-          <Text style={[{ color: theme ? text.dark : text.light }]}>
-            Score: {score}
-          </Text>
+          <View
+            style={[
+              styles.scoreResult,
+              {
+                backgroundColor: theme
+                  ? quizColor.lightSecondary
+                  : quizColor.darkSecondary,
+              },
+            ]}
+          >
+            <Text
+              style={[
+                {
+                  color: text.light,
+                  fontSize: fontSize + 15,
+                },
+              ]}
+            >
+              Score: {score}
+            </Text>
+          </View>
         </View>
-        {}
-        <View style={styles.codingContainer}>
-          <Button>
-            <Text style={[{ color: theme ? text.dark : text.light }]}>
-              Problem Solving
-            </Text>
-          </Button>
 
-          <Text style={[{ color: theme ? text.dark : text.light }]}>Score</Text>
+        <View
+          style={[
+            styles.codingContainer,
+            { display: route.params.id[0] === "1" ? "none" : "flex" },
+          ]}
+        >
+          <TouchableOpacity
+            style={styles.quizzes}
+            onPress={() =>
+              navigation.navigate("ProblemCode", {
+                id: route.params.id,
+                name: route.params.name,
+                module_id: route.params.module_id,
+              })
+            }
+          >
+            <Text style={[{ color: text.light }]}>Problem Solving</Text>
+          </TouchableOpacity>
+          <View
+            style={[
+              styles.scoreResult,
+              {
+                backgroundColor: theme
+                  ? quizColor.lightPrimary
+                  : quizColor.darkPrimary,
+              },
+            ]}
+          >
+            <Text
+              style={[
+                {
+                  color: text.light,
+                  fontSize: fontSize + 15,
+                },
+              ]}
+            >
+              Score: {score}
+            </Text>
+          </View>
         </View>
       </Container>
     );
@@ -182,14 +242,30 @@ const styles = StyleSheet.create({
     flex: 0.5,
     width: WIDTH,
     justifyContent: "space-around",
-    flexDirection: "row",
+    flexDirection: "column",
     alignItems: "center",
   },
+  quizzes: {
+    paddingHorizontal: 20,
+    paddingVertical: 8,
+    borderRadius: 8,
+    backgroundColor: "red",
+  },
   codingContainer: {
-    flexDirection: "row",
+    flexDirection: "column",
     justifyContent: "space-around",
     alignItems: "center",
     flex: 0.5,
     width: WIDTH,
+    marginHorizontal: 20,
+  },
+  scoreResult: {
+    justifyContent: "center",
+    alignItems: "center",
+    position: "relative",
+    width: WIDTH - 40,
+    borderRadius: 12,
+    height: "70%",
+    marginHorizontal: 10,
   },
 });

@@ -6,12 +6,18 @@ const initialState = {
     secondary: "#131313",
   },
   lightBg: {
-    primary: "#E7E7E7",
+    primary: "#F8F1F1",
     secondary: "#F2F2F2",
     tertiary: "#E3E3E3",
     fortiary: "#E2E2E2",
   },
 
+  quizColor: {
+    darkPrimary: "#262122",
+    darkSecondary: "#1F2126",
+    lightPrimary: "#4A2525",
+    lightSecondary: "#0B2B43",
+  },
   icon: {
     dark: "#FFFFFF",
     light: "#FFB800",

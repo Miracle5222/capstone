@@ -33,6 +33,7 @@ import {
   withTiming,
 } from "react-native-reanimated";
 import { useLayoutEffect } from "react";
+import MainCodeScreen from "./MainCodeScreen";
 
 const Tab = createBottomTabNavigator();
 const SettingsStack = createNativeStackNavigator();
@@ -90,7 +91,7 @@ const HomeScreen = ({ navigation }) => {
               <CodeIcons bg={theme ? darkBg.primary : text.light} />
             ),
           }}
-          component={CodeScreen}
+          component={MainCodeScreen}
         />
         <Tab.Screen
           name="Profile"

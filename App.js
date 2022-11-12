@@ -43,12 +43,10 @@ const Navigator = () => {
     })
       .then((response) => response.text())
       .then((responseJson) => {
-
         let parse = JSON.parse(responseJson);
 
-        dispatch(multipleQuizHandler(parse.data.questions));
+        // dispatch(multipleQuizHandler(parse.data.questions));
         dispatch(choicesQuizHandler(parse.data.choices));
-
       })
       .catch((error) => {
         console.error(error);

@@ -57,6 +57,34 @@ const QuizScreen = ({ navigation, route }) => {
   const [count, setCount] = useState(0);
   const [visible, setVisible] = useState(false);
   const { score } = useSelector((state) => state.quiz);
+  const { fontSize } = useSelector((state) => state.content);
+  // useLayoutEffect(() => {
+  //   navigation.setOptions({
+  //     headerRight: () => (
+  //       <TouchableOpacity
+  //         style={{ marginRight: 9 }}
+  //         onPress={() => dispatch(changeColor())}
+  //       >
+  //         {theme ? (
+  //           <Sun bg={theme ? icon.light : icon.dark} />
+  //         ) : (
+  //           <Moon bg={theme ? icon.light : icon.dark} />
+  //         )}
+  //       </TouchableOpacity>
+  //     ),
+  //     headerShown: true,
+  //     title: "Multiple Choice",
+  //     headerStyle: {
+  //       backgroundColor: theme ? lightBg.primary : darkBg.primary,
+  //     },
+  //     headerTitleStyle: {
+  //       fontWeight: "500",
+  //       fontSize: 18,
+  //     },
+  //     headerShadowVisible: false,
+  //     headerTintColor: theme ? text.dark : text.light, //color of title
+  //   });
+  // }, [navigation, theme]);
 
   const updateLesson = () => {
     fetch(`${baseUrl}/startbootstrap-sb-admin/dist/api/updateLesson.php`, {
@@ -112,6 +140,7 @@ const QuizScreen = ({ navigation, route }) => {
   }, [index]);
 
   useEffect(() => {
+    console.log(scores);
     ref.current?.scrollToIndex({
       index,
       animated: true,
@@ -125,11 +154,20 @@ const QuizScreen = ({ navigation, route }) => {
         {
           flex: 1,
           justifyContent: "center",
-          alignItems: "center",
+          alignItems: "flex-start",
         },
       ]}
       bg={theme ? lightBg.primary : darkBg.primary}
     >
+      <View style={{ marginVertical: 20, marginLeft: 40 }}>
+        <Text
+          style={[
+            { color: "#FF7700", fontSize: fontSize + 10, paddingTop: 40 },
+          ]}
+        >
+          Multiple Choice
+        </Text>
+      </View>
       <View style={[styles.nextPhase, { display: visible ? "flex" : "none" }]}>
         <View style={{ position: "absolute", right: 10, zIndex: 100 }}>
           <TouchableOpacity
@@ -142,11 +180,13 @@ const QuizScreen = ({ navigation, route }) => {
         </View>
         <View
           style={{
-            fontSize: 24,
+            fontSize: fontSize,
             alignItems: "center",
           }}
         >
-          <Text style={[{ color: "#FF7700", fontSize: 26, paddingTop: 40 }]}>
+          <Text
+            style={[{ color: "#FF7700", fontSize: fontSize, paddingTop: 40 }]}
+          >
             Test 1 Complete!
           </Text>
         </View>
@@ -275,6 +315,9 @@ const QuizScreen = ({ navigation, route }) => {
                               setScore(scores + 1);
                             }
                             if (index === multipleQuiz.length - 1) {
+                              if (answer === "true") {
+                                setScore(scores + 1);
+                              }
                               updateLesson();
 
                               dispatch(clearScore());
