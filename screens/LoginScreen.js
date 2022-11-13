@@ -15,6 +15,8 @@ import {
   emailLogin,
   passwordLogin,
   usernameLogin,
+  student_idLogin,
+  userHandler,
 } from "../redux/feature/loginReducer";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
@@ -24,7 +26,9 @@ const LoginScreen = ({ navigation }) => {
   const { darkBg, lightBg, text, theme, buttons, sizes } = useSelector(
     (state) => state.color
   );
-  const { email, password } = useSelector((state) => state.login);
+  const { email, password, currStudent_id, currUsername, user } = useSelector(
+    (state) => state.login
+  );
 
   const login = () => {
     fetch(`${baseUrl}/startbootstrap-sb-admin/dist/api/login.php`, {
@@ -43,8 +47,11 @@ const LoginScreen = ({ navigation }) => {
       .then((responseJson) => {
         // console.log(responseJson);
         let parse = JSON.parse(responseJson);
+        console.log(parse);
 
         if (parse.length > 0) {
+          dispatch(userHandler(parse));
+          dispatch(student_idLogin(parse[0].student_id));
           dispatch(emailLogin(parse[0].email));
           dispatch(usernameLogin(parse[0].username));
           navigation.replace("HomeScreen");

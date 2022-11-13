@@ -76,6 +76,7 @@ const Navigator = () => {
         // setLock(parse.data.lock);
         // console.log(parse.data[0].sub_lesson);
         // setSubLesson(parse.data[0].sub_lesson);
+
         dispatch(
           progressBar(((parse.data.done * 100) / parse.data.length).toFixed())
         );
@@ -103,7 +104,7 @@ const Navigator = () => {
           // initialRouteName={
           //   email != "" && username != "" ? "HomeScreen" : "LandingScreen"
           // }
-          initialRouteName="HomeScreen"
+          initialRouteName="LandingScreen"
           screenOptions={{
             headerShown: false,
             headerTintColor: theme ? text.dark : text.light,

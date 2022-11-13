@@ -15,7 +15,12 @@ import { Home } from "../Data";
 import { useSelector, useDispatch } from "react-redux";
 //icons
 import { Java, Moon, Sun } from "../src/icons/Icons";
-import { usernameLogin } from "../redux/feature/loginReducer";
+import {
+  currEmailLogin,
+  currStudent_idLogin,
+  currUsernameLogin,
+  usernameLogin,
+} from "../redux/feature/loginReducer";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {
   choicesQuizHandler,
@@ -43,7 +48,9 @@ const Topic = ({ navigation }) => {
   const { data, update, baseUrl, result } = useSelector(
     (state) => state.module
   );
-  const { email, password, username } = useSelector((state) => state.login);
+  const { email, password, username, user } = useSelector(
+    (state) => state.login
+  );
   const [code, setCode] = useState([]);
   const [sub_lesson, setSubLesson] = useState([]);
 
@@ -70,6 +77,22 @@ const Topic = ({ navigation }) => {
   //       console.error(error);
   //     });
   // }, []);
+
+  const getData = async () => {
+    try {
+      const jsonValue = await AsyncStorage.getItem("user");
+      const result = jsonValue != null ? JSON.parse(jsonValue) : null;
+      // console.log(result);
+      dispatch(currUsernameLogin(result[0].username));
+      dispatch(currStudent_idLogin(result[0].student_id));
+      dispatch(currEmailLogin(result[0].email));
+    } catch (e) {
+      // error reading value
+    }
+  };
+  useEffect(() => {
+    getData();
+  }, []);
 
   useEffect(() => {
     fetch(`${baseUrl}/startbootstrap-sb-admin/dist/control/sub_lesson.php`, {

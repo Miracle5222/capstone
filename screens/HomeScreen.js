@@ -32,8 +32,14 @@ import {
   useSharedValue,
   withTiming,
 } from "react-native-reanimated";
-import { useLayoutEffect } from "react";
+import { useLayoutEffect, useEffect } from "react";
 import MainCodeScreen from "./MainCodeScreen";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import {
+  currUsernameLogin,
+  currStudent_idLogin,
+  currEmailLogin,
+} from "../redux/feature/loginReducer";
 
 const Tab = createBottomTabNavigator();
 const SettingsStack = createNativeStackNavigator();
@@ -43,6 +49,25 @@ const HomeScreen = ({ navigation }) => {
     (state) => state.color
   );
   const { offsetY } = useSelector((state) => state.scroll);
+  const dispatch = useDispatch();
+  // currEmailLogin,
+  const { email, password, username, user } = useSelector(
+    (state) => state.login
+  );
+
+
+  const storeData = async () => {
+    try {
+      const jsonValue = JSON.stringify(user);
+      await AsyncStorage.setItem("user", jsonValue);
+    } catch (e) {
+      // saving error
+      console.log(e);
+    }
+  };
+  useEffect(() => {
+    storeData();
+  }, []);
 
   return (
     <>

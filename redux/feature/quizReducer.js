@@ -4,18 +4,22 @@ const quizSlice = createSlice({
   name: "quiz",
   initialState: {
     score: 0,
+    quiz_id: "",
   },
 
   reducers: {
     scoreHandler(state, action) {
-      state.score = action.payload;
+      state.score += 1;
     },
     clearScore(state, action) {
       state.score = 0;
     },
+    quizIdHandler(state, action) {
+      state.quiz_id = action.payload;
+    },
   },
 });
 
-export const { scoreHandler, clearScore } = quizSlice.actions;
+export const { scoreHandler, clearScore, quizIdHandler } = quizSlice.actions;
 
 export default quizSlice.reducer;

@@ -5,6 +5,7 @@ import { Container, Header, Paragraph } from "../src/styled/Container.style";
 import { changeColor } from "../redux/feature/ColorReducer";
 import { Moon, Sun } from "../src/icons/Icons";
 import { ProgressChart } from "react-native-chart-kit";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 const { width, height } = Dimensions.get("screen");
 
 const WIDTH = width;
@@ -14,6 +15,8 @@ const ProfileScreen = ({ navigation }) => {
   const { darkBg, lightBg, text, theme, icon } = useSelector(
     (state) => state.color
   );
+  const { fontSize } = useSelector((state) => state.content);
+  const { currStudent_id } = useSelector((state) => state.login);
   const dispatch = useDispatch();
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -57,6 +60,15 @@ const ProfileScreen = ({ navigation }) => {
     barPercentage: 0.5,
     useShadowColorFromDataset: false, // optional
   };
+  const removeValue = async () => {
+    try {
+      await AsyncStorage.removeItem("user");
+    } catch (e) {
+      // remove error
+    }
+    navigation.navigate("LoginScreen");
+    // console.log("Done.");
+  };
   return (
     <Container
       style={[
@@ -68,6 +80,28 @@ const ProfileScreen = ({ navigation }) => {
       ]}
       bg={theme ? lightBg.primary : darkBg.primary}
     >
+      <TouchableOpacity onPress={removeValue}>
+        <Text
+          style={[
+            {
+              color: theme ? text.dark : text.light,
+              fontSize: fontSize,
+            },
+          ]}
+        >
+          Logout
+        </Text>
+      </TouchableOpacity>
+      <Text
+        style={[
+          {
+            color: theme ? text.dark : text.light,
+            fontSize: fontSize,
+          },
+        ]}
+      >
+        {currStudent_id}
+      </Text>
       <ProgressChart
         data={data}
         width={WIDTH}

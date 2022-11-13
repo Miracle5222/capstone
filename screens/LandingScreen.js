@@ -6,18 +6,27 @@ import {
   TouchableOpacity,
   Image,
 } from "react-native";
-import React from "react";
+import React, { useEffect } from "react";
 
 import { StatusBar } from "expo-status-bar";
 
 import { useSelector } from "react-redux";
 import { Container, Header, Paragraph } from "../src/styled/Container.style";
 import { Highlighter } from "../components/CodeHighlighter.component";
+import {
+  currEmailLogin,
+  currStudent_idLogin,
+  currUsernameLogin,
+} from "../redux/feature/loginReducer";
 
 const LandingScreen = ({ navigation }) => {
   const { darkBg, lightBg, text, theme, buttons } = useSelector(
     (state) => state.color
   );
+  const { email, password, currStudent_id, currUsername } = useSelector(
+    (state) => state.login
+  );
+
   return (
     <>
       <View
@@ -51,6 +60,9 @@ b = false; if(b) System.out.println("This is not executed.");
             ]}
             onPress={() => navigation.navigate("LoginScreen")}
           >
+            {/* useEffect(() => {
+    !currStudent_id == "" && "HomeScreen";
+  }, []); */}
             <Paragraph color={text.light} size={18}>
               Continue
             </Paragraph>

@@ -55,9 +55,19 @@ const QuizScreen = ({ navigation, route }) => {
   const [time, setTime] = useState(0);
   const [level, setLevel] = useState("");
   const [count, setCount] = useState(0);
-  const [visible, setVisible] = useState(false);
-  const { score } = useSelector((state) => state.quiz);
+
+  const { score, quiz_id } = useSelector((state) => state.quiz);
   const { fontSize } = useSelector((state) => state.content);
+  const { email, password, currStudent_id, currUsername } = useSelector(
+    (state) => state.login
+  );
+
+  useEffect(() => {
+    console.log("quiz_id: ", quiz_id);
+    console.log("currUsername: ", currUsername);
+    console.log("currStudent_id: ", currStudent_id);
+  }, []);
+
   // useLayoutEffect(() => {
   //   navigation.setOptions({
   //     headerRight: () => (
@@ -96,10 +106,14 @@ const QuizScreen = ({ navigation, route }) => {
       body: JSON.stringify({
         lesson_id: route.params.id,
         module_id: route.params.module_id,
+        score: score,
+        student_id: currStudent_id,
+        quiz_id: quiz_id,
       }),
     })
       .then((response) => response.text())
       .then((responseJson) => {
+        console.log(responseJson);
         dispatch(updateHandler());
       })
       .catch((error) => {
@@ -112,35 +126,23 @@ const QuizScreen = ({ navigation, route }) => {
   useEffect(() => {
     setCurrIndex(0);
     dispatch(clearScore());
-
-    // console.log(route.params.id);
-    // console.log(route.params.name);
   }, []);
   useEffect(() => {
-    dispatch(scoreHandler(scores));
-
     let quizz = multipleQuiz.map((val) => {
       return val.time;
     });
-    // if (index === quiz.length - 1) {
-    //   dispatch(moduleStatusHandler(route.params.id));
-    // }
-
     let interv = setInterval(() => {
-      // console.log(quizz[index]);
-
       if (index === multipleQuiz.length - 1) {
         updateLesson();
+        dispatch(clearScore());
         navigation.goBack();
       }
       setCurrIndex(index + 1);
     }, quizz[index] * 1000);
-
     return () => clearInterval(interv);
   }, [index]);
 
   useEffect(() => {
-    console.log(scores);
     ref.current?.scrollToIndex({
       index,
       animated: true,
@@ -168,50 +170,7 @@ const QuizScreen = ({ navigation, route }) => {
           Multiple Choice
         </Text>
       </View>
-      <View style={[styles.nextPhase, { display: visible ? "flex" : "none" }]}>
-        <View style={{ position: "absolute", right: 10, zIndex: 100 }}>
-          <TouchableOpacity
-            onPress={() => {
-              setVisible(!visible);
-            }}
-          >
-            <Exit />
-          </TouchableOpacity>
-        </View>
-        <View
-          style={{
-            fontSize: fontSize,
-            alignItems: "center",
-          }}
-        >
-          <Text
-            style={[{ color: "#FF7700", fontSize: fontSize, paddingTop: 40 }]}
-          >
-            Test 1 Complete!
-          </Text>
-        </View>
-        <View
-          style={{
-            height: "100%",
-            justifyContent: "space-around",
-            alignItems: "flex-end",
-            flexDirection: "row",
-            marginTop: -100,
-          }}
-        >
-          <Celeb bg={"#FF7700"} />
-          <Button event={() => navigation.navigate("Code")}>
-            <Text
-              style={[
-                { color: theme ? text.dark : text.light },
-                styles.textItem,
-              ]}
-            >
-              Continue
-            </Text>
-          </Button>
-        </View>
-      </View>
+
       <View>
         <FlatList
           ref={ref}
@@ -309,9 +268,11 @@ const QuizScreen = ({ navigation, route }) => {
 
                             if (!index === choice.length) {
                               setCount(count + 1);
+
                               setCurrIndex(index);
                             }
                             if (answer === "true") {
+                              dispatch(scoreHandler());
                               setScore(scores + 1);
                             }
                             if (index === multipleQuiz.length - 1) {
@@ -320,7 +281,7 @@ const QuizScreen = ({ navigation, route }) => {
                               }
                               updateLesson();
 
-                              dispatch(clearScore());
+                              // dispatch(clearScore());
                               navigation.goBack();
                               // setVisible(!visible);
                             }
