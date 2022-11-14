@@ -45,7 +45,7 @@ const QuizScreen = ({ navigation, route }) => {
   const { darkBg, lightBg, text, theme, icon } = useSelector(
     (state) => state.color
   );
-  const { baseUrl, multipleQuiz, choice } = useSelector(
+  const { baseUrl, multipleQuiz, codeQuiz, choice } = useSelector(
     (state) => state.module
   );
   const [index, setCurrIndex] = useState(0);
@@ -104,7 +104,7 @@ const QuizScreen = ({ navigation, route }) => {
         "Content-type": "application/json",
       },
       body: JSON.stringify({
-        lesson_id: route.params.id,
+        lesson_id: route.params.lesson_id,
         module_id: route.params.module_id,
         score: score,
         student_id: currStudent_id,
@@ -133,11 +133,23 @@ const QuizScreen = ({ navigation, route }) => {
     });
     let interv = setInterval(() => {
       if (index === multipleQuiz.length - 1) {
-        updateLesson();
-        dispatch(clearScore());
-        navigation.goBack();
+        if (codeQuiz.length > 0) {
+          navigation.replace("ProblemCode", {
+            lesson_id: route.params.lesson_id,
+            module_id: route.params.module_id,
+            score: score,
+            student_id: currStudent_id,
+            quiz_id: quiz_id,
+          });
+        } else {
+          updateLesson();
+
+          dispatch(clearScore());
+          navigation.goBack();
+        }
+      } else {
+        setCurrIndex(index + 1);
       }
-      setCurrIndex(index + 1);
     }, quizz[index] * 1000);
     return () => clearInterval(interv);
   }, [index]);
@@ -273,20 +285,30 @@ const QuizScreen = ({ navigation, route }) => {
                             }
                             if (answer === "true") {
                               dispatch(scoreHandler());
-                              setScore(scores + 1);
+                              // setScore(scores + 1);
                             }
                             if (index === multipleQuiz.length - 1) {
-                              if (answer === "true") {
-                                setScore(scores + 1);
+                              // if (answer === "true") {
+                              //   setScore(scores + 1);
+                              // }
+                              if (codeQuiz.length > 0) {
+                                navigation.replace("ProblemCode", {
+                                  lesson_id: route.params.lesson_id,
+                                  module_id: route.params.module_id,
+                                  score: score,
+                                  student_id: currStudent_id,
+                                  quiz_id: quiz_id,
+                                });
+                              } else {
+                                updateLesson();
+
+                                // dispatch(clearScore());
+                                navigation.goBack();
+                                // setVisible(!visible);
                               }
-                              updateLesson();
-
-                              // dispatch(clearScore());
-                              navigation.goBack();
-                              // setVisible(!visible);
+                            } else {
+                              setCurrIndex(index + 1);
                             }
-
-                            setCurrIndex(index + 1);
                           }}
                         >
                           <Text style={{ color: text.light }}>

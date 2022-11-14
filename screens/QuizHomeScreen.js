@@ -55,6 +55,8 @@ const QuizHomeScreen = ({ route, navigation }) => {
   );
   const [results, setResult] = useState([]);
 
+  const length = multipleQuiz.length + codeQuiz.length;
+
   // useEffect(() => {
   //   dispatch(clearScore());
 
@@ -197,31 +199,76 @@ const QuizHomeScreen = ({ route, navigation }) => {
             </Button>
           </View>
         </View>
-        <View style={styles.multipleContainer}>
-          {/* <TouchableOpacity style={styles.multiple}>
-            <Text>Multiple Choice</Text>
-          </TouchableOpacity> */}
 
-          <TouchableOpacity
-            style={styles.quizzes}
-            onPress={() =>
-              navigation.navigate("MultipleChoice", {
-                id: route.params.id,
-                name: route.params.name,
-                module_id: route.params.module_id,
-              })
-            }
+        <View style={[styles.codingContainer]}>
+          <View
+            style={{
+              flex: 1,
+              justifyContent: "space-around",
+              width: WIDTH - 40,
+              alignItems: "center",
+
+              flexDirection: "row",
+            }}
           >
-            <Text style={[{ color: text.light }]}>Multiple Choice</Text>
-          </TouchableOpacity>
+            <TouchableOpacity
+              style={[
+                styles.quizzes,
+                { display: multipleQuiz.length === 0 ? "none" : "flex" },
+              ]}
+              onPress={() =>
+                navigation.navigate("MultipleChoice", {
+                  lesson_id: route.params.id,
+                  name: route.params.name,
+                  module_id: route.params.module_id,
+                  score: score,
+                  quiz_id: quiz_id,
+                })
+              }
+            >
+              <Text style={[{ color: text.light }]}>Multiple Choice</Text>
+            </TouchableOpacity>
 
+            <TouchableOpacity
+              style={[
+                styles.quizzes,
+                { display: codeQuiz.length === 0 ? "none" : "flex" },
+              ]}
+              onPress={() =>
+                navigation.navigate("ProblemCode", {
+                  lesson_id: route.params.id,
+                  name: route.params.name,
+                  module_id: route.params.module_id,
+                  score: score,
+                  quiz_id: quiz_id,
+                })
+              }
+            >
+              <Text style={[{ color: text.light }]}>Problem Solving</Text>
+            </TouchableOpacity>
+          </View>
+
+          <Text
+            style={[
+              {
+                color: theme ? text.dark : text.light,
+                alignSelf: "flex-start",
+                marginLeft: 20,
+                marginBottom: 20,
+
+                fontSize: fontSize,
+              },
+            ]}
+          >
+            Results
+          </Text>
           <View
             style={[
               styles.scoreResult,
               {
                 backgroundColor: theme
-                  ? quizColor.lightSecondary
-                  : quizColor.darkSecondary,
+                  ? quizColor.lightPrimary
+                  : quizColor.darkPrimary,
               },
             ]}
           >
@@ -247,7 +294,7 @@ const QuizHomeScreen = ({ route, navigation }) => {
                     },
                   ]}
                 >
-                  Student ID
+                  Time Ended
                 </Text>
               </View>
               <View>
@@ -259,7 +306,7 @@ const QuizHomeScreen = ({ route, navigation }) => {
                     },
                   ]}
                 >
-                  Score
+                  Total Score
                 </Text>
               </View>
               <View>
@@ -275,175 +322,87 @@ const QuizHomeScreen = ({ route, navigation }) => {
                 </Text>
               </View>
             </View>
-            <FlatList
-              data={results}
-              keyExtractor={(_, index) => index.toString()}
-              renderItem={({ item }) => {
-                return (
-                  <View
-                    style={[
-                      styles.resultContainer,
-                      { paddingTop: 30, paddingRight: 20 },
-                    ]}
-                  >
-                    <View>
-                      <Text
-                        style={[
-                          {
-                            color: text.light,
-                            fontSize: fontSize,
-                          },
-                        ]}
-                      >
-                        {item.quiz_id}
-                      </Text>
+            {results ? (
+              <FlatList
+                data={results}
+                keyExtractor={(_, index) => index.toString()}
+                renderItem={({ item }) => {
+                  return (
+                    <View
+                      style={[
+                        styles.resultContainer,
+                        { paddingTop: 30, paddingRight: 20 },
+                      ]}
+                    >
+                      <View>
+                        <Text
+                          style={[
+                            {
+                              color: text.light,
+                              fontSize: fontSize,
+                            },
+                          ]}
+                        >
+                          {item.quiz_id}
+                        </Text>
+                      </View>
+                      <View>
+                        <Text
+                          style={[
+                            {
+                              color: text.light,
+                              fontSize: fontSize,
+                            },
+                          ]}
+                        >
+                          {item.ended_at}
+                        </Text>
+                      </View>
+                      <View>
+                        <Text
+                          style={[
+                            {
+                              color: text.light,
+                              fontSize: fontSize,
+                            },
+                          ]}
+                        >
+                          {item.score}/ {length}
+                        </Text>
+                      </View>
+                      <View>
+                        <Text
+                          style={[
+                            {
+                              color:
+                                item.status === "Failed"
+                                  ? "#F4002C"
+                                  : "#00F444",
+                              fontSize: fontSize,
+                            },
+                          ]}
+                        >
+                          {item.status}
+                        </Text>
+                      </View>
                     </View>
-                    <View>
-                      <Text
-                        style={[
-                          {
-                            color: text.light,
-                            fontSize: fontSize,
-                          },
-                        ]}
-                      >
-                        {item.student_id}
-                      </Text>
-                    </View>
-                    <View>
-                      <Text
-                        style={[
-                          {
-                            color: text.light,
-                            fontSize: fontSize,
-                          },
-                        ]}
-                      >
-                        {item.score}
-                      </Text>
-                    </View>
-                    <View>
-                      <Text
-                        style={[
-                          {
-                            color: item.status === "Failed" ? "red" : "green",
-                            fontSize: fontSize,
-                          },
-                        ]}
-                      >
-                        {item.status}
-                      </Text>
-                    </View>
-                  </View>
-                );
-              }}
-            />
-            {/* <ScrollView
-              contentContainerStyle={styles.scrolViewContainer}
-              style={{
-                width: "100%",
-                flex: 1,
-              }}
-            >
-              {results.map((item, index) => {
-                return (
-                  <View
-                    key={index}
-                    style={[styles.resultContainer, { paddingTop: 30 }]}
-                  >
-                    <View>
-                      <Text
-                        style={[
-                          {
-                            color: text.light,
-                            fontSize: fontSize,
-                          },
-                        ]}
-                      >
-                        {item.quiz_id}
-                      </Text>
-                    </View>
-                    <View>
-                      <Text
-                        style={[
-                          {
-                            color: text.light,
-                            fontSize: fontSize,
-                          },
-                        ]}
-                      >
-                        {item.student_id}
-                      </Text>
-                    </View>
-                    <View>
-                      <Text
-                        style={[
-                          {
-                            color: text.light,
-                            fontSize: fontSize,
-                          },
-                        ]}
-                      >
-                        {item.score}
-                      </Text>
-                    </View>
-                    <View>
-                      <Text
-                        style={[
-                          {
-                            color: text.light,
-                            fontSize: fontSize,
-                          },
-                        ]}
-                      >
-                        {item.status}
-                      </Text>
-                    </View>
-                  </View>
-                );
-              })}
-            </ScrollView> */}
-          </View>
-        </View>
-
-        <View
-          style={[
-            styles.codingContainer,
-            { display: route.params.id[0] === "1" ? "none" : "flex" },
-          ]}
-        >
-          <TouchableOpacity
-            style={styles.quizzes}
-            onPress={() =>
-              navigation.navigate("ProblemCode", {
-                id: route.params.id,
-                name: route.params.name,
-                module_id: route.params.module_id,
-              })
-            }
-          >
-            <Text style={[{ color: text.light }]}>Problem Solving</Text>
-          </TouchableOpacity>
-          <View
-            style={[
-              styles.scoreResult,
-              {
-                backgroundColor: theme
-                  ? quizColor.lightPrimary
-                  : quizColor.darkPrimary,
-              },
-            ]}
-          >
-            <Text
-              style={[
-                {
-                  color: text.light,
-                  fontSize: fontSize + 15,
-                },
-              ]}
-            >
-              Score: {score}
-            </Text>
+                  );
+                }}
+              />
+            ) : (
+              <View>
+                <Text
+                  style={[
+                    {
+                      color: text.light,
+                      fontSize: fontSize,
+                    },
+                  ]}
+                >
+                  No Results.
+                </Text>
+              </View>
+            )}
           </View>
         </View>
       </Container>
@@ -492,9 +451,10 @@ export default QuizHomeScreen;
 
 const styles = StyleSheet.create({
   resultContainer: {
-    padding: 4,
+    padding: 8,
     justifyContent: "space-around",
     alignItems: "center",
+
     flexDirection: "row",
     width: "100%",
   },
@@ -506,7 +466,6 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     width: "100%",
     flex: 1,
-    backgroundColor: "red",
   },
   nextPhase: {
     flex: 1,
@@ -540,7 +499,7 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     justifyContent: "space-around",
     alignItems: "center",
-    flex: 0.5,
+    flex: 0.8,
     width: WIDTH,
     marginHorizontal: 20,
   },

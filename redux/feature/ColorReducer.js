@@ -7,7 +7,7 @@ const initialState = {
   },
   lightBg: {
     primary: "#F8F1F1",
-    secondary: "#F2F2F2",
+    secondary: "#E9E7E7",
     tertiary: "#E3E3E3",
     fortiary: "#E2E2E2",
   },

@@ -16,25 +16,32 @@ import { Moon, Play, Sun } from "../src/icons/Icons";
 import { codeHandler } from "../redux/feature/codeReducer";
 import { BottomSheet } from "react-native-btr";
 import { Highlighter } from "../components/CodeHighlighter.component";
+import { updateHandler } from "../redux/feature/dataReducer";
+import { scoreHandler } from "../redux/feature/quizReducer";
 
 const { width, height } = Dimensions.get("screen");
 
 const WIDTH = width;
 const HIEGHT = height;
 
-const CodeScreen = ({ navigation }) => {
-  const { baseUrl, codeQuiz } = useSelector((state) => state.module);
+const CodeScreen = ({ navigation, route }) => {
   const { codeResult } = useSelector((state) => state.code);
   const dispatch = useDispatch();
   const { darkBg, lightBg, text, theme, icon } = useSelector(
     (state) => state.color
   );
+  const { currStudent_id } = useSelector((state) => state.login);
   const [descript, setDescription] = useState("");
   const [time, setTime] = useState(0);
   const [level, setLevel] = useState("");
   const [index, setIndex] = useState(0);
+  const { baseUrl, multipleQuiz, codeQuiz, choice } = useSelector(
+    (state) => state.module
+  );
+  const { score, quiz_id } = useSelector((state) => state.quiz);
   // console.log(codeResult);
   const Top = createMaterialTopTabNavigator();
+  const [curIndex, setCurIndex] = useState(0);
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -98,6 +105,7 @@ const CodeScreen = ({ navigation }) => {
         navigation.goBack();
       }
       setIndex(index + 1);
+      setCurIndex(curIndex + 1);
     }, quizz[index] * 1000);
 
     return () => clearInterval(interv);
@@ -204,6 +212,67 @@ const CodeScreen = ({ navigation }) => {
     const { codeResult } = useSelector((state) => state.code);
     const dispatch = useDispatch();
     const [visible, setVisible] = useState(false);
+    const [codeResults, setCodeResult] = useState([]);
+
+    useEffect(() => {
+      console.log(codeQuiz);
+      // console.log(choice);
+      // console.log(route.params.lesson_id);
+      // console.log(route.params.module_id);
+      // console.log(route.params.score);
+      // console.log(route.params.quiz_id);
+      // console.log(currStudent_id);
+    });
+    useEffect(() => {
+      fetch(`${baseUrl}/startbootstrap-sb-admin/dist/api/codeData.php`, {
+        method: "post",
+        header: {
+          Accept: "application/json",
+          "Content-type": "application/json",
+        },
+        body: JSON.stringify({
+          quiz_id: quiz_id,
+        }),
+      })
+        .then((response) => response.text())
+        .then((responseJson) => {
+          // console.log(responseJson);
+          let parse = JSON.parse(responseJson);
+
+          setCodeResult(parse.codeResult);
+
+          // dispatch(updateHandler());
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    }, []);
+
+    const updateLesson = () => {
+      fetch(`${baseUrl}/startbootstrap-sb-admin/dist/api/updateLesson.php`, {
+        method: "post",
+        header: {
+          Accept: "application/json",
+          "Content-type": "application/json",
+        },
+        body: JSON.stringify({
+          lesson_id: route.params.lesson_id,
+          module_id: route.params.module_id,
+          score: score,
+          student_id: currStudent_id,
+          quiz_id: quiz_id,
+        }),
+      })
+        .then((response) => response.text())
+        .then((responseJson) => {
+          // console.log(responseJson);
+          dispatch(updateHandler());
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    };
+
     const toggleBottomNavigationView = () => {
       //Toggling the visibility state of the bottom sheet
       setVisible(!visible);
@@ -324,6 +393,9 @@ const CodeScreen = ({ navigation }) => {
                 <Text
                   style={[{ color: "#FF7700", fontSize: 12, paddingTop: 40 }]}
                 >
+                  {textValue === codeResults
+                    ? console.log("Correct")
+                    : console.log("Wrong")}
                   {textValue}
                 </Text>
               </View>

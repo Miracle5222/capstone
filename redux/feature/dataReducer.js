@@ -18,7 +18,7 @@ const dataSlice = createSlice({
     codeQuiz: [],
     multipleQuiz: [],
     choice: [],
-    baseUrl: "https://5be5-2001-4455-1b8-d00-9908-b2e6-542c-716a.ap.ngrok.io",
+    baseUrl: "https://e9fc-2001-4455-15f-a000-504d-28b7-607-16d.ap.ngrok.io",
   },
 
   reducers: {

@@ -364,7 +364,7 @@ smartphone.
             lesson_name: "Summary",
             content: [
               {
-                heading: `Summary`,
+                heading: ``,
 
                 video: "",
                 paragraph: `Two general types of programming languages:
@@ -1197,7 +1197,7 @@ public static void main(String args[]) {
             lesson_name: "Summary",
             content: [
               {
-                heading: `Summary`,
+                heading: ``,
 
                 video: "",
                 paragraph: `In this lesson you learned about:
@@ -1211,6 +1211,21 @@ public static void main(String args[]) {
 ● Type Conversion and Casting
                 
 `,
+                code: [],
+                image: [],
+              },
+            ],
+          },
+          {
+            id: "2.7",
+            status: "lock",
+            lesson_name: "Quiz",
+            content: [
+              {
+                heading: ``,
+
+                video: ``,
+                paragraph: ``,
                 code: [],
                 image: [],
               },
@@ -1516,7 +1531,7 @@ public class SampleProgram{
             lesson_name: "Summary",
             content: [
               {
-                heading: `Summary`,
+                heading: ``,
 
                 video: "",
                 paragraph: `In this lesson you learned about:
@@ -1526,6 +1541,21 @@ public class SampleProgram{
 ● Switch Statement
       
 `,
+                code: [],
+                image: [],
+              },
+            ],
+          },
+          {
+            id: "3.5",
+            status: "lock",
+            lesson_name: "Quiz",
+            content: [
+              {
+                heading: ``,
+
+                video: ``,
+                paragraph: ``,
                 code: [],
                 image: [],
               },
@@ -1901,7 +1931,7 @@ public static void main(String args[]){
             lesson_name: "Summary",
             content: [
               {
-                heading: `Summary`,
+                heading: ``,
 
                 video: "",
                 paragraph: `In this lesson you learned about:
@@ -1913,6 +1943,21 @@ public static void main(String args[]){
 
       
 `,
+                code: [],
+                image: [],
+              },
+            ],
+          },
+          {
+            id: "4.6",
+            status: "lock",
+            lesson_name: "Quiz",
+            content: [
+              {
+                heading: ``,
+
+                video: ``,
+                paragraph: ``,
                 code: [],
                 image: [],
               },
@@ -2377,6 +2422,43 @@ The scope of a method parameter covers the entire method.`,
               },
             ],
           },
+          {
+            id: "5.8",
+            status: "lock",
+            lesson_name: "Summary",
+            content: [
+              {
+                heading: ``,
+
+                video: "",
+                paragraph: `In this lesson you learned about:
+
+● How to Declare and create Arrays
+● Returning an array from a method
+● Multidimentional Arrays
+
+                
+`,
+                code: [],
+                image: [],
+              },
+            ],
+          },
+          {
+            id: "5.9",
+            status: "lock",
+            lesson_name: "Quiz",
+            content: [
+              {
+                heading: ``,
+
+                video: ``,
+                paragraph: ``,
+                code: [],
+                image: [],
+              },
+            ],
+          },
         ],
       },
       {
@@ -2719,6 +2801,43 @@ Example below shows how to process two-dimensional array.`,
                 paragraph: ``,
                 code: [],
                 image: [require("./assets/m6p7.jpg")],
+              },
+            ],
+          },
+          {
+            id: "6.5",
+            status: "lock",
+            lesson_name: "Summary",
+            content: [
+              {
+                heading: ``,
+
+                video: "",
+                paragraph: `In this lesson you learned about:
+
+● How to Declare and create Arrays
+● Returning an array from a method
+● Multidimentional Arrays
+
+                
+`,
+                code: [],
+                image: [],
+              },
+            ],
+          },
+          {
+            id: "6.6",
+            status: "lock",
+            lesson_name: "Quiz",
+            content: [
+              {
+                heading: ``,
+
+                video: ``,
+                paragraph: ``,
+                code: [],
+                image: [],
               },
             ],
           },
