@@ -34,7 +34,7 @@ const Navigator = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    fetch(`${baseUrl}/startbootstrap-sb-admin/dist/control/test.php`, {
+    fetch(`${baseUrl}/dist/control/test.php`, {
       method: "post",
       header: {
         Accept: "application/json",
@@ -54,7 +54,7 @@ const Navigator = () => {
   }, []);
 
   useEffect(() => {
-    fetch(`${baseUrl}/startbootstrap-sb-admin/dist/api/progress.php`, {
+    fetch(`${baseUrl}/dist/api/progress.php`, {
       method: "post",
       header: {
         Accept: "application/json",

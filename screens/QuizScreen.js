@@ -97,7 +97,12 @@ const QuizScreen = ({ navigation, route }) => {
   // }, [navigation, theme]);
 
   const updateLesson = () => {
-    fetch(`${baseUrl}/startbootstrap-sb-admin/dist/api/updateLesson.php`, {
+    console.log(route.params.lesson_id);
+    console.log(route.params.module_id);
+    console.log(score);
+    console.log(currStudent_id);
+    console.log(quiz_id);
+    fetch(`${baseUrl}/dist/api/updateLesson.php`, {
       method: "post",
       header: {
         Accept: "application/json",

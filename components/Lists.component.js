@@ -158,7 +158,7 @@ export const ListsItems = ({ navigation, route }) => {
   // console.log(content);
 
   const updateLesson = () => {
-    fetch(`${baseUrl}/startbootstrap-sb-admin/dist/api/updateLesson.php`, {
+    fetch(`${baseUrl}/dist/api/updateLesson.php`, {
       method: "post",
       header: {
         Accept: "application/json",

@@ -31,7 +31,7 @@ const LoginScreen = ({ navigation }) => {
   );
 
   const login = () => {
-    fetch(`${baseUrl}/startbootstrap-sb-admin/dist/api/login.php`, {
+    fetch(`${baseUrl}/dist/api/login.php`, {
       method: "post",
       header: {
         Accept: "application/json",

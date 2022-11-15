@@ -77,7 +77,7 @@ const MainCodeScreen = ({ navigation }) => {
     setCode(e);
   };
   const sendCode = () => {
-    fetch(`${baseUrl}/startbootstrap-sb-admin/dist/api/code.php`, {
+    fetch(`${baseUrl}/dist/api/code.php`, {
       method: "post",
       header: {
         Accept: "application/json",

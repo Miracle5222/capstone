@@ -64,7 +64,7 @@ const QuizHomeScreen = ({ route, navigation }) => {
   //   // console.log(route.params.name);
   // }, []);
   useEffect(() => {
-    fetch(`${baseUrl}/startbootstrap-sb-admin/dist/api/result.php`, {
+    fetch(`${baseUrl}/dist/api/result.php`, {
       method: "post",
       header: {
         Accept: "application/json",
@@ -87,7 +87,7 @@ const QuizHomeScreen = ({ route, navigation }) => {
   }, [quiz_id, update]);
 
   useEffect(() => {
-    fetch(`${baseUrl}/startbootstrap-sb-admin/dist/control/test.php`, {
+    fetch(`${baseUrl}/dist/control/test.php`, {
       method: "post",
       header: {
         Accept: "application/json",

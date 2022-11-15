@@ -136,7 +136,7 @@ const Lesson = ({ navigation }) => {
   //   }
   // }, []);
   useEffect(() => {
-    fetch(`${baseUrl}/startbootstrap-sb-admin/dist/control/lesson.php`, {
+    fetch(`${baseUrl}/dist/control/lesson.php`, {
       method: "post",
       header: {
         Accept: "application/json",

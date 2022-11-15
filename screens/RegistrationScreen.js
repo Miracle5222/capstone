@@ -46,7 +46,7 @@ const RegisterScreen = ({ navigation }) => {
   }, [navigation]);
 
   const Register = () => {
-    fetch(`${baseUrl}/startbootstrap-sb-admin/dist/api/register.php`, {
+    fetch(`${baseUrl}/dist/api/register.php`, {
       method: "post",
       header: {
         Accept: "application/json",

@@ -224,7 +224,7 @@ const CodeScreen = ({ navigation, route }) => {
       // console.log(currStudent_id);
     });
     useEffect(() => {
-      fetch(`${baseUrl}/startbootstrap-sb-admin/dist/api/codeData.php`, {
+      fetch(`${baseUrl}/dist/api/codeData.php`, {
         method: "post",
         header: {
           Accept: "application/json",
@@ -249,7 +249,7 @@ const CodeScreen = ({ navigation, route }) => {
     }, []);
 
     const updateLesson = () => {
-      fetch(`${baseUrl}/startbootstrap-sb-admin/dist/api/updateLesson.php`, {
+      fetch(`${baseUrl}/dist/api/updateLesson.php`, {
         method: "post",
         header: {
           Accept: "application/json",
@@ -285,7 +285,7 @@ const CodeScreen = ({ navigation, route }) => {
       setCode(e);
     };
     const sendCode = () => {
-      fetch(`${baseUrl}/startbootstrap-sb-admin/dist/api/code.php`, {
+      fetch(`${baseUrl}/dist/api/code.php`, {
         method: "post",
         header: {
           Accept: "application/json",
@@ -393,9 +393,6 @@ const CodeScreen = ({ navigation, route }) => {
                 <Text
                   style={[{ color: "#FF7700", fontSize: 12, paddingTop: 40 }]}
                 >
-                  {textValue === codeResults
-                    ? console.log("Correct")
-                    : console.log("Wrong")}
                   {textValue}
                 </Text>
               </View>
