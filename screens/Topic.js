@@ -25,7 +25,12 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import {
   choicesQuizHandler,
   dataHandler,
+  doneHandler,
+  lengthHandler,
+  lockHandler,
   multipleQuizHandler,
+  progressBar,
+  unlockHandler,
 } from "../redux/feature/dataReducer";
 // import { changeColor } from "../redux/feature/ColorReducer";
 import { changeColor } from "../redux/feature/ColorReducer";
@@ -48,7 +53,7 @@ const Topic = ({ navigation }) => {
   const { data, update, baseUrl, result } = useSelector(
     (state) => state.module
   );
-  const { email, password, username, user } = useSelector(
+  const { email, password, username, user, student_id } = useSelector(
     (state) => state.login
   );
   const [code, setCode] = useState([]);
@@ -77,7 +82,58 @@ const Topic = ({ navigation }) => {
   //       console.error(error);
   //     });
   // }, []);
+  useEffect(() => {
+    fetch(`${baseUrl}/dist/api/progress.php`, {
+      method: "post",
+      header: {
+        Accept: "application/json",
+        "Content-type": "application/json",
+      },
+      body: JSON.stringify({
+        student_id: student_id,
+      }),
+    })
+      .then((response) => response.text())
+      .then((responseJson) => {
+        // console.log(responseJson);
+        let parse = JSON.parse(responseJson);
+        let length = parse.data.length;
+        console.log(parse);
+        if (
+          parse.data.done === 0 &&
+          parse.data.unlock === 0 &&
+          parse.data.lock === 0
+        ) {
+          dispatch(doneHandler(0));
+          dispatch(unlockHandler(0));
+          dispatch(lockHandler(0));
+          dispatch(lengthHandler(length));
+        } else {
+          let parse = JSON.parse(responseJson);
 
+          let done = (parse.data.done * 100) / parse.data.length;
+          let unlock = (parse.data.unlock * 100) / parse.data.length;
+
+          let lock = (parse.data.lock * 100) / parse.data.length;
+          dispatch(doneHandler(done));
+          dispatch(unlockHandler(unlock));
+          dispatch(lockHandler(lock));
+          dispatch(lengthHandler(length));
+
+          dispatch(progressBar(done.toFixed()));
+        }
+
+        // setLength(parse.data.length);
+        // setDone(parse.data.done);
+        // setUnLock(parse.data.unlock);
+        // setLock(parse.data.lock);
+        // console.log(parse.data[0].sub_lesson);
+        // setSubLesson(parse.data[0].sub_lesson);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }, [update]);
   const getData = async () => {
     try {
       const jsonValue = await AsyncStorage.getItem("user");

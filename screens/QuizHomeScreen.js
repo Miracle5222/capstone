@@ -50,9 +50,8 @@ const QuizHomeScreen = ({ route, navigation }) => {
   );
   const [visible, setVisible] = useState(false);
   const { score, quiz_id } = useSelector((state) => state.quiz);
-  const { email, password, currStudent_id, currUsername } = useSelector(
-    (state) => state.login
-  );
+  const { email, password, currStudent_id, student_id, currUsername } =
+    useSelector((state) => state.login);
   const [results, setResult] = useState([]);
 
   const length = multipleQuiz.length + codeQuiz.length;
@@ -63,6 +62,7 @@ const QuizHomeScreen = ({ route, navigation }) => {
   //   // console.log(route.params.id);
   //   // console.log(route.params.name);
   // }, []);
+
   useEffect(() => {
     fetch(`${baseUrl}/dist/api/result.php`, {
       method: "post",
@@ -71,13 +71,14 @@ const QuizHomeScreen = ({ route, navigation }) => {
         "Content-type": "application/json",
       },
       body: JSON.stringify({
+        student_id: student_id,
         module_id: route.params.module_id,
         quiz_id: quiz_id,
       }),
     })
       .then((response) => response.text())
       .then((responseJson) => {
-        console.log(responseJson);
+        // console.log(responseJson);
         let parse = JSON.parse(responseJson);
         setResult(parse.result);
       })
@@ -201,6 +202,20 @@ const QuizHomeScreen = ({ route, navigation }) => {
         </View>
 
         <View style={[styles.codingContainer]}>
+          <View>
+            <Text
+              style={[
+                {
+                  color: text.light,
+                  fontSize: fontSize + 8,
+                  marginTop: -20,
+                  textAlign: "center",
+                },
+              ]}
+            >
+              {route.params.moduleTitle}
+            </Text>
+          </View>
           <View
             style={{
               flex: 1,

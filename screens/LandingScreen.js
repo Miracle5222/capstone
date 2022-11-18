@@ -23,10 +23,14 @@ const LandingScreen = ({ navigation }) => {
   const { darkBg, lightBg, text, theme, buttons } = useSelector(
     (state) => state.color
   );
-  const { email, password, currStudent_id, currUsername } = useSelector(
-    (state) => state.login
-  );
+  const { email, password, currStudent_id, student_id, currUsername, user } =
+    useSelector((state) => state.login);
 
+  useEffect(() => {
+    if (student_id != "") {
+      navigation.navigate("HomeScreen");
+    }
+  }, []);
   return (
     <>
       <View

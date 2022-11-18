@@ -61,6 +61,30 @@ const Lesson = ({ navigation }) => {
   const [id, setId] = useState("");
   const [updateId, setUpdateId] = useState("");
   const { fontSize } = useSelector((state) => state.content);
+  const { email, password, currStudent_id, student_id, currUsername } =
+    useSelector((state) => state.login);
+
+  // const ListItem = async (props) => {
+  //   console.log(props);
+
+  //   data[0].modules.map((val) => {
+  //     val.topic.map((values, index) => {
+  //       if (values.id === props.lesson_id) {
+  //         navigation.navigate("List", {
+  //           // status: status,
+  //           content: values,
+  //           id: props.lesson_id,
+  //           module_id: props.module_id,
+  //           name: props.lesson_name,
+  //         }); //pass params to ContentScreen
+
+  //         // console.log(values);
+  //         // dispatch(subLessonHandler(values.content));
+  //       }
+  //     });
+  //   });
+
+  // };
 
   const ref = useRef();
   const dispatch = useDispatch();
@@ -142,6 +166,9 @@ const Lesson = ({ navigation }) => {
         Accept: "application/json",
         "Content-type": "application/json",
       },
+      body: JSON.stringify({
+        student_id: student_id,
+      }),
     })
       .then((response) => response.text())
       .then((responseJson) => {
@@ -231,33 +258,39 @@ const Lesson = ({ navigation }) => {
                 {index === currentIndex && (
                   <>
                     {lesson
+
                       .filter((val) => {
                         return val.module_id == value.module_id;
                       })
                       .map(
                         //map data from redux
                         (
-                          {
-                            lesson_name,
-                            lesson_id,
-                            key,
-                            introduction,
-                            status,
-                            content,
-                            module_id,
-                          },
+                          values,
+                          // {
+                          //   lesson_name,
+                          //   lesson_id,
+                          //   key,
+                          //   introduction,
+                          //   status,
+                          //   content,
+                          //   module_id,
+                          // },
                           items
                         ) => {
                           return (
                             <TouchableOpacity
                               onPress={() => {
-                                setId(lesson_id);
+                                // ListItem(values);
+                                setId(values.lessons);
                                 // console.log(content);
                                 navigation.navigate("List", {
                                   // status: status,
-                                  id: lesson_id,
-                                  module_id: module_id,
-                                  name: lesson_name,
+                                  lessons: values.lessons,
+                                  content: values,
+                                  id: values.lesson_id,
+                                  module_id: values.module_id,
+                                  name: values.lesson_name,
+                                  moduleTitle: value.title,
                                 }); //pass params to ContentScreen
                               }}
                               activeOpacity={0.6}
@@ -269,14 +302,14 @@ const Lesson = ({ navigation }) => {
                                     : darkBg.secondary,
                                 },
                               ]}
-                              disabled={status == "lock" ? true : false}
+                              disabled={values.status == "lock" ? true : false}
                               key={items}
                             >
                               <View>
                                 {/* {console.log("Items: " + items)} */}
-                                {/* {console.log("Topic: " + value.topic[items].status)} */}
+                                {/* {console.log("Topic: " + values.topic[items].status)} */}
 
-                                {lesson_name === "Quiz" ? (
+                                {values.lesson_name === "Quiz" ? (
                                   <Text></Text>
                                 ) : (
                                   <Text
@@ -288,10 +321,10 @@ const Lesson = ({ navigation }) => {
                                       },
                                     ]}
                                   >
-                                    Lesson: {lesson_id}
+                                    Lesson: {values.lessons}
                                   </Text>
                                 )}
-                                {introduction && (
+                                {values.introduction && (
                                   <Text
                                     style={[
                                       styles.name,
@@ -301,7 +334,7 @@ const Lesson = ({ navigation }) => {
                                       },
                                     ]}
                                   >
-                                    {introduction}
+                                    {values.introduction}
                                   </Text>
                                 )}
                                 <Text
@@ -311,18 +344,18 @@ const Lesson = ({ navigation }) => {
                                       color: theme ? text.dark : text.light,
                                       fontSize: fontSize,
                                       marginTop:
-                                        lesson_name === "Quiz" ? -20 : 0,
+                                        values.lesson_name === "Quiz" ? -20 : 0,
                                     },
                                   ]}
                                 >
-                                  {lesson_name}
+                                  {values.lesson_name}
                                 </Text>
                                 <View style={styles.iconContainer}>
-                                  {status === "done" && <Check />}
-                                  {status === "unlock" && (
+                                  {values.status === "done" && <Check />}
+                                  {values.status === "unlock" && (
                                     <LockLight bg={text.primary} />
                                   )}
-                                  {status === "lock" && (
+                                  {values.status === "lock" && (
                                     <LockDark bg={text.secondary} />
                                   )}
                                 </View>

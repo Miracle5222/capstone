@@ -14,7 +14,6 @@ const SettingsScreen = ({ navigation }) => {
   );
   const { fontSize } = useSelector((state) => state.content);
 
-
   const dispatch = useDispatch();
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -48,24 +47,49 @@ const SettingsScreen = ({ navigation }) => {
       style={[
         {
           flex: 1,
-          justifyContent: "center",
-          alignItems: "center",
+          justifyContent: "flex-start",
+          alignItems: "flex-start",
+          paddingLeft: 20,
         },
       ]}
       bg={theme ? lightBg.primary : darkBg.primary}
     >
-      <Text style={{ fontSize: fontSize, color: "white" }}>
+      <Text
+        style={{
+          marginTop: 20,
+          fontSize: fontSize,
+          color: theme ? text.dark : text.light,
+        }}
+      >
+        The quick brown fox jumps over the lazy dog
+      </Text>
+      <Text
+        style={{
+          fontSize: fontSize,
+          color: theme ? text.dark : text.light,
+          paddingVertical: 20,
+        }}
+      >
         Font Size: {fontSize}
       </Text>
-      <Slider
-        style={{ width: 200, height: 40 }}
-        minimumValue={8}
-        maximumValue={36}
-        value={18}
-        onValueChange={(value) => dispatch(fontSizeHandler(parseInt(value)))}
-        minimumTrackTintColor="#FFFFFF"
-        maximumTrackTintColor="#000000"
-      />
+      <View
+        style={[
+          // styles.boxContent,
+          {
+            backgroundColor: theme ? lightBg.fortiary : darkBg.secondary,
+          },
+        ]}
+      >
+        <Slider
+          style={{ width: 200, height: 40 }}
+          minimumValue={8}
+          maximumValue={36}
+          value={18}
+          onValueChange={(value) => dispatch(fontSizeHandler(parseInt(value)))}
+          minimumTrackTintColor="#FFFFFF"
+          maximumTrackTintColor="#000000"
+        />
+      </View>
     </Container>
   );
 };

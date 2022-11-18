@@ -60,23 +60,23 @@ const RegisterScreen = ({ navigation }) => {
     })
       .then((response) => response.text())
       .then((responseJson) => {
-        console.log(responseJson);
+        // console.log(responseJson);
         let parse = JSON.parse(responseJson);
         console.log(parse);
-        if (parse[0].registered != null) {
-          dispatch(registeredHandler(parse[0].registered));
-        } else if (
-          !parse[1].username == undefined &&
-          !parse[0].email == undefined
-        ) {
-          dispatch(errorUsernameHandler(parse[1].username));
+        // if (parse[0].registered != null) {
+        //   dispatch(registeredHandler(parse[0].registered));
+        // } else if (
+        //   !parse[1].username == undefined &&
+        //   !parse[0].email == undefined
+        // ) {
+        //   dispatch(errorUsernameHandler(parse[1].username));
 
-          dispatch(errorEmailHandler(parse[0].email));
-        } else {
-          alert("Check Internet Connection");
-        }
+        //   dispatch(errorEmailHandler(parse[0].email));
+        // } else {
+        //   alert("Check Internet Connection");
+        // }
 
-        // navigation.replace("LoginScreen");
+        navigation.replace("LoginScreen");
       })
       .catch((error) => {
         console.error(error);

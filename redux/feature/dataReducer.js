@@ -19,7 +19,7 @@ const dataSlice = createSlice({
     multipleQuiz: [],
     choice: [],
     baseUrl:
-      "https://b9b7-2001-4455-174-3300-ad9e-b8b7-58ea-1ec9.ap.ngrok.io/finalCapstone/capstone-admin",
+      "https://1e5a-2001-4455-14d-4b00-d1d-c5ef-add3-c5a9.ap.ngrok.io/finalCapstone/capstone-admin",
   },
 
   reducers: {
@@ -33,13 +33,13 @@ const dataSlice = createSlice({
       state.codeQuiz = action.payload;
     },
     doneHandler(state, action) {
-      state.done = (action.payload * 100) / action.payload;
+      state.done = action.payload;
     },
     unlockHandler(state, action) {
-      state.unlock = (action.payload * 100) / action.payload;
+      state.unlock = action.payload;
     },
     lockHandler(state, action) {
-      state.lock = (action.payload * 100) / action.payload;
+      state.lock = action.payload;
     },
     lengthHandler(state, action) {
       state.length = action.payload;

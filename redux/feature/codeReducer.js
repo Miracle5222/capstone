@@ -5,6 +5,7 @@ const codeSlice = createSlice({
   initialState: {
     codeResult: "",
     problem: "",
+    ind: 0,
   },
 
   reducers: {
@@ -14,9 +15,21 @@ const codeSlice = createSlice({
     problemCode(state, action) {
       state.problem = action.payload;
     },
+
+    currentIndexHandler(state, action) {
+      state.ind += 1;
+    },
+    currentInitHandler(state, action) {
+      state.ind = 0;
+    },
   },
 });
 
-export const { codeHandler, problemCode } = codeSlice.actions;
+export const {
+  codeHandler,
+  problemCode,
+  currentIndexHandler,
+  currentInitHandler,
+} = codeSlice.actions;
 
 export default codeSlice.reducer;

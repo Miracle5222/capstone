@@ -33,9 +33,10 @@ const MainCodeScreen = ({ navigation }) => {
   const Top = createMaterialTopTabNavigator();
   const { baseUrl } = useSelector((state) => state.module);
 
-  const { darkBg, lightBg, text, theme, icon } = useSelector(
+  const { darkBg, lightBg, text, theme, icon, quizColor } = useSelector(
     (state) => state.color
   );
+  const { fontSize } = useSelector((state) => state.content);
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -93,7 +94,8 @@ const MainCodeScreen = ({ navigation }) => {
         let parse = JSON.parse(responseJson);
         // dispatch(codeHandler(parse.code));
         setTextValue(parse.code);
-        // console.log(parse);
+
+        console.log(parse);
       })
       .catch((error) => {
         console.error(error);
@@ -110,7 +112,17 @@ const MainCodeScreen = ({ navigation }) => {
         style={{ backgroundColor: theme ? lightBg.primary : darkBg.primary }}
       >
         <View style={codeStyle.box}>
-          <View style={codeStyle.sideBox}>
+          <View
+            style={[
+              codeStyle.sideBox,
+
+              {
+                backgroundColor: theme
+                  ? quizColor.lightPrimary
+                  : quizColor.darkPrimary,
+              },
+            ]}
+          >
             {index.map((val, index) => (
               <Paragraph
                 key={index}
@@ -128,7 +140,14 @@ const MainCodeScreen = ({ navigation }) => {
             onChangeText={textChange}
             value={code}
             multiline={true}
-            style={codeStyle.textInput}
+            style={[
+              codeStyle.textInput,
+              {
+                backgroundColor: theme
+                  ? quizColor.lightPrimary
+                  : quizColor.darkPrimary,
+              },
+            ]}
             numberOfLines={12}
           />
 
@@ -183,7 +202,13 @@ const MainCodeScreen = ({ navigation }) => {
             </Paragraph>
             <View style={{ position: "absolute", top: 10, left: 10 }}>
               <Text
-                style={[{ color: "#FF7700", fontSize: 12, paddingTop: 40 }]}
+                style={[
+                  {
+                    color: "#FF7700",
+                    fontSize: fontSize + 2,
+                    paddingTop: 40,
+                  },
+                ]}
               >
                 {textValue}
               </Text>

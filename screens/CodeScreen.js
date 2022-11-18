@@ -27,14 +27,15 @@ const HIEGHT = height;
 const CodeScreen = ({ navigation, route }) => {
   const { codeResult } = useSelector((state) => state.code);
   const dispatch = useDispatch();
-  const { darkBg, lightBg, text, theme, icon } = useSelector(
-    (state) => state.color
-  );
-  const { currStudent_id } = useSelector((state) => state.login);
+  const { darkBg, lightBg, text, theme, icon, quizColor, buttons } =
+    useSelector((state) => state.color);
+  const { currStudent_id, student_id } = useSelector((state) => state.login);
   const [descript, setDescription] = useState("");
   const [time, setTime] = useState(0);
   const [level, setLevel] = useState("");
-  const [index, setIndex] = useState(0);
+  const [index, setIndexs] = useState(0);
+  const [questions_id, setQuestions] = useState("");
+  const [correct, SetCorrect] = useState("");
   const { baseUrl, multipleQuiz, codeQuiz, choice } = useSelector(
     (state) => state.module
   );
@@ -42,6 +43,7 @@ const CodeScreen = ({ navigation, route }) => {
   // console.log(codeResult);
   const Top = createMaterialTopTabNavigator();
   const [curIndex, setCurIndex] = useState(0);
+  const { fontSize } = useSelector((state) => state.content);
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -70,22 +72,6 @@ const CodeScreen = ({ navigation, route }) => {
       headerTintColor: theme ? text.dark : text.light, //color of title
     });
   }, [navigation, theme]);
-  // console.log(codeQuiz);
-  // console.log(codeQuiz.length);
-  // useEffect(() => {
-  //   console.log(codeQuiz[0].description);
-  //   let interval = setInterval(() => {
-  //     setDescription(codeQuiz[index].description);
-  //     if (index != codeQuiz.length - 1) {
-  //       setIndex(index + 1);
-  //       console.log(codeQuiz[index].description);
-  //     } else {
-  //       navigation.goBack();
-  //     }
-  //   }, codeQuiz[index].time * 1000);
-
-  //   return () => clearInterval(interval);
-  // }, [index]);
 
   useEffect(() => {
     let quizz = codeQuiz.map((val) => {
@@ -94,6 +80,7 @@ const CodeScreen = ({ navigation, route }) => {
     setDescription(codeQuiz[index].description);
     setLevel(codeQuiz[index].difficulty_level);
     setTime(codeQuiz[index].time);
+    setQuestions(codeQuiz[index].question_id);
     // if (index === quiz.length - 1) {
     //   dispatch(moduleStatusHandler(route.params.id));
     // }
@@ -102,14 +89,16 @@ const CodeScreen = ({ navigation, route }) => {
       // console.log(quizz[index]);
 
       if (index === codeQuiz.length - 1) {
+        updateLesson();
         navigation.goBack();
       }
-      setIndex(index + 1);
+      setIndexs(index + 1);
       setCurIndex(curIndex + 1);
     }, quizz[index] * 1000);
 
     return () => clearInterval(interv);
   }, [index]);
+
   const Problem = () => {
     return (
       <View
@@ -199,6 +188,20 @@ const CodeScreen = ({ navigation, route }) => {
                   {descript}
                 </Paragraph>
               </View>
+              {/* <TouchableOpacity
+                onPress={setCurIndex(curIndex + 1)}
+                style={[
+                  {
+                    marginTop: 80,
+
+                    padding: 10,
+                    paddingHorizontal: 25,
+                    // backgroundColor: buttons.light,
+                  },
+                ]}
+              >
+                <Text style={{ color: text.light }}>Next</Text>
+              </TouchableOpacity> */}
             </View>
           </Header>
         </View>
@@ -206,23 +209,46 @@ const CodeScreen = ({ navigation, route }) => {
     );
   };
   const ProblemCode = () => {
-    const [index, setIndex] = useState([]);
+    const [indexs, setIndex] = useState([]);
     const [code, setCode] = useState("");
     const [textValue, setTextValue] = useState("");
     const { codeResult } = useSelector((state) => state.code);
     const dispatch = useDispatch();
     const [visible, setVisible] = useState(false);
     const [codeResults, setCodeResult] = useState([]);
-
+    const [correct, setCorrect] = useState("");
     useEffect(() => {
-      console.log(codeQuiz);
+      // console.log(codeQuiz);
+
+      const res = choice
+        .filter((val) => {
+          return val.question_id == questions_id;
+        })
+        .map((value) => {
+          return value;
+        });
+
+      setCorrect(res[0].choice_description); //get the correct answer of the current index
+      // codeQuiz.map((value) => {
+      //   if (
+      //     value.module_id == route.params.module_id &&
+      //     value.question_type == "Problem Solving"
+      //   ) {
+      //     choice.map((val) => {
+      //       if (value.question_id == val.question_id) {
+      //         console.log(value.description);
+      //       }
+      //     });
+      //   }
+      // });
       // console.log(choice);
       // console.log(route.params.lesson_id);
       // console.log(route.params.module_id);
       // console.log(route.params.score);
       // console.log(route.params.quiz_id);
       // console.log(currStudent_id);
-    });
+    }, []);
+
     useEffect(() => {
       fetch(`${baseUrl}/dist/api/codeData.php`, {
         method: "post",
@@ -248,43 +274,20 @@ const CodeScreen = ({ navigation, route }) => {
         });
     }, []);
 
-    const updateLesson = () => {
-      fetch(`${baseUrl}/dist/api/updateLesson.php`, {
-        method: "post",
-        header: {
-          Accept: "application/json",
-          "Content-type": "application/json",
-        },
-        body: JSON.stringify({
-          lesson_id: route.params.lesson_id,
-          module_id: route.params.module_id,
-          score: score,
-          student_id: currStudent_id,
-          quiz_id: quiz_id,
-        }),
-      })
-        .then((response) => response.text())
-        .then((responseJson) => {
-          // console.log(responseJson);
-          dispatch(updateHandler());
-        })
-        .catch((error) => {
-          console.error(error);
-        });
-    };
-
     const toggleBottomNavigationView = () => {
       //Toggling the visibility state of the bottom sheet
       setVisible(!visible);
     };
     const numLineHandler = (e) => {
       // console.log((e.nativeEvent.contentSize.height / 20).toFixed()); // prints number of lines
-      setIndex(index.concat((e.nativeEvent.contentSize.height / 20).toFixed()));
+      setIndex(
+        indexs.concat((e.nativeEvent.contentSize.height / 20).toFixed())
+      );
     };
     const textChange = (e) => {
       setCode(e);
     };
-    const sendCode = () => {
+    const Test = () => {
       fetch(`${baseUrl}/dist/api/code.php`, {
         method: "post",
         header: {
@@ -311,6 +314,77 @@ const CodeScreen = ({ navigation, route }) => {
           toggleBottomNavigationView();
         });
     };
+    const updateLesson = () => {
+      fetch(`${baseUrl}/dist/api/updateLesson.php`, {
+        method: "post",
+        header: {
+          Accept: "application/json",
+          "Content-type": "application/json",
+        },
+        body: JSON.stringify({
+          lesson_id: route.params.lesson_id,
+          module_id: route.params.module_id,
+          score: score,
+          student_id: student_id,
+          quiz_id: quiz_id,
+        }),
+      })
+        .then((response) => response.text())
+        .then((responseJson) => {
+          // console.log(responseJson);
+          dispatch(updateHandler());
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    };
+    const sendCode = () => {
+      fetch(`${baseUrl}/dist/api/code.php`, {
+        method: "post",
+        header: {
+          Accept: "application/json",
+          "Content-type": "application/json",
+        },
+        body: JSON.stringify({
+          code: code,
+        }),
+      })
+        .then((response) => response.text())
+        .then((responseJson) => {
+          // console.log(typeof responseJson);
+          let parse = JSON.parse(responseJson);
+          // dispatch(codeHandler(parse.code));
+          setTextValue(parse.code);
+          if (parse.code === correct) {
+            dispatch(scoreHandler()); //add 1 to the main score if the answer is correct
+
+            // console.log(parse.code === correct);
+          } else {
+            // console.log(parse.code);
+            // console.log("Wrong");
+          }
+          // if (parse.code === correct) {
+          //   dispatch(scoreHandler());
+          // }
+        })
+        .catch((error) => {
+          console.error(error);
+        })
+        .finally(() => {
+          // navigation.navigate("Output");
+          toggleBottomNavigationView();
+          if (index === codeQuiz.length - 1) {
+            setTimeout(() => {
+              updateLesson(); //update into result_tbl then go back to the main quiz screen
+              navigation.goBack();
+            }, 3000); //timeout for 3 seconds before the use the goBack() function
+          } else {
+            setTimeout(() => {
+              setIndexs(index + 1); //timeout for 3 seconds before we change the current questions description
+            }, 3000);
+          }
+        });
+    };
 
     return (
       <ScrollView>
@@ -318,11 +392,21 @@ const CodeScreen = ({ navigation, route }) => {
           style={{ backgroundColor: theme ? lightBg.primary : darkBg.primary }}
         >
           <View style={codeStyle.box}>
-            <View style={codeStyle.sideBox}>
-              {index.map((val, index) => (
+            <View
+              style={[
+                codeStyle.sideBox,
+
+                {
+                  backgroundColor: theme
+                    ? quizColor.lightPrimary
+                    : quizColor.darkPrimary,
+                },
+              ]}
+            >
+              {indexs.map((val, index) => (
                 <Paragraph
                   key={index}
-                  color={theme ? text.dark : text.light}
+                  color={text.light}
                   size={14}
                   style={codeStyle.sideNumber}
                 >
@@ -336,7 +420,14 @@ const CodeScreen = ({ navigation, route }) => {
               onChangeText={textChange}
               value={code}
               multiline={true}
-              style={codeStyle.textInput}
+              style={[
+                codeStyle.textInput,
+                {
+                  backgroundColor: theme
+                    ? quizColor.lightPrimary
+                    : quizColor.darkPrimary,
+                },
+              ]}
               numberOfLines={12}
             />
 
@@ -358,10 +449,25 @@ const CodeScreen = ({ navigation, route }) => {
                   Show Results
                 </Text>
               </TouchableOpacity>
-              <TouchableOpacity onPress={sendCode} style={{ marginRight: 20 }}>
-                {/* <Text style={{ color: "green", fontSize: 20 }}>Play</Text> */}
-                <Play bg={"green"} />
-              </TouchableOpacity>
+              <View style={{ marginRight: 20, flexDirection: "row" }}>
+                <TouchableOpacity onPress={Test}>
+                  {/* <Text style={{ color: "green", fontSize: 20 }}>Play</Text> */}
+                  <Text
+                    style={{
+                      color: theme ? text.dark : text.light,
+                      fontSize: fontSize + 2,
+                      paddingRight: 20,
+                    }}
+                  >
+                    Run Test {correct}
+                  </Text>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={sendCode}>
+                  {/* <Text style={{ color: "green", fontSize: 20 }}>Play</Text> */}
+
+                  <Play bg={"green"} />
+                </TouchableOpacity>
+              </View>
             </View>
           </View>
           <BottomSheet
@@ -393,7 +499,7 @@ const CodeScreen = ({ navigation, route }) => {
                 <Text
                   style={[{ color: "#FF7700", fontSize: 12, paddingTop: 40 }]}
                 >
-                  {textValue}
+                  {textValue} //the return value of the code
                 </Text>
               </View>
             </View>
@@ -484,7 +590,7 @@ const styles = StyleSheet.create({
     marginLeft: 20,
   },
   discripton: {
-    textAlign: "center",
+    textAlign: "left",
   },
 });
 

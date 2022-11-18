@@ -1,22 +1,39 @@
-import { View, Text, TouchableOpacity, Dimensions } from "react-native";
-import React, { useLayoutEffect } from "react";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  Dimensions,
+  StyleSheet,
+} from "react-native";
+import React, { useLayoutEffect, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Container, Header, Paragraph } from "../src/styled/Container.style";
 import { changeColor } from "../redux/feature/ColorReducer";
 import { Moon, Sun } from "../src/icons/Icons";
 import { ProgressChart } from "react-native-chart-kit";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import {
+  emailLogin,
+  passwordLogin,
+  student_idLogin,
+  usernameLogin,
+} from "../redux/feature/loginReducer";
+import { progressBar } from "../redux/feature/dataReducer";
+
 const { width, height } = Dimensions.get("screen");
 
 const WIDTH = width;
 const HIEGHT = height;
 
 const ProfileScreen = ({ navigation }) => {
-  const { darkBg, lightBg, text, theme, icon } = useSelector(
+  const { darkBg, lightBg, text, theme, icon, quizColor } = useSelector(
     (state) => state.color
   );
+  const { lock, unlock, length, done } = useSelector((state) => state.module);
   const { fontSize } = useSelector((state) => state.content);
-  const { currStudent_id } = useSelector((state) => state.login);
+  const { currStudent_id, student_id, username, email } = useSelector(
+    (state) => state.login
+  );
   const dispatch = useDispatch();
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -61,12 +78,12 @@ const ProfileScreen = ({ navigation }) => {
     useShadowColorFromDataset: false, // optional
   };
   const removeValue = async () => {
-    try {
-      await AsyncStorage.removeItem("user");
-    } catch (e) {
-      // remove error
-    }
-    navigation.navigate("LoginScreen");
+    dispatch(emailLogin(""));
+
+    dispatch(usernameLogin(""));
+    dispatch(student_idLogin(""));
+    dispatch(progressBar(0));
+    navigation.replace("LoginScreen");
     // console.log("Done.");
   };
   return (
@@ -74,45 +91,132 @@ const ProfileScreen = ({ navigation }) => {
       style={[
         {
           flex: 1,
-          justifyContent: "center",
+          justifyContent: "flex-start",
           alignItems: "center",
         },
       ]}
       bg={theme ? lightBg.primary : darkBg.primary}
     >
-      <TouchableOpacity onPress={removeValue}>
-        <Text
-          style={[
-            {
-              color: theme ? text.dark : text.light,
-              fontSize: fontSize,
-            },
-          ]}
-        >
-          Logout
-        </Text>
-      </TouchableOpacity>
-      <Text
+      <View
         style={[
+          styles.profileContainer,
           {
-            color: theme ? text.dark : text.light,
-            fontSize: fontSize,
+            backgroundColor: theme
+              ? quizColor.lightPrimary
+              : quizColor.darkPrimary,
           },
         ]}
       >
-        {currStudent_id}
-      </Text>
-      <ProgressChart
-        data={data}
-        width={WIDTH}
-        height={220}
-        strokeWidth={16}
-        radius={32}
-        chartConfig={chartConfig}
-        hideLegend={false}
-      />
+        <View style={styles.profile}>
+          <View style={styles.profileSection}>
+            <Text
+              style={[
+                {
+                  color: text.light,
+                  fontSize: fontSize,
+                },
+              ]}
+            >
+              Student ID : {student_id}
+            </Text>
+            <Text
+              style={[
+                {
+                  color: text.light,
+                  fontSize: fontSize,
+                },
+              ]}
+            >
+              Username : {username}
+            </Text>
+            <Text
+              style={[
+                {
+                  color: text.light,
+                  fontSize: fontSize,
+                },
+              ]}
+            >
+              Email : {email}
+            </Text>
+          </View>
+          <View>
+            <TouchableOpacity style={styles.changePassword}>
+              <Text
+                style={[
+                  {
+                    color: text.light,
+                    fontSize: fontSize,
+                  },
+                ]}
+              >
+                Change Password
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+        <View>
+          <TouchableOpacity onPress={removeValue}>
+            <Text
+              style={[
+                {
+                  color: text.light,
+                  fontSize: fontSize,
+                },
+              ]}
+            >
+              Logout
+            </Text>
+          </TouchableOpacity>
+        </View>
+      </View>
+
+      <View
+        style={{
+          width: "90%",
+          marginTop: 20,
+          justifyContent: "flex-start",
+          alignItems: "flex-start",
+          backgroundColor: theme
+            ? quizColor.lightPrimary
+            : quizColor.darkPrimary,
+        }}
+      >
+        {/* <ProgressChart
+          data={data}
+          width={WIDTH}
+          height={220}
+          strokeWidth={10}
+          radius={15}
+          chartConfig={chartConfig}
+          hideLegend={false}
+        /> */}
+      </View>
     </Container>
   );
 };
-
+const styles = StyleSheet.create({
+  profileContainer: {
+    borderRadius: 8,
+    padding: 15,
+    justifyContent: "space-between",
+    flexDirection: "row",
+    flex: 0.3,
+    width: "90%",
+    backgroundColor: "gray",
+  },
+  profileSection: {
+    alignItems: "flex-start",
+  },
+  profile: {
+    justifyContent: "space-between",
+  },
+  changePassword: {
+    justifyContent: "center",
+    alignSelf: "flex-start",
+    padding: 8,
+    borderRadius: 6,
+    backgroundColor: "red",
+  },
+});
 export default ProfileScreen;

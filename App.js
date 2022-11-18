@@ -29,7 +29,7 @@ const Stack = createNativeStackNavigator();
 
 const Navigator = () => {
   const { darkBg, lightBg, text, theme } = useSelector((state) => state.color);
-  const { email, username } = useSelector((state) => state.login);
+  const { email, username, student_id } = useSelector((state) => state.login);
   const { baseUrl, update } = useSelector((state) => state.module);
   const dispatch = useDispatch();
 
@@ -44,7 +44,7 @@ const Navigator = () => {
       .then((response) => response.text())
       .then((responseJson) => {
         let parse = JSON.parse(responseJson);
-
+        // console.log(parse.data.choices);
         // dispatch(multipleQuizHandler(parse.data.questions));
         dispatch(choicesQuizHandler(parse.data.choices));
       })
@@ -53,38 +53,41 @@ const Navigator = () => {
       });
   }, []);
 
-  useEffect(() => {
-    fetch(`${baseUrl}/dist/api/progress.php`, {
-      method: "post",
-      header: {
-        Accept: "application/json",
-        "Content-type": "application/json",
-      },
-    })
-      .then((response) => response.text())
-      .then((responseJson) => {
-        // console.log(responseJson);
+  // useEffect(() => {
+  //   fetch(`${baseUrl}/dist/api/progress.php`, {
+  //     method: "post",
+  //     header: {
+  //       Accept: "application/json",
+  //       "Content-type": "application/json",
+  //     },
+  //     body: JSON.stringify({
+  //       student_id: student_id,
+  //     }),
+  //   })
+  //     .then((response) => response.text())
+  //     .then((responseJson) => {
+  //       // console.log(responseJson);
 
-        let parse = JSON.parse(responseJson);
-        dispatch(doneHandler(parse.data.done));
-        dispatch(unlockHandler(parse.data.unlock));
-        dispatch(lockHandler(parse.data.lock));
-        dispatch(lengthHandler(parse.data.leagth));
-        // setLength(parse.data.length);
-        // setDone(parse.data.done);
-        // setUnLock(parse.data.unlock);
-        // setLock(parse.data.lock);
-        // console.log(parse.data[0].sub_lesson);
-        // setSubLesson(parse.data[0].sub_lesson);
+  //       let parse = JSON.parse(responseJson);
+  //       dispatch(doneHandler(parse.data.done));
+  //       dispatch(unlockHandler(parse.data.unlock));
+  //       dispatch(lockHandler(parse.data.lock));
+  //       dispatch(lengthHandler(parse.data.leagth));
+  //       // setLength(parse.data.length);
+  //       // setDone(parse.data.done);
+  //       // setUnLock(parse.data.unlock);
+  //       // setLock(parse.data.lock);
+  //       // console.log(parse.data[0].sub_lesson);
+  //       // setSubLesson(parse.data[0].sub_lesson);
 
-        dispatch(
-          progressBar(((parse.data.done * 100) / parse.data.length).toFixed())
-        );
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  }, [update]);
+  //       dispatch(
+  //         progressBar(((parse.data.done * 100) / parse.data.length).toFixed())
+  //       );
+  //     })
+  //     .catch((error) => {
+  //       console.error(error);
+  //     });
+  // }, [update]);
 
   return (
     <>

@@ -58,9 +58,8 @@ const QuizScreen = ({ navigation, route }) => {
 
   const { score, quiz_id } = useSelector((state) => state.quiz);
   const { fontSize } = useSelector((state) => state.content);
-  const { email, password, currStudent_id, currUsername } = useSelector(
-    (state) => state.login
-  );
+  const { email, password, currStudent_id, student_id, currUsername } =
+    useSelector((state) => state.login);
 
   useEffect(() => {
     console.log("quiz_id: ", quiz_id);
@@ -112,7 +111,7 @@ const QuizScreen = ({ navigation, route }) => {
         lesson_id: route.params.lesson_id,
         module_id: route.params.module_id,
         score: score,
-        student_id: currStudent_id,
+        student_id: student_id,
         quiz_id: quiz_id,
       }),
     })
@@ -205,7 +204,10 @@ const QuizScreen = ({ navigation, route }) => {
                   <View style={styles.items}>
                     <Text
                       style={[
-                        { color: theme ? text.dark : text.light },
+                        {
+                          color: theme ? text.dark : text.light,
+                          fontSize: fontSize + 2,
+                        },
                         styles.textHeader,
                       ]}
                     >
@@ -213,7 +215,10 @@ const QuizScreen = ({ navigation, route }) => {
                     </Text>
                     <Text
                       style={[
-                        { color: theme ? text.dark : text.light },
+                        {
+                          color: theme ? text.dark : text.light,
+                          fontSize: fontSize + 2,
+                        },
                         styles.textItem,
                       ]}
                     >
@@ -223,7 +228,10 @@ const QuizScreen = ({ navigation, route }) => {
                   <View style={styles.items}>
                     <Text
                       style={[
-                        { color: theme ? text.dark : text.light },
+                        {
+                          color: theme ? text.dark : text.light,
+                          fontSize: fontSize + 2,
+                        },
                         styles.textHeader,
                       ]}
                     >
@@ -231,7 +239,10 @@ const QuizScreen = ({ navigation, route }) => {
                     </Text>
                     <Text
                       style={[
-                        { color: theme ? text.dark : text.light },
+                        {
+                          color: theme ? text.dark : text.light,
+                          fontSize: fontSize + 2,
+                        },
                         styles.textItem,
                       ]}
                     >
@@ -241,7 +252,10 @@ const QuizScreen = ({ navigation, route }) => {
                   <View style={styles.items}>
                     <Text
                       style={[
-                        { color: theme ? text.dark : text.light },
+                        {
+                          color: theme ? text.dark : text.light,
+                          fontSize: fontSize + 2,
+                        },
                         styles.textHeader,
                       ]}
                     >
@@ -249,7 +263,10 @@ const QuizScreen = ({ navigation, route }) => {
                     </Text>
                     <Text
                       style={[
-                        { color: theme ? text.dark : text.light },
+                        {
+                          color: theme ? text.dark : text.light,
+                          fontSize: fontSize + 2,
+                        },
                         styles.textItem,
                       ]}
                     >
@@ -257,14 +274,19 @@ const QuizScreen = ({ navigation, route }) => {
                     </Text>
                   </View>
                 </View>
-                <View style={styles.descriptionContainer}>
+                <View
+                  style={[
+                    styles.descriptionContainer,
+                    { paddingTop: item.description.length > 80 ? 100 : 120 },
+                  ]}
+                >
                   <Text
-                    style={[
-                      { color: theme ? text.dark : text.light },
-                      styles.description,
-                    ]}
+                    style={{
+                      color: theme ? text.dark : text.light,
+                      fontSize: fontSize,
+                    }}
                   >
-                    {item.description}
+                    {item.description.toLowerCase()}
                   </Text>
                 </View>
                 <View style={styles.choicesContainer}>
@@ -316,7 +338,9 @@ const QuizScreen = ({ navigation, route }) => {
                             }
                           }}
                         >
-                          <Text style={{ color: text.light }}>
+                          <Text
+                            style={{ color: text.light, fontSize: fontSize }}
+                          >
                             {choice_description}
                           </Text>
                         </TouchableOpacity>
@@ -361,14 +385,14 @@ const styles = StyleSheet.create({
   },
   textHeader: {
     textAlign: "center",
-    fontSize: 18,
+
     borderBottomColor: "#021F26",
     borderBottomWidth: 1,
     paddingVertical: 10,
   },
   textItem: {
     textAlign: "center",
-    fontSize: 18,
+
     paddingVertical: 2,
   },
   items: {
@@ -376,14 +400,14 @@ const styles = StyleSheet.create({
   },
   descriptionContainer: {
     width: "90%",
-    paddingTop: 150,
+
     paddingLeft: 20,
   },
   description: {
     fontSize: 18,
   },
   choicesContainer: {
-    marginTop: 50,
+    marginTop: 30,
     width: "80%",
   },
   choicesItem: {

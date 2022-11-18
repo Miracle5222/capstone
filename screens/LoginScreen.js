@@ -19,16 +19,21 @@ import {
   userHandler,
 } from "../redux/feature/loginReducer";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import {
+  doneHandler,
+  lengthHandler,
+  lockHandler,
+  unlockHandler,
+} from "../redux/feature/dataReducer";
 
 const LoginScreen = ({ navigation }) => {
-  const { baseUrl } = useSelector((state) => state.module);
+  const { baseUrl, update } = useSelector((state) => state.module);
   const dispatch = useDispatch();
   const { darkBg, lightBg, text, theme, buttons, sizes } = useSelector(
     (state) => state.color
   );
-  const { email, password, currStudent_id, currUsername, user } = useSelector(
-    (state) => state.login
-  );
+  const { email, password, currStudent_id, student_id, currUsername, user } =
+    useSelector((state) => state.login);
 
   const login = () => {
     fetch(`${baseUrl}/dist/api/login.php`, {

@@ -93,7 +93,7 @@ export const ListsItems = ({ navigation, route }) => {
       ),
 
       headerShown: true,
-      title: `Lesson: ${route.params.id}`,
+      title: `Lesson: ${route.params.lessons}`,
       headerStyle: {
         backgroundColor: theme ? lightBg.primary : darkBg.primary,
       },
@@ -106,56 +106,18 @@ export const ListsItems = ({ navigation, route }) => {
       headerTintColor: theme ? text.dark : text.light, //color of title
     });
   }, [navigation]);
-  // console.log(subLesson);
 
   useEffect(() => {
-    // console.log(route.params.id);
-    // const cont = data[0].modules.map((val) => {
-    //   val.topic
-    //     .filter((values) => {
-    //       return values.id == route.params.id;
-    //     })
-    //     .map((value) => {
-    //       return value;
-    //     });
-    // });
-    // data[0].modules.map((val) => {
-    //   val.topic.map((values, index) => {
-    //     if (values.id == route.params.id) {
-    //       console.log(values);
-    //       setContent(values);
-    //       // console.log(values.length);
-    //     }
-    //   });
-    // });
-    // data[0].modules.map((val) => {
-    //   val.topic
-    //     .map((values, index) => {
-    //       return values;
-    //     })
-    //     .filter((item) => {
-    //       return item.id == "1.1";
-    //     })
-    //     .map((items) => {
-    //       // console.log(items);
-    //       setContent(items);
-    //     });
-    // });
-    // console.log(cont);
-  }, []);
-  // console.log(subLesson);
-  useEffect(() => {
-    // console.log(route.params.name);
-    dispatch(contentIdHandler(route.params.id));
+    dispatch(contentIdHandler(route.params.lessons));
     if (route.params.name.trim() === "Quiz") {
       navigation.replace("QuizHome", {
-        id: route.params.id,
+        id: route.params.lessons,
         name: route.params.name,
         module_id: route.params.module_id,
+        moduleTitle: route.params.moduleTitle,
       });
     }
   }, []);
-  // console.log(content);
 
   const updateLesson = () => {
     fetch(`${baseUrl}/dist/api/updateLesson.php`, {
@@ -165,18 +127,17 @@ export const ListsItems = ({ navigation, route }) => {
         "Content-type": "application/json",
       },
       body: JSON.stringify({
-        lesson_id: route.params.id,
+        lesson_id: route.params.lessons,
         module_id: route.params.module_id,
       }),
     })
       .then((response) => response.text())
       .then((responseJson) => {
         dispatch(updateHandler());
-        console.log(responseJson);
+
         // let parse = JSON.parse(responseJson);
         // // dispatch(codeHandler(parse.code));
         // setTextValue(parse.code);
-        // console.log(parse);
       })
       .catch((error) => {
         console.error(error);
@@ -186,13 +147,12 @@ export const ListsItems = ({ navigation, route }) => {
   useEffect(() => {
     data[0].modules.map((val) => {
       val.topic.map((values, index) => {
-        if (values.id === route.params.id) {
-          // console.log(values);
+        if (values.id === route.params.lessons) {
           dispatch(subLessonHandler(values.content));
         }
       });
     });
-  }, []);
+  }, [subLesson]);
 
   const animatedStyles = useAnimatedStyle(() => {
     return {
@@ -250,203 +210,213 @@ export const ListsItems = ({ navigation, route }) => {
         </Animated.View>
       )}
 
-      <FlatList
-        ref={ref}
-        initialScrollIndex={index}
-        data={subLesson}
-        scrollEnabled={false}
-        keyExtractor={(_, index) => index.toString()}
-        horizontal
-        onScrollToIndexFailed={(info) => {
-          // console.log(info);
-          const wait = new Promise((resolve) => setTimeout(resolve, 500));
-          wait.then(() => {
-            ref.current?.scrollToIndex({
-              index: info.index,
-              animated: true,
+      {subLesson.length != 0 ? (
+        <FlatList
+          ref={ref}
+          initialScrollIndex={index}
+          data={subLesson}
+          scrollEnabled={false}
+          keyExtractor={(_, index) => index.toString()}
+          horizontal
+          onScrollToIndexFailed={(info) => {
+            const wait = new Promise((resolve) => setTimeout(resolve, 500));
+            wait.then(() => {
+              ref.current?.scrollToIndex({
+                index: info.index,
+                animated: true,
+              });
             });
-          });
-        }}
-        renderItem={({ item }) => (
-          <ScrollView style={styles.con}>
-            <View style={styles.contentContainer}>
-              <Spacer />
-              <View
-                style={[
-                  styles.boxContent,
-                  {
-                    backgroundColor: theme
-                      ? lightBg.fortiary
-                      : darkBg.secondary,
-                  },
-                ]}
-              >
-                <Paragraph
-                  color={theme ? text.dark : text.light}
-                  size={fontSize + 2}
+          }}
+          renderItem={({ item }) => (
+            <ScrollView style={styles.con}>
+              <View style={styles.contentContainer}>
+                <Spacer />
+                <View
+                  style={[
+                    styles.boxContent,
+                    {
+                      backgroundColor: theme
+                        ? lightBg.fortiary
+                        : darkBg.secondary,
+                    },
+                  ]}
                 >
-                  {route.params.name}
-                </Paragraph>
-              </View>
-              <Spacer />
-              <View
-                style={[
-                  styles.boxContent,
-                  {
-                    display: item.video.length <= 0 ? "none" : "flex",
-                    backgroundColor: theme
-                      ? lightBg.fortiary
-                      : darkBg.secondary,
-                  },
-                ]}
-              >
-                <YoutubeVideo id={item?.video} />
-              </View>
-              <Spacer />
-              <View
-                style={[
-                  styles.boxContent,
-                  {
-                    display: item?.heading.length <= 0 ? "none" : "flex",
-                    backgroundColor: theme
-                      ? lightBg.fortiary
-                      : darkBg.secondary,
-                  },
-                ]}
-              >
-                <Paragraph
-                  color={theme ? text.dark : text.light}
-                  size={fontSize}
-                >
-                  {item?.heading.trim()}
-                </Paragraph>
-              </View>
-              <Spacer />
-              {item.image ? (
-                item.image.map((_, index) => {
-                  return (
-                    <Image
-                      key={index}
-                      style={{
-                        display: item?.image.length <= 0 ? "none" : "flex",
-                        width: route.params.id === "2.1" ? "90%" : "100%",
-                        height:
-                          contentId[0] === "2"
-                            ? 180
-                            : 400 && contentId[0] === "4"
-                            ? 180
-                            : 400 && contentId[0] === "5"
-                            ? 180
-                            : 400 && contentId[0] === "6"
-                            ? 180
-                            : 400,
-                      }}
-                      resizeMode="contain"
-                      source={item.image[index]}
-                    />
-                  );
-                })
-              ) : (
-                <View></View>
-              )}
-              {item.code ? (
-                item.code.map((val, index) => {
-                  return (
-                    <TouchableOpacity
-                      onPress={() => {
-                        setModalContent(val?.textCode);
-                        setVisibility(!visible);
-                        visible ? (opacity.value = 0) : (opacity.value = 1);
-                      }}
-                      activeOpacity={0.9}
-                      key={index}
-                      style={[
-                        styles.boxContent,
-                        {
-                          backgroundColor: theme
-                            ? lightBg.fortiary
-                            : darkBg.secondary,
-                        },
-                      ]}
-                    >
-                      <Highlighter
-                        language={val?.language}
-                        height={
-                          val?.textCode.trim().length < 100 ? "auto" : 180
-                        }
-                      >
-                        {val.textCode.trim()}
-                      </Highlighter>
-                    </TouchableOpacity>
-                  );
-                })
-              ) : (
-                <View></View>
-              )}
+                  <Paragraph
+                    color={theme ? text.dark : text.light}
+                    size={fontSize + 2}
+                  >
+                    {route.params.name}
+                  </Paragraph>
+                </View>
+                <Spacer />
+                <View
+                  style={[
+                    // styles.boxContent,
+                    {
+                      display: item.video.length <= 0 ? "none" : "flex",
+                      // backgroundColor: theme
+                      //   ? lightBg.fortiary
+                      //   : darkBg.secondary,
+                      width: "100%",
 
-              <Spacer />
-              <View
-                style={[
-                  styles.boxContent,
-                  {
-                    display: item.paragraph.length <= 0 ? "none" : "flex",
-                    backgroundColor: theme
-                      ? lightBg.fortiary
-                      : darkBg.secondary,
-                  },
-                ]}
-              >
-                <Paragraph
-                  color={theme ? text.dark : text.light}
-                  size={fontSize}
+                      borderRadius: 10,
+                      paddingHorizontal: 20,
+                      paddingVertical: 10,
+                    },
+                  ]}
                 >
-                  {item?.paragraph.trim()}
-                </Paragraph>
-              </View>
-
-              <View style={styles.buttonContainer}>
-                {index === 0 ? (
-                  <View></View>
+                  <YoutubeVideo id={item?.video} />
+                </View>
+                <Spacer />
+                <View
+                  style={[
+                    styles.boxContent,
+                    {
+                      display: item?.heading.length <= 0 ? "none" : "flex",
+                      backgroundColor: theme
+                        ? lightBg.fortiary
+                        : darkBg.secondary,
+                    },
+                  ]}
+                >
+                  <Paragraph
+                    color={theme ? text.dark : text.light}
+                    size={fontSize}
+                  >
+                    {item?.heading.trim()}
+                  </Paragraph>
+                </View>
+                <Spacer />
+                {item.image ? (
+                  item.image.map((_, index) => {
+                    return (
+                      <Image
+                        key={index}
+                        style={{
+                          display: item?.image.length <= 0 ? "none" : "flex",
+                          width: route.params.id === "2.1" ? "90%" : "100%",
+                          height:
+                            contentId[0] === "2"
+                              ? 180
+                              : 400 && contentId[0] === "4"
+                              ? 180
+                              : 400 && contentId[0] === "5"
+                              ? 180
+                              : 400 && contentId[0] === "6"
+                              ? 180
+                              : 400,
+                        }}
+                        resizeMode="contain"
+                        source={item.image[index]}
+                      />
+                    );
+                  })
                 ) : (
+                  <View></View>
+                )}
+                {item.code ? (
+                  item.code.map((val, index) => {
+                    return (
+                      <TouchableOpacity
+                        onPress={() => {
+                          setModalContent(val?.textCode);
+                          setVisibility(!visible);
+                          visible ? (opacity.value = 0) : (opacity.value = 1);
+                        }}
+                        activeOpacity={0.9}
+                        key={index}
+                        style={[
+                          styles.boxContent,
+                          {
+                            backgroundColor: theme
+                              ? lightBg.fortiary
+                              : darkBg.secondary,
+                          },
+                        ]}
+                      >
+                        <Highlighter
+                          language={val?.language}
+                          height={
+                            val?.textCode.trim().length < 100 ? "auto" : 180
+                          }
+                        >
+                          {val.textCode.trim()}
+                        </Highlighter>
+                      </TouchableOpacity>
+                    );
+                  })
+                ) : (
+                  <View></View>
+                )}
+
+                <Spacer />
+                <View
+                  style={[
+                    styles.boxContent,
+                    {
+                      display: item.paragraph.length <= 0 ? "none" : "flex",
+                      backgroundColor: theme
+                        ? lightBg.fortiary
+                        : darkBg.secondary,
+                    },
+                  ]}
+                >
+                  <Paragraph
+                    color={theme ? text.dark : text.light}
+                    size={fontSize}
+                  >
+                    {item?.paragraph.trim()}
+                  </Paragraph>
+                </View>
+
+                <View style={styles.buttonContainer}>
+                  {index === 0 ? (
+                    <View></View>
+                  ) : (
+                    <Button
+                      event={() => {
+                        if (index === 0) {
+                          return;
+                        }
+                        setIndex(index - 1);
+                        // dispatch(backHandler());
+                      }}
+                    >
+                      <Paragraph color={text.light} size={16}>
+                        Back
+                      </Paragraph>
+                    </Button>
+                  )}
+
                   <Button
                     event={() => {
-                      if (index === 0) {
-                        return;
+                      if (index === subLesson.length - 1) {
+                        // dispatch(moduleStatusHandler(route.params.id));
+                        // dispatch(indexInitialState());
+                        // storeData();
+                        updateLesson();
+                        navigation.goBack();
                       }
-                      setIndex(index - 1);
-                      // dispatch(backHandler());
+
+                      // dispatch(nextHandler());
+                      setIndex(index + 1);
                     }}
                   >
                     <Paragraph color={text.light} size={16}>
-                      Back
+                      Next
                     </Paragraph>
                   </Button>
-                )}
-
-                <Button
-                  event={() => {
-                    if (index === subLesson.length - 1) {
-                      // dispatch(moduleStatusHandler(route.params.id));
-                      // dispatch(indexInitialState());
-                      // storeData();
-                      updateLesson();
-                      navigation.goBack();
-                    }
-
-                    // dispatch(nextHandler());
-                    setIndex(index + 1);
-                  }}
-                >
-                  <Paragraph color={text.light} size={16}>
-                    Next
-                  </Paragraph>
-                </Button>
+                </View>
               </View>
-            </View>
-            <Spacer />
-          </ScrollView>
-        )}
-      />
+              <Spacer />
+            </ScrollView>
+          )}
+        />
+      ) : (
+        <View>
+          <Text>Loading...</Text>
+        </View>
+      )}
     </Container>
   );
 };
