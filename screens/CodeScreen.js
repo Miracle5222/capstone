@@ -39,6 +39,8 @@ const CodeScreen = ({ navigation, route }) => {
   const { baseUrl, multipleQuiz, codeQuiz, choice } = useSelector(
     (state) => state.module
   );
+  const [runTime, setRunTime] = useState(1);
+  const [timeout, setTimeout] = useState(1);
   const { score, quiz_id } = useSelector((state) => state.quiz);
   // console.log(codeResult);
   const Top = createMaterialTopTabNavigator();
@@ -73,10 +75,46 @@ const CodeScreen = ({ navigation, route }) => {
     });
   }, [navigation, theme]);
 
+  const updateLesson = () => {
+    fetch(`${baseUrl}/dist/api/updateLesson.php`, {
+      method: "post",
+      header: {
+        Accept: "application/json",
+        "Content-type": "application/json",
+      },
+      body: JSON.stringify({
+        lesson_id: route.params.lesson_id,
+        module_id: route.params.module_id,
+        score: score,
+        student_id: student_id,
+        quiz_id: quiz_id,
+      }),
+    })
+      .then((response) => response.text())
+      .then((responseJson) => {
+        // console.log(responseJson);
+        // dispatch(updateHandler());
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+  useEffect(() => {
+    let interv = setInterval(() => {
+      // setTimeout(timeout - 1);
+      setTimeout((prevTime) => prevTime + 1);
+    }, 1000);
+    setTimeout(0);
+    return () => clearInterval(interv);
+  }, [index]);
+
   useEffect(() => {
     let quizz = codeQuiz.map((val) => {
       return val.time;
     });
+
+    setRunTime(quizz[index]);
+    setTimeout(runTime);
     setDescription(codeQuiz[index].description);
     setLevel(codeQuiz[index].difficulty_level);
     setTime(codeQuiz[index].time);
@@ -93,7 +131,7 @@ const CodeScreen = ({ navigation, route }) => {
         navigation.goBack();
       }
       setIndexs(index + 1);
-      setCurIndex(curIndex + 1);
+      // setCurIndex(curIndex + 1);
     }, quizz[index] * 1000);
 
     return () => clearInterval(interv);
@@ -138,7 +176,7 @@ const CodeScreen = ({ navigation, route }) => {
                 styles.textItem,
               ]}
             >
-              {time}
+              {timeout} / {time}
             </Text>
           </View>
           <View style={styles.items}>
@@ -217,6 +255,7 @@ const CodeScreen = ({ navigation, route }) => {
     const [visible, setVisible] = useState(false);
     const [codeResults, setCodeResult] = useState([]);
     const [correct, setCorrect] = useState("");
+
     useEffect(() => {
       // console.log(codeQuiz);
 
@@ -229,24 +268,6 @@ const CodeScreen = ({ navigation, route }) => {
         });
 
       setCorrect(res[0].choice_description); //get the correct answer of the current index
-      // codeQuiz.map((value) => {
-      //   if (
-      //     value.module_id == route.params.module_id &&
-      //     value.question_type == "Problem Solving"
-      //   ) {
-      //     choice.map((val) => {
-      //       if (value.question_id == val.question_id) {
-      //         console.log(value.description);
-      //       }
-      //     });
-      //   }
-      // });
-      // console.log(choice);
-      // console.log(route.params.lesson_id);
-      // console.log(route.params.module_id);
-      // console.log(route.params.score);
-      // console.log(route.params.quiz_id);
-      // console.log(currStudent_id);
     }, []);
 
     useEffect(() => {
@@ -314,30 +335,7 @@ const CodeScreen = ({ navigation, route }) => {
           toggleBottomNavigationView();
         });
     };
-    const updateLesson = () => {
-      fetch(`${baseUrl}/dist/api/updateLesson.php`, {
-        method: "post",
-        header: {
-          Accept: "application/json",
-          "Content-type": "application/json",
-        },
-        body: JSON.stringify({
-          lesson_id: route.params.lesson_id,
-          module_id: route.params.module_id,
-          score: score,
-          student_id: student_id,
-          quiz_id: quiz_id,
-        }),
-      })
-        .then((response) => response.text())
-        .then((responseJson) => {
-          // console.log(responseJson);
-          dispatch(updateHandler());
-        })
-        .catch((error) => {
-          console.error(error);
-        });
-    };
+
     const sendCode = () => {
       fetch(`${baseUrl}/dist/api/code.php`, {
         method: "post",
@@ -459,7 +457,8 @@ const CodeScreen = ({ navigation, route }) => {
                       paddingRight: 20,
                     }}
                   >
-                    Run Test {correct}
+                    Run Test
+                    {/* {correct} */}
                   </Text>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={sendCode}>
@@ -499,7 +498,7 @@ const CodeScreen = ({ navigation, route }) => {
                 <Text
                   style={[{ color: "#FF7700", fontSize: 12, paddingTop: 40 }]}
                 >
-                  {textValue} //the return value of the code
+                  {textValue}
                 </Text>
               </View>
             </View>

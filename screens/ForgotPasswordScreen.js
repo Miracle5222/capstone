@@ -13,10 +13,12 @@ import { useSelector } from "react-redux";
 const ForgotPassword = ({ navigation }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [newpassword, setNewPassword] = useState("");
   const { darkBg, lightBg, text, theme, buttons } = useSelector(
     (state) => state.color
   );
-
+  const { baseUrl, update } = useSelector((state) => state.module);
+  const [updated, setUpdated] = useState(false);
   useLayoutEffect(() => {
     navigation.setOptions({
       headerShown: true,
@@ -26,12 +28,77 @@ const ForgotPassword = ({ navigation }) => {
       },
       headerTitleStyle: {
         fontWeight: "bold",
-        fontSize: 14,
+        fontSize: 18,
       },
       headerTintColor: theme ? text.dark : text.light, //color of title
     });
   }, [navigation]);
 
+  const loginupdate = () => {
+    if (email != "" && password != "") {
+      fetch(`${baseUrl}/dist/api/forgotpassword.php`, {
+        method: "post",
+        header: {
+          Accept: "application/json",
+          "Content-type": "application/json",
+        },
+        body: JSON.stringify({
+          // we will pass our input data to server
+          email: email,
+          password: password,
+          newpassword: newpassword,
+        }),
+      })
+        .then((response) => response.text())
+        .then((responseJson) => {
+          console.log(responseJson);
+
+          let parse = JSON.parse(responseJson);
+
+          if (parse[0].success != null) {
+            navigation.replace("LoginScreen");
+          }
+          // if (parse != null) {
+          //   alert("Password Updated Successfully");
+          //   console.log(parse);
+          //   // dispatch(student_idLogin(parse[0].student_id));
+          //   // dispatch(emailLogin(parse[0].email));
+          //   // dispatch(usernameLogin(parse[0].username));
+          //   navigation.replace("LoginScreen");
+          // } else {
+          //   alert("Email and Password is Incorrect");
+          // }
+
+          // if (parse.length > 0) {
+          //   dispatch(userHandler(parse));
+          //   dispatch(student_idLogin(parse[0].student_id));
+          //   dispatch(emailLogin(parse[0].email));
+          //   dispatch(usernameLogin(parse[0].username));
+          //   navigation.replace("HomeScreen");
+          // } else {
+          //   alert("Make sure field is not empty");
+          // }
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    } else {
+      if (email == "" && password == "") {
+        alert("Email and Password is empty");
+      } else if (email == "") {
+        alert("Email is empty");
+        // setErrEmail("Please enter email");
+      } else if (password == "") {
+        alert("password is empty");
+        // setErrPass("Please enter password");
+      } else if (newpassword == "") {
+        alert("newpassword is empty");
+        // setErrPass("Please enter password");
+      }
+    }
+
+    Keyboard.dismiss();
+  };
   return (
     <>
       <StatusBar backgroundColor="black" />
@@ -55,22 +122,33 @@ const ForgotPassword = ({ navigation }) => {
             Reset Password
           </Text>
         </View>
+        <View>
+          {updated && <Text style={{ color: "white" }}>Updated</Text>}
+        </View>
         <View style={styles.inputContainer}>
+          <Text style={styles.label}>Email</Text>
+          <TextInput
+            style={[styles.input, { borderColor: buttons.light }]}
+            placeholder="Email"
+            autoFocus={true}
+            placeholderTextColor="#9D9D9D"
+            onChangeText={(e) => setEmail(e)}
+          />
           <Text style={styles.label}>Current Password</Text>
           <TextInput
             style={[styles.input, { borderColor: buttons.light }]}
             placeholder="Current Password"
             secureTextEntry={true}
-            autoFocus={true}
             placeholderTextColor="#9D9D9D"
+            onChangeText={(e) => setPassword(e)}
           />
           <Text style={styles.label}>New Password</Text>
           <TextInput
             style={[styles.input, { borderColor: buttons.light }]}
             placeholder="New Password"
             secureTextEntry={true}
-            autoFocus={true}
             placeholderTextColor="#9D9D9D"
+            onChangeText={(e) => setNewPassword(e)}
           />
         </View>
         <View style={styles.bottomContainer}>
@@ -81,7 +159,7 @@ const ForgotPassword = ({ navigation }) => {
                 backgroundColor: buttons.light,
               },
             ]}
-            onPress={() => navigation.replace("LoginScreen")}
+            onPress={loginupdate}
           >
             <Text
               style={[

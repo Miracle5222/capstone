@@ -54,41 +54,46 @@ const SettingsScreen = ({ navigation }) => {
       ]}
       bg={theme ? lightBg.primary : darkBg.primary}
     >
-      <Text
-        style={{
-          marginTop: 20,
-          fontSize: fontSize,
-          color: theme ? text.dark : text.light,
-        }}
-      >
-        The quick brown fox jumps over the lazy dog
-      </Text>
-      <Text
-        style={{
-          fontSize: fontSize,
-          color: theme ? text.dark : text.light,
-          paddingVertical: 20,
-        }}
-      >
-        Font Size: {fontSize}
-      </Text>
-      <View
-        style={[
-          // styles.boxContent,
-          {
-            backgroundColor: theme ? lightBg.fortiary : darkBg.secondary,
-          },
-        ]}
-      >
-        <Slider
-          style={{ width: 200, height: 40 }}
-          minimumValue={8}
-          maximumValue={36}
-          value={18}
-          onValueChange={(value) => dispatch(fontSizeHandler(parseInt(value)))}
-          minimumTrackTintColor="#FFFFFF"
-          maximumTrackTintColor="#000000"
-        />
+      <View style={{ width: "90%" }}>
+        <Text
+          style={{
+            marginTop: 20,
+            fontSize: fontSize,
+            color: theme ? text.dark : text.light,
+          }}
+        >
+          Sample Text: The quick brown fox jumps over the lazy dog
+        </Text>
+
+        <Text
+          style={{
+            fontSize: fontSize,
+            color: theme ? text.dark : text.light,
+            paddingVertical: 20,
+          }}
+        >
+          Font Size: {fontSize}
+        </Text>
+        <View
+          style={[
+            // styles.boxContent,
+            {
+              backgroundColor: theme ? lightBg.fortiary : darkBg.secondary,
+            },
+          ]}
+        >
+          <Slider
+            style={{ width: 200, height: 40 }}
+            minimumValue={8}
+            maximumValue={36}
+            value={18}
+            onValueChange={(value) =>
+              dispatch(fontSizeHandler(parseInt(value)))
+            }
+            minimumTrackTintColor="#FFFFFF"
+            maximumTrackTintColor="#000000"
+          />
+        </View>
       </View>
     </Container>
   );

@@ -19,7 +19,7 @@ const dataSlice = createSlice({
     multipleQuiz: [],
     choice: [],
     baseUrl:
-      "https://1e5a-2001-4455-14d-4b00-d1d-c5ef-add3-c5a9.ap.ngrok.io/finalCapstone/capstone-admin",
+      "https://6399-110-54-205-41.ap.ngrok.io/finalCapstone/capstone-admin",
   },
 
   reducers: {

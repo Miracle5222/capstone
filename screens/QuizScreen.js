@@ -52,55 +52,28 @@ const QuizScreen = ({ navigation, route }) => {
   const [scores, setScore] = useState(0);
   const ref = useRef(null);
   const [status, setStatus] = useState("");
-  const [time, setTime] = useState(0);
+  const [time, setTime] = useState([]);
   const [level, setLevel] = useState("");
   const [count, setCount] = useState(0);
-
+  const [runTime, setRunTime] = useState(1);
+  const [timeout, setTimeout] = useState(1);
   const { score, quiz_id } = useSelector((state) => state.quiz);
   const { fontSize } = useSelector((state) => state.content);
   const { email, password, currStudent_id, student_id, currUsername } =
     useSelector((state) => state.login);
 
   useEffect(() => {
-    console.log("quiz_id: ", quiz_id);
-    console.log("currUsername: ", currUsername);
-    console.log("currStudent_id: ", currStudent_id);
+    // console.log("quiz_id: ", quiz_id);
+    // console.log("currUsername: ", currUsername);
+    // console.log("currStudent_id: ", currStudent_id);
   }, []);
 
-  // useLayoutEffect(() => {
-  //   navigation.setOptions({
-  //     headerRight: () => (
-  //       <TouchableOpacity
-  //         style={{ marginRight: 9 }}
-  //         onPress={() => dispatch(changeColor())}
-  //       >
-  //         {theme ? (
-  //           <Sun bg={theme ? icon.light : icon.dark} />
-  //         ) : (
-  //           <Moon bg={theme ? icon.light : icon.dark} />
-  //         )}
-  //       </TouchableOpacity>
-  //     ),
-  //     headerShown: true,
-  //     title: "Multiple Choice",
-  //     headerStyle: {
-  //       backgroundColor: theme ? lightBg.primary : darkBg.primary,
-  //     },
-  //     headerTitleStyle: {
-  //       fontWeight: "500",
-  //       fontSize: 18,
-  //     },
-  //     headerShadowVisible: false,
-  //     headerTintColor: theme ? text.dark : text.light, //color of title
-  //   });
-  // }, [navigation, theme]);
-
   const updateLesson = () => {
-    console.log(route.params.lesson_id);
-    console.log(route.params.module_id);
-    console.log(score);
-    console.log(currStudent_id);
-    console.log(quiz_id);
+    // console.log(route.params.lesson_id);
+    // console.log(route.params.module_id);
+    // console.log(score);
+    // console.log(currStudent_id);
+    // console.log(quiz_id);
     fetch(`${baseUrl}/dist/api/updateLesson.php`, {
       method: "post",
       header: {
@@ -126,15 +99,24 @@ const QuizScreen = ({ navigation, route }) => {
   };
 
   // console.log(multipleQuiz);
-
+  useEffect(() => {
+    const newTime = multipleQuiz.map((value) => {
+      return value.time;
+    });
+    setTime(newTime);
+  }, []);
   useEffect(() => {
     setCurrIndex(0);
     dispatch(clearScore());
   }, []);
+
   useEffect(() => {
     let quizz = multipleQuiz.map((val) => {
       return val.time;
     });
+
+    setRunTime(quizz[index]);
+    setTimeout(runTime);
     let interv = setInterval(() => {
       if (index === multipleQuiz.length - 1) {
         if (codeQuiz.length > 0) {
@@ -155,6 +137,16 @@ const QuizScreen = ({ navigation, route }) => {
         setCurrIndex(index + 1);
       }
     }, quizz[index] * 1000);
+
+    return () => clearInterval(interv);
+  }, [index]);
+
+  useEffect(() => {
+    let interv = setInterval(() => {
+      // setTimeout(timeout - 1);
+      setTimeout((prevTime) => prevTime + 1);
+    }, 1000);
+    setTimeout(0);
     return () => clearInterval(interv);
   }, [index]);
 
@@ -246,7 +238,8 @@ const QuizScreen = ({ navigation, route }) => {
                         styles.textItem,
                       ]}
                     >
-                      {item.time + " sec"}
+                      {/* {item.time} */}
+                      {timeout}/{item.time}
                     </Text>
                   </View>
                   <View style={styles.items}>
@@ -286,7 +279,8 @@ const QuizScreen = ({ navigation, route }) => {
                       fontSize: fontSize,
                     }}
                   >
-                    {item.description.toLowerCase()}
+                    {item.description.charAt(0).toUpperCase() +
+                      item.description.slice(1)}
                   </Text>
                 </View>
                 <View style={styles.choicesContainer}>

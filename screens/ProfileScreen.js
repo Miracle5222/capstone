@@ -19,11 +19,12 @@ import {
   usernameLogin,
 } from "../redux/feature/loginReducer";
 import { progressBar } from "../redux/feature/dataReducer";
+import { fonts } from "@rneui/base";
 
 const { width, height } = Dimensions.get("screen");
 
 const WIDTH = width;
-const HIEGHT = height;
+const HEIGHT = height;
 
 const ProfileScreen = ({ navigation }) => {
   const { darkBg, lightBg, text, theme, icon, quizColor } = useSelector(
@@ -77,6 +78,13 @@ const ProfileScreen = ({ navigation }) => {
     barPercentage: 0.5,
     useShadowColorFromDataset: false, // optional
   };
+  useEffect(() => {
+    // console.log("Done.", done.toFixed());
+    // console.log("length.", length.toFixed());
+    // console.log("unlock.", unlock.toFixed());
+    // console.log("lock.", lock.toFixed());
+  }, []);
+
   const removeValue = async () => {
     dispatch(emailLogin(""));
 
@@ -141,7 +149,10 @@ const ProfileScreen = ({ navigation }) => {
             </Text>
           </View>
           <View>
-            <TouchableOpacity style={styles.changePassword}>
+            <TouchableOpacity
+              style={styles.changePassword}
+              // onPress={navigation.replace("ForgotPassword")}
+            >
               <Text
                 style={[
                   {
@@ -173,15 +184,83 @@ const ProfileScreen = ({ navigation }) => {
 
       <View
         style={{
+          padding: 10,
           width: "90%",
           marginTop: 20,
-          justifyContent: "flex-start",
-          alignItems: "flex-start",
+          justifyContent: "center",
+          alignItems: "center",
           backgroundColor: theme
             ? quizColor.lightPrimary
             : quizColor.darkPrimary,
         }}
       >
+        <Text
+          style={{
+            color: text.light,
+            textAlign: "center",
+            paddingVertical: 10,
+            fontSize: fontSize,
+          }}
+        >
+          Lesson Status
+        </Text>
+        <View
+          style={{
+            justifyContent: "flex-start",
+            alignItems: "space-around",
+            flexDirection: "row",
+          }}
+        >
+          <View
+            style={{
+              backgroundColor: "#084844",
+              padding: 12,
+              color: text.light,
+              marginVertical: 4,
+            }}
+          >
+            <Text
+              style={{
+                color: text.light,
+              }}
+            >
+              Unlock: {unlock.toFixed()}/{length.toFixed()}
+            </Text>
+          </View>
+          <View
+            style={{
+              backgroundColor: "#753A03",
+              padding: 12,
+              color: text.light,
+              marginVertical: 4,
+            }}
+          >
+            <Text
+              style={{
+                color: text.light,
+              }}
+            >
+              Lock: {lock.toFixed()}/{length.toFixed()}
+            </Text>
+          </View>
+          <View
+            style={{
+              backgroundColor: "#BD6600",
+              padding: 12,
+              color: text.light,
+              marginVertical: 4,
+            }}
+          >
+            <Text
+              style={{
+                color: text.light,
+              }}
+            >
+              Done : {done.toFixed()}/{length.toFixed()}
+            </Text>
+          </View>
+        </View>
+
         {/* <ProgressChart
           data={data}
           width={WIDTH}

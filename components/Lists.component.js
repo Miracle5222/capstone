@@ -293,7 +293,7 @@ export const ListsItems = ({ navigation, route }) => {
                       <Image
                         key={index}
                         style={{
-                          display: item?.image.length <= 0 ? "none" : "flex",
+                          display: "flex",
                           width: route.params.id === "2.1" ? "90%" : "100%",
                           height:
                             contentId[0] === "2"

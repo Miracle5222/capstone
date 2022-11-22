@@ -85,7 +85,7 @@ you will be learning in this course:`,
                 paragraph: "",
                 code: [
                   {
-                    language: `java`,
+                    language: `javascript`,
                     textCode: `"A1.(from the browser console) 
 console.log('Hello world!'); 
 A2. (or, mixed in with the HTML) 

@@ -111,16 +111,18 @@ const Topic = ({ navigation }) => {
         } else {
           let parse = JSON.parse(responseJson);
 
-          let done = (parse.data.done * 100) / parse.data.length;
-          let unlock = (parse.data.unlock * 100) / parse.data.length;
+          let done = parse.data.done;
+          let unlock = parse.data.unlock;
 
-          let lock = (parse.data.lock * 100) / parse.data.length;
+          let lock = parse.data.lock;
           dispatch(doneHandler(done));
           dispatch(unlockHandler(unlock));
           dispatch(lockHandler(lock));
           dispatch(lengthHandler(length));
 
-          dispatch(progressBar(done.toFixed()));
+          dispatch(
+            progressBar((parse.data.done * 100) / parse.data.length.toFixed())
+          );
         }
 
         // setLength(parse.data.length);

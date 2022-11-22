@@ -1,9 +1,11 @@
 {
   "expo": {
     "name": "Basic Programming E-learning Application",
-    "slug": "my-app",
+    "slug": "basic-programming-e-learning-Application",
     "version": "1.0.0",
+    "privacy": "public",
     "orientation": "portrait",
+    "description": "This Application was develop to help students learn the fundamental of computer programming",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
     "splash": {

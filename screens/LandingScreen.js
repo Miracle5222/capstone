@@ -43,6 +43,14 @@ const LandingScreen = ({ navigation }) => {
           <Header size={46} color={theme ? text.dark : text.light}>
             Basic Programming E-learning Application
           </Header>
+          {/* <Image
+            style={{
+              display: "flex",
+              width: 300,
+              height: 400,
+            }}
+            source={require("../assets/f1.jpg")}
+          /> */}
         </View>
         {/* <Highlighter language="java">{`class BoolTest {
 public static void main(String args[]) {

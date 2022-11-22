@@ -60,9 +60,9 @@ const RegisterScreen = ({ navigation }) => {
     })
       .then((response) => response.text())
       .then((responseJson) => {
-        // console.log(responseJson);
-        let parse = JSON.parse(responseJson);
-        console.log(parse);
+        console.log(responseJson);
+        // let parse = JSON.parse(responseJson);
+        // console.log(parse);
         // if (parse[0].registered != null) {
         //   dispatch(registeredHandler(parse[0].registered));
         // } else if (

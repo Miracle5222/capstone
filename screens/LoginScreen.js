@@ -29,6 +29,8 @@ import {
 const LoginScreen = ({ navigation }) => {
   const { baseUrl, update } = useSelector((state) => state.module);
   const dispatch = useDispatch();
+  const { erEmail, setErrEmail } = useState(null);
+  const { erpass, setErrPass } = useState(null);
   const { darkBg, lightBg, text, theme, buttons, sizes } = useSelector(
     (state) => state.color
   );
@@ -36,37 +38,58 @@ const LoginScreen = ({ navigation }) => {
     useSelector((state) => state.login);
 
   const login = () => {
-    fetch(`${baseUrl}/dist/api/login.php`, {
-      method: "post",
-      header: {
-        Accept: "application/json",
-        "Content-type": "application/json",
-      },
-      body: JSON.stringify({
-        // we will pass our input data to server
-        email: email,
-        password: password,
-      }),
-    })
-      .then((response) => response.text())
-      .then((responseJson) => {
-        // console.log(responseJson);
-        let parse = JSON.parse(responseJson);
-        console.log(parse);
-
-        if (parse.length > 0) {
-          dispatch(userHandler(parse));
-          dispatch(student_idLogin(parse[0].student_id));
-          dispatch(emailLogin(parse[0].email));
-          dispatch(usernameLogin(parse[0].username));
-          navigation.replace("HomeScreen");
-        } else {
-          alert("Make sure field is not empty");
-        }
+    if (email != "" && password != "") {
+      fetch(`${baseUrl}/dist/api/login.php`, {
+        method: "post",
+        header: {
+          Accept: "application/json",
+          "Content-type": "application/json",
+        },
+        body: JSON.stringify({
+          // we will pass our input data to server
+          email: email,
+          password: password,
+        }),
       })
-      .catch((error) => {
-        console.error(error);
-      });
+        .then((response) => response.text())
+        .then((responseJson) => {
+          console.log(responseJson);
+          let parse = JSON.parse(responseJson);
+          if (parse[0].email != "false" && parse[0].password != "false") {
+            console.log(parse[0].email);
+            dispatch(student_idLogin(parse[0].student_id));
+            dispatch(emailLogin(parse[0].email));
+            dispatch(usernameLogin(parse[0].username));
+            navigation.replace("HomeScreen");
+          } else {
+            alert("Email and Password is Incorrect");
+          }
+
+          // if (parse.length > 0) {
+          //   dispatch(userHandler(parse));
+          //   dispatch(student_idLogin(parse[0].student_id));
+          //   dispatch(emailLogin(parse[0].email));
+          //   dispatch(usernameLogin(parse[0].username));
+          //   navigation.replace("HomeScreen");
+          // } else {
+          //   alert("Make sure field is not empty");
+          // }
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    } else {
+      if (email == "" && password == "") {
+        alert("Email and Password is empty");
+      } else if (email == "") {
+        alert("Email is empty");
+        // setErrEmail("Please enter email");
+      } else if (password == "") {
+        alert("password is empty");
+        // setErrPass("Please enter password");
+      }
+    }
+
     Keyboard.dismiss();
   };
 
@@ -101,6 +124,7 @@ const LoginScreen = ({ navigation }) => {
             autoFocus={true}
             onChangeText={(e) => dispatch(emailLogin(e))}
           />
+          <Text style={{ color: "red" }}>{erEmail}</Text>
           <Text
             style={[styles.label, { color: theme ? text.dark : text.light }]}
           >
