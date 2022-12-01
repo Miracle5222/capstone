@@ -50,7 +50,7 @@ const Topic = ({ navigation }) => {
   );
   const { fontSize } = useSelector((state) => state.content);
 
-  const { data, update, baseUrl, result } = useSelector(
+  const { data, update, baseUrl, result, language, languageID } = useSelector(
     (state) => state.module
   );
   const { email, password, username, user, student_id } = useSelector(
@@ -60,7 +60,103 @@ const Topic = ({ navigation }) => {
   const [sub_lesson, setSubLesson] = useState([]);
 
   // useEffect(() => {
-  //   fetch(`${baseUrl}/startbootstrap-sb-admin/dist/control/test.php`, {
+  //   fetch(
+  //     `https://0a67-110-54-170-160.ap.ngrok.io/finalCapstone/Elearning/route/modules.php`,
+  //     {
+  //       method: "post",
+  //       header: {
+  //         Accept: "application/json",
+  //         "Content-type": "application/json",
+  //       },
+  //       body: JSON.stringify({
+  //         // we will pass our input data to server
+  //         student_id: student_id,
+  //       }),
+  //     }
+  //   )
+  //     .then((response) => response.text())
+  //     .then((responseJson) => {
+  //       console.log(responseJson);
+
+  //       // let parse = JSON.parse(responseJson);
+  //       // console.log(parse);
+  //     })
+  //     .catch((error) => {
+  //       console.error(error);
+  //     });
+  // }, []);
+  // useEffect(() => {
+  //   fetch(`${baseUrl}/dist/api/progress.php`, {
+  //     method: "post",
+  //     header: {
+  //       Accept: "application/json",
+  //       "Content-type": "application/json",
+  //     },
+  //     body: JSON.stringify({
+  //       student_id: student_id,
+  //     }),
+  //   })
+  //     .then((response) => response.text())
+  //     .then((responseJson) => {
+  //       // console.log(responseJson);
+  //       let parse = JSON.parse(responseJson);
+  //       let length = parse.data.length;
+  //       console.log(parse);
+  //       if (
+  //         parse.data.done === 0 &&
+  //         parse.data.unlock === 0 &&
+  //         parse.data.lock === 0
+  //       ) {
+  //         dispatch(doneHandler(0));
+  //         dispatch(unlockHandler(0));
+  //         dispatch(lockHandler(0));
+  //         dispatch(lengthHandler(length));
+  //       } else {
+  //         let parse = JSON.parse(responseJson);
+
+  //         let done = parse.data.done;
+  //         let unlock = parse.data.unlock;
+
+  //         let lock = parse.data.lock;
+  //         dispatch(doneHandler(done));
+  //         dispatch(unlockHandler(unlock));
+  //         dispatch(lockHandler(lock));
+  //         dispatch(lengthHandler(length));
+
+  //         dispatch(
+  //           progressBar((parse.data.done * 100) / parse.data.length.toFixed())
+  //         );
+  //       }
+
+  //       // setLength(parse.data.length);
+  //       // setDone(parse.data.done);
+  //       // setUnLock(parse.data.unlock);
+  //       // setLock(parse.data.lock);
+  //       // console.log(parse.data[0].sub_lesson);
+  //       // setSubLesson(parse.data[0].sub_lesson);
+  //     })
+  //     .catch((error) => {
+  //       console.error(error);
+  //     });
+  // }, [update]);
+  // const getData = async () => {
+  //   try {
+  //     const jsonValue = await AsyncStorage.getItem("user");
+  //     const result = jsonValue != null ? JSON.parse(jsonValue) : null;
+  //     // console.log(result);
+  //     dispatch(currUsernameLogin(result[0].username));
+  //     dispatch(currStudent_idLogin(result[0].student_id));
+  //     dispatch(currEmailLogin(result[0].email));
+  //   } catch (e) {
+  //     // error reading value
+  //   }
+  // };
+  // useEffect(() => {
+  //   getData();
+  // }, []);
+
+  // useEffect(() => {
+  //   fetch(`${baseUrl}/dist/control/sub_lesson.php`, {
   //     method: "post",
   //     header: {
   //       Accept: "application/json",
@@ -70,111 +166,23 @@ const Topic = ({ navigation }) => {
   //     .then((response) => response.text())
   //     .then((responseJson) => {
   //       // console.log(responseJson);
-
   //       let parse = JSON.parse(responseJson);
-  //       // console.log(parse);
-  //       dispatch(multipleQuizHandler(parse.data.questions));
-  //       dispatch(choicesQuizHandler(parse.data.choices));
-
-  //       // dispatch(multipleQuizHandler(parse.questions.));
+  //       // console.log(responseJson);
+  //       // console.log(parse.data[0].sub_lesson);
+  //       // setSubLesson(parse.data[0].sub_lesson);
+  //       dispatch(codeHandler(parse.data[1].snippets));
+  //       dispatch(subLessonHandler(parse.data[0].sub_lesson));
+  //       // setCode(parse.data[1].snippets);
   //     })
   //     .catch((error) => {
   //       console.error(error);
   //     });
-  // }, []);
+  // }, [update]);
   useEffect(() => {
-    fetch(`${baseUrl}/dist/api/progress.php`, {
-      method: "post",
-      header: {
-        Accept: "application/json",
-        "Content-type": "application/json",
-      },
-      body: JSON.stringify({
-        student_id: student_id,
-      }),
-    })
-      .then((response) => response.text())
-      .then((responseJson) => {
-        // console.log(responseJson);
-        let parse = JSON.parse(responseJson);
-        let length = parse.data.length;
-        console.log(parse);
-        if (
-          parse.data.done === 0 &&
-          parse.data.unlock === 0 &&
-          parse.data.lock === 0
-        ) {
-          dispatch(doneHandler(0));
-          dispatch(unlockHandler(0));
-          dispatch(lockHandler(0));
-          dispatch(lengthHandler(length));
-        } else {
-          let parse = JSON.parse(responseJson);
-
-          let done = parse.data.done;
-          let unlock = parse.data.unlock;
-
-          let lock = parse.data.lock;
-          dispatch(doneHandler(done));
-          dispatch(unlockHandler(unlock));
-          dispatch(lockHandler(lock));
-          dispatch(lengthHandler(length));
-
-          dispatch(
-            progressBar((parse.data.done * 100) / parse.data.length.toFixed())
-          );
-        }
-
-        // setLength(parse.data.length);
-        // setDone(parse.data.done);
-        // setUnLock(parse.data.unlock);
-        // setLock(parse.data.lock);
-        // console.log(parse.data[0].sub_lesson);
-        // setSubLesson(parse.data[0].sub_lesson);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  }, [update]);
-  const getData = async () => {
-    try {
-      const jsonValue = await AsyncStorage.getItem("user");
-      const result = jsonValue != null ? JSON.parse(jsonValue) : null;
-      // console.log(result);
-      dispatch(currUsernameLogin(result[0].username));
-      dispatch(currStudent_idLogin(result[0].student_id));
-      dispatch(currEmailLogin(result[0].email));
-    } catch (e) {
-      // error reading value
-    }
-  };
-  useEffect(() => {
-    getData();
+    console.log(student_id);
+    console.log(email);
+    console.log(username);
   }, []);
-
-  useEffect(() => {
-    fetch(`${baseUrl}/dist/control/sub_lesson.php`, {
-      method: "post",
-      header: {
-        Accept: "application/json",
-        "Content-type": "application/json",
-      },
-    })
-      .then((response) => response.text())
-      .then((responseJson) => {
-        // console.log(responseJson);
-        let parse = JSON.parse(responseJson);
-        // console.log(responseJson);
-        // console.log(parse.data[0].sub_lesson);
-        // setSubLesson(parse.data[0].sub_lesson);
-        dispatch(codeHandler(parse.data[1].snippets));
-        dispatch(subLessonHandler(parse.data[0].sub_lesson));
-        // setCode(parse.data[1].snippets);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  }, [update]);
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -225,17 +233,10 @@ const Topic = ({ navigation }) => {
           ]}
           onPress={() => navigation.navigate("Lesson")}
         >
-          {data.map((val, index) => {
-            return (
-              <Header
-                key={index}
-                size={fontSize + 12}
-                color={theme ? text.dark : text.light}
-              >
-                {val.language}
-              </Header>
-            );
-          })}
+          <Header size={fontSize + 12} color={theme ? text.dark : text.light}>
+            {language}
+          </Header>
+
           <View style={styles.progressBar}>
             <Java />
             <Progressbar />

@@ -159,25 +159,51 @@ const Lesson = ({ navigation }) => {
   //     // console.log(lesson[i].status);
   //   }
   // }, []);
+  // useEffect(() => {
+  //   fetch(`${baseUrl}/dist/control/lesson.php`, {
+  //     method: "post",
+  //     header: {
+  //       Accept: "application/json",
+  //       "Content-type": "application/json",
+  //     },
+  //     body: JSON.stringify({
+  //       student_id: student_id,
+  //     }),
+  //   })
+  //     .then((response) => response.text())
+  //     .then((responseJson) => {
+  //       // console.log(responseJson);
+  //       let parse = JSON.parse(responseJson);
+  //       // console.log(parse.data[1].lesson);
+
+  //       setModules(parse.data[0].module);
+  //       setLesson(parse.data[1].lesson);
+  //     })
+  //     .catch((error) => {
+  //       console.error(error);
+  //     });
+  // }, [update]);
   useEffect(() => {
-    fetch(`${baseUrl}/dist/control/lesson.php`, {
+    fetch(`${baseUrl}route/modules.php`, {
       method: "post",
       header: {
         Accept: "application/json",
         "Content-type": "application/json",
       },
       body: JSON.stringify({
+        // we will pass our input data to server
         student_id: student_id,
       }),
     })
       .then((response) => response.text())
       .then((responseJson) => {
         // console.log(responseJson);
-        let parse = JSON.parse(responseJson);
-        // console.log(parse.data[1].lesson);
 
+        let parse = JSON.parse(responseJson);
         setModules(parse.data[0].module);
-        setLesson(parse.data[1].lesson);
+        setLesson(parse.data[1].lessons);
+        console.log(parse.data[0].module);
+        // console.log(parse.data[1].lessons);
       })
       .catch((error) => {
         console.error(error);
@@ -237,11 +263,11 @@ const Lesson = ({ navigation }) => {
                       alignItems: "center",
                     }}
                   >
-                    {value.status === "done" && <Check />}
-                    {value.status === "unlock" && (
+                    {value.module_status === "done" && <Check />}
+                    {value.module_status === "unlock" && (
                       <LockLight bg={text.primary} />
                     )}
-                    {value.status === "lock" && (
+                    {value.module_status === "lock" && (
                       <LockDark bg={text.secondary} />
                     )}
                   </View>
@@ -251,7 +277,7 @@ const Lesson = ({ navigation }) => {
                     color={theme ? text.dark : text.light}
                     style={{ paddingLeft: 10 }}
                   >
-                    {value.title}
+                    {value.module_name}
                   </Header>
                 </View>
 
@@ -260,7 +286,7 @@ const Lesson = ({ navigation }) => {
                     {lesson
 
                       .filter((val) => {
-                        return val.module_id == value.module_id;
+                        return val.modules_Id == value.modules_Id;
                       })
                       .map(
                         //map data from redux
@@ -285,12 +311,14 @@ const Lesson = ({ navigation }) => {
                                 // console.log(content);
                                 navigation.navigate("List", {
                                   // status: status,
+                                  mymodule: value.mymoduleId,
                                   lessons: values.lessons,
                                   content: values,
+                                  lessonId: values.myLessons_Id,
                                   id: values.lesson_id,
-                                  module_id: values.module_id,
+                                  module_id: value.modules_Id,
                                   name: values.lesson_name,
-                                  moduleTitle: value.title,
+                                  moduleTitle: value.module_name,
                                 }); //pass params to ContentScreen
                               }}
                               activeOpacity={0.6}
@@ -351,11 +379,11 @@ const Lesson = ({ navigation }) => {
                                   {values.lesson_name}
                                 </Text>
                                 <View style={styles.iconContainer}>
-                                  {values.status === "done" && <Check />}
-                                  {values.status === "unlock" && (
+                                  {values.lesson_status === "done" && <Check />}
+                                  {values.lesson_status === "unlock" && (
                                     <LockLight bg={text.primary} />
                                   )}
-                                  {values.status === "lock" && (
+                                  {values.lesson_status === "lock" && (
                                     <LockDark bg={text.secondary} />
                                   )}
                                 </View>

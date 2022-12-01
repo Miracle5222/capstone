@@ -33,61 +33,25 @@ const Navigator = () => {
   const { baseUrl, update } = useSelector((state) => state.module);
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    fetch(`${baseUrl}/dist/control/test.php`, {
-      method: "post",
-      header: {
-        Accept: "application/json",
-        "Content-type": "application/json",
-      },
-    })
-      .then((response) => response.text())
-      .then((responseJson) => {
-        let parse = JSON.parse(responseJson);
-        // console.log(parse.data.choices);
-        // dispatch(multipleQuizHandler(parse.data.questions));
-        dispatch(choicesQuizHandler(parse.data.choices));
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  }, []);
-
   // useEffect(() => {
-  //   fetch(`${baseUrl}/dist/api/progress.php`, {
+  //   fetch(`${baseUrl}/dist/control/test.php`, {
   //     method: "post",
   //     header: {
   //       Accept: "application/json",
   //       "Content-type": "application/json",
   //     },
-  //     body: JSON.stringify({
-  //       student_id: student_id,
-  //     }),
   //   })
   //     .then((response) => response.text())
   //     .then((responseJson) => {
-  //       // console.log(responseJson);
-
   //       let parse = JSON.parse(responseJson);
-  //       dispatch(doneHandler(parse.data.done));
-  //       dispatch(unlockHandler(parse.data.unlock));
-  //       dispatch(lockHandler(parse.data.lock));
-  //       dispatch(lengthHandler(parse.data.leagth));
-  //       // setLength(parse.data.length);
-  //       // setDone(parse.data.done);
-  //       // setUnLock(parse.data.unlock);
-  //       // setLock(parse.data.lock);
-  //       // console.log(parse.data[0].sub_lesson);
-  //       // setSubLesson(parse.data[0].sub_lesson);
-
-  //       dispatch(
-  //         progressBar(((parse.data.done * 100) / parse.data.length).toFixed())
-  //       );
+  //       // console.log(parse.data.choices);
+  //       // dispatch(multipleQuizHandler(parse.data.questions));
+  //       dispatch(choicesQuizHandler(parse.data.choices));
   //     })
   //     .catch((error) => {
   //       console.error(error);
   //     });
-  // }, [update]);
+  // }, []);
 
   return (
     <>

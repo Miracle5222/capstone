@@ -56,15 +56,16 @@ const QuizHomeScreen = ({ route, navigation }) => {
 
   const length = multipleQuiz.length + codeQuiz.length;
 
-  // useEffect(() => {
-  //   dispatch(clearScore());
-
-  //   // console.log(route.params.id);
-  //   // console.log(route.params.name);
-  // }, []);
+  useEffect(() => {
+    console.log(route.params.id);
+    console.log(route.params.name);
+    console.log(route.params.module_id);
+    console.log(score);
+    console.log(quiz_id);
+  }, []);
 
   useEffect(() => {
-    fetch(`${baseUrl}/dist/api/result.php`, {
+    fetch(`${baseUrl}route/results.php`, {
       method: "post",
       header: {
         Accept: "application/json",
@@ -88,19 +89,20 @@ const QuizHomeScreen = ({ route, navigation }) => {
   }, [quiz_id, update]);
 
   useEffect(() => {
-    fetch(`${baseUrl}/dist/control/test.php`, {
+    fetch(`${baseUrl}route/quizModule.php`, {
       method: "post",
       header: {
         Accept: "application/json",
         "Content-type": "application/json",
       },
       body: JSON.stringify({
+        student_id: student_id,
         module_id: route.params.module_id,
       }),
     })
       .then((response) => response.text())
       .then((responseJson) => {
-        // console.log(responseJson);
+        console.log(responseJson);
 
         let parse = JSON.parse(responseJson);
         // console.log(parse);
@@ -233,6 +235,11 @@ const QuizHomeScreen = ({ route, navigation }) => {
               ]}
               onPress={() =>
                 navigation.navigate("MultipleChoice", {
+                  // console.log("route.params.mymodule: ", route.params.mymodule);
+                  // console.log("route.params.module_id: ", route.params.module_id);
+                  // console.log("route.params.lessonId: ", route.params.lessonId);
+                  mymodule: route.params.mymodule,
+                  lessonId: route.params.lessonId,
                   lesson_id: route.params.id,
                   name: route.params.name,
                   module_id: route.params.module_id,
@@ -297,18 +304,6 @@ const QuizHomeScreen = ({ route, navigation }) => {
                     },
                   ]}
                 >
-                  Quiz ID
-                </Text>
-              </View>
-              <View>
-                <Text
-                  style={[
-                    {
-                      color: text.light,
-                      fontSize: fontSize,
-                    },
-                  ]}
-                >
                   Time Ended
                 </Text>
               </View>
@@ -333,7 +328,7 @@ const QuizHomeScreen = ({ route, navigation }) => {
                     },
                   ]}
                 >
-                  Status
+                  Remarks
                 </Text>
               </View>
             </View>
@@ -349,18 +344,6 @@ const QuizHomeScreen = ({ route, navigation }) => {
                         { paddingTop: 30, paddingRight: 20 },
                       ]}
                     >
-                      <View>
-                        <Text
-                          style={[
-                            {
-                              color: text.light,
-                              fontSize: fontSize,
-                            },
-                          ]}
-                        >
-                          {item.quiz_id}
-                        </Text>
-                      </View>
                       <View>
                         <Text
                           style={[

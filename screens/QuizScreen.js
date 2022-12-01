@@ -63,25 +63,28 @@ const QuizScreen = ({ navigation, route }) => {
     useSelector((state) => state.login);
 
   useEffect(() => {
-    // console.log("quiz_id: ", quiz_id);
-    // console.log("currUsername: ", currUsername);
-    // console.log("currStudent_id: ", currStudent_id);
+    console.log("quiz_id: ", quiz_id);
+    console.log("student_id: ", student_id);
+    console.log("route.params.mymodule: ", route.params.mymodule);
+    console.log("route.params.module_id: ", route.params.module_id);
+    console.log("route.params.lessonId: ", route.params.lessonId);
+    console.log("score: ", score);
   }, []);
-
   const updateLesson = () => {
     // console.log(route.params.lesson_id);
     // console.log(route.params.module_id);
     // console.log(score);
     // console.log(currStudent_id);
     // console.log(quiz_id);
-    fetch(`${baseUrl}/dist/api/updateLesson.php`, {
+    fetch(`${baseUrl}route/updateLessonModule.php`, {
       method: "post",
       header: {
         Accept: "application/json",
         "Content-type": "application/json",
       },
       body: JSON.stringify({
-        lesson_id: route.params.lesson_id,
+        mymodule: route.params.mymodule,
+        lesson_id: route.params.lessonId,
         module_id: route.params.module_id,
         score: score,
         student_id: student_id,
@@ -98,15 +101,9 @@ const QuizScreen = ({ navigation, route }) => {
       });
   };
 
-  // console.log(multipleQuiz);
-  useEffect(() => {
-    const newTime = multipleQuiz.map((value) => {
-      return value.time;
-    });
-    setTime(newTime);
-  }, []);
   useEffect(() => {
     setCurrIndex(0);
+
     dispatch(clearScore());
   }, []);
 
@@ -114,14 +111,12 @@ const QuizScreen = ({ navigation, route }) => {
     let quizz = multipleQuiz.map((val) => {
       return val.time;
     });
-
-    setRunTime(quizz[index]);
-    setTimeout(runTime);
+    console.log(score);
     let interv = setInterval(() => {
       if (index === multipleQuiz.length - 1) {
         if (codeQuiz.length > 0) {
           navigation.replace("ProblemCode", {
-            lesson_id: route.params.lesson_id,
+            lesson_id: route.params.lessonId,
             module_id: route.params.module_id,
             score: score,
             student_id: currStudent_id,
@@ -136,20 +131,9 @@ const QuizScreen = ({ navigation, route }) => {
       } else {
         setCurrIndex(index + 1);
       }
-    }, quizz[index] * 1000);
-
+    }, 5000);
     return () => clearInterval(interv);
   }, [index]);
-
-  useEffect(() => {
-    let interv = setInterval(() => {
-      // setTimeout(timeout - 1);
-      setTimeout((prevTime) => prevTime + 1);
-    }, 1000);
-    setTimeout(0);
-    return () => clearInterval(interv);
-  }, [index]);
-
   useEffect(() => {
     ref.current?.scrollToIndex({
       index,
@@ -157,7 +141,6 @@ const QuizScreen = ({ navigation, route }) => {
       // viewPosition: 0,
     });
   }, [index]);
-
   return (
     <Container
       style={[
@@ -183,10 +166,9 @@ const QuizScreen = ({ navigation, route }) => {
         <FlatList
           ref={ref}
           data={multipleQuiz}
-          keyExtractor={(item) => item.question_id.toString()}
+          keyExtractor={(_, index) => index.toString()}
           initialScrollIndex={index}
           horizontal
-          numRows={multipleQuiz.length + 1}
           // onEndReached={() => navigation.navigate("Code")}
           scrollEnabled={false}
           renderItem={({ item }) => {
@@ -239,7 +221,7 @@ const QuizScreen = ({ navigation, route }) => {
                       ]}
                     >
                       {/* {item.time} */}
-                      {timeout}/{item.time}
+                      {item.time}
                     </Text>
                   </View>
                   <View style={styles.items}>
@@ -304,7 +286,7 @@ const QuizScreen = ({ navigation, route }) => {
 
                               setCurrIndex(index);
                             }
-                            if (answer === "true") {
+                            if (answer === "True") {
                               dispatch(scoreHandler());
                               // setScore(scores + 1);
                             }
@@ -342,12 +324,12 @@ const QuizScreen = ({ navigation, route }) => {
                     })}
                 </View>
                 {/* <View style={styles.buttonContainer}>
-              <Button event={() => setCurrIndex(index + 1)}>
-                <Text style={[{ color: theme ? text.dark : text.light }]}>
-                  Next
-                </Text>
-              </Button>
-            </View> */}
+                <Button event={() => setCurrIndex(index + 1)}>
+                  <Text style={[{ color: theme ? text.dark : text.light }]}>
+                    Next
+                  </Text>
+                </Button>
+              </View> */}
               </View>
             );
           }}

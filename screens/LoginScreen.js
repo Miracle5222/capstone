@@ -23,6 +23,8 @@ import {
   doneHandler,
   lengthHandler,
   lockHandler,
+  programmingID,
+  programmingLanguage,
   unlockHandler,
 } from "../redux/feature/dataReducer";
 
@@ -39,30 +41,36 @@ const LoginScreen = ({ navigation }) => {
 
   const login = () => {
     if (email != "" && password != "") {
-      fetch(`${baseUrl}/dist/api/login.php`, {
-        method: "post",
-        header: {
-          Accept: "application/json",
-          "Content-type": "application/json",
-        },
-        body: JSON.stringify({
-          // we will pass our input data to server
-          email: email,
-          password: password,
-        }),
-      })
+      fetch(
+        `${baseUrl}route/login.php`,
+        {
+          method: "post",
+          header: {
+            Accept: "application/json",
+            "Content-type": "application/json",
+          },
+          body: JSON.stringify({
+            // we will pass our input data to server
+            email: email,
+            password: password,
+          }),
+        }
+      )
         .then((response) => response.text())
         .then((responseJson) => {
-          console.log(responseJson);
+          // console.log(responseJson);
           let parse = JSON.parse(responseJson);
+          console.log(parse[0]);
           if (parse[0].email != "false" && parse[0].password != "false") {
-            console.log(parse[0].email);
-            dispatch(student_idLogin(parse[0].student_id));
+            // console.log(parse[0].email);
+            dispatch(student_idLogin(parse[0].student_Id));
             dispatch(emailLogin(parse[0].email));
             dispatch(usernameLogin(parse[0].username));
+            dispatch(programmingLanguage(parse[0].language));
+            dispatch(programmingID(parse[0].programming_Id));
             navigation.replace("HomeScreen");
           } else {
-            alert("Email and Password is Incorrect");
+            alert("Incorrect Email and Password");
           }
 
           // if (parse.length > 0) {

@@ -18,11 +18,18 @@ const dataSlice = createSlice({
     codeQuiz: [],
     multipleQuiz: [],
     choice: [],
-    baseUrl:
-      "https://6399-110-54-205-41.ap.ngrok.io/finalCapstone/capstone-admin",
+    baseUrl: "https://9bf7-110-54-224-76.ap.ngrok.io/finalCapstone/Elearning/",
+    language: "",
+    languageID: "",
   },
 
   reducers: {
+    programmingLanguage(state, action) {
+      state.language = action.payload;
+    },
+    programmingID(state, action) {
+      state.languageID = action.payload;
+    },
     choicesQuizHandler(state, action) {
       state.choice = action.payload;
     },
@@ -89,6 +96,8 @@ const dataSlice = createSlice({
 });
 
 export const {
+  programmingID,
+  programmingLanguage,
   choicesQuizHandler,
   multipleQuizHandler,
   codeQuizQuizHandler,

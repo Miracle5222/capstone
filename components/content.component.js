@@ -111,25 +111,23 @@ export const ListsItems = ({ navigation, route }) => {
     dispatch(contentIdHandler(route.params.lessons));
     if (route.params.name.trim() === "Quiz") {
       navigation.replace("QuizHome", {
-        lessonId: route.params.lessonId,
+        id: route.params.lessonId,
         name: route.params.name,
         module_id: route.params.module_id,
         moduleTitle: route.params.moduleTitle,
-        mymodule: route.params.mymodule,
       });
     }
   }, []);
 
-  // useEffect(() => {
-  //   console.log(route.params.lessons);
-  //   console.log(route.params.name);
-  //   console.log(route.params.module_id);
-  //   console.log(route.params.moduleTitle);
-  //   console.log(route.params.lessonId);
-  // }, []);
-
+  useEffect(() => {
+    console.log(route.params.lessons);
+    console.log(route.params.name);
+    console.log(route.params.module_id);
+    console.log(route.params.moduleTitle);
+    console.log(route.params.lessonId);
+  }, []);
   const updateLesson = () => {
-    fetch(`${baseUrl}/route/updatelesson.php`, {
+    fetch(`${baseUrl}/dist/api/updateLesson.php`, {
       method: "post",
       header: {
         Accept: "application/json",
@@ -137,11 +135,11 @@ export const ListsItems = ({ navigation, route }) => {
       },
       body: JSON.stringify({
         lesson_id: route.params.lessonId,
+        module_id: route.params.module_id,
       }),
     })
       .then((response) => response.text())
       .then((responseJson) => {
-        console.log(responseJson);
         dispatch(updateHandler());
 
         // let parse = JSON.parse(responseJson);
