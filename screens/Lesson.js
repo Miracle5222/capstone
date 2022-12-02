@@ -202,7 +202,7 @@ const Lesson = ({ navigation }) => {
         let parse = JSON.parse(responseJson);
         setModules(parse.data[0].module);
         setLesson(parse.data[1].lessons);
-        console.log(parse.data[0].module);
+        // console.log(parse.data[0].module);
         // console.log(parse.data[1].lessons);
       })
       .catch((error) => {

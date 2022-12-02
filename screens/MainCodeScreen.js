@@ -78,7 +78,7 @@ const MainCodeScreen = ({ navigation }) => {
     setCode(e);
   };
   const sendCode = () => {
-    fetch(`${baseUrl}/dist/api/code.php`, {
+    fetch(`${baseUrl}api/code.php`, {
       method: "post",
       header: {
         Accept: "application/json",

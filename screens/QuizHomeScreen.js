@@ -56,13 +56,14 @@ const QuizHomeScreen = ({ route, navigation }) => {
 
   const length = multipleQuiz.length + codeQuiz.length;
 
-  useEffect(() => {
-    console.log(route.params.id);
-    console.log(route.params.name);
-    console.log(route.params.module_id);
-    console.log(score);
-    console.log(quiz_id);
-  }, []);
+  // useEffect(() => {
+  //   console.log("mymodule " + route.params.mymodule);
+  //   console.log("Id " + route.params.id);
+  //   console.log("name " + route.params.name);
+  //   console.log("module Id " + route.params.module_id);
+  //   console.log("score " + score);
+  //   console.log("quiz_id Id " + quiz_id);
+  // }, []);
 
   useEffect(() => {
     fetch(`${baseUrl}route/results.php`, {
@@ -102,7 +103,7 @@ const QuizHomeScreen = ({ route, navigation }) => {
     })
       .then((response) => response.text())
       .then((responseJson) => {
-        console.log(responseJson);
+        // console.log(responseJson);
 
         let parse = JSON.parse(responseJson);
         // console.log(parse);
@@ -128,6 +129,8 @@ const QuizHomeScreen = ({ route, navigation }) => {
           .map((problem) => {
             return problem;
           });
+        // console.log("code", code);
+        // console.log("multipleChoice", multipleChoice);
         dispatch(codeQuizQuizHandler(code));
         dispatch(choicesQuizHandler(parse.data.choices));
         dispatch(multipleQuizHandler(multipleChoice));
@@ -144,6 +147,137 @@ const QuizHomeScreen = ({ route, navigation }) => {
   useEffect(() => {
     dispatch(clearScore());
   }, []);
+  const QuizChoices = () => {
+    // codeQuiz.length
+    // multipleQuiz.length
+    if (codeQuiz.length != 0 && multipleQuiz.length != 0) {
+      return (
+        <>
+          <TouchableOpacity
+            activeOpacity={0.8}
+            style={[styles.quizzes]}
+            onPress={() =>
+              navigation.navigate("MultipleChoice", {
+                // console.log("route.params.mymodule: ", route.params.mymodule);
+                // console.log("route.params.module_id: ", route.params.module_id);
+                // console.log("route.params.lessonId: ", route.params.lessonId);
+                mymodule: route.params.mymodule,
+                lessonId: route.params.lessonId,
+                lesson_id: route.params.id,
+                name: route.params.name,
+                module_id: route.params.module_id,
+                score: score,
+                quiz_id: quiz_id,
+              })
+            }
+          >
+            <Text
+              style={[
+                {
+                  color: text.light,
+                  fontSize: fontSize,
+                  textAlign: "center",
+                  padding: 15,
+                },
+              ]}
+            >
+              Start Quiz
+            </Text>
+          </TouchableOpacity>
+        </>
+      );
+    } else if (multipleQuiz.length == 0) {
+      return (
+        <TouchableOpacity
+          style={[styles.quizzes]}
+          onPress={() =>
+            navigation.navigate("ProblemCode", {
+              mymodule: route.params.mymodule,
+              lessonId: route.params.lessonId,
+              lesson_id: route.params.id,
+              name: route.params.name,
+              module_id: route.params.module_id,
+              score: score,
+              quiz_id: quiz_id,
+            })
+          }
+        >
+          <Text
+            style={[
+              {
+                color: text.light,
+                fontSize: fontSize,
+                textAlign: "center",
+                padding: 15,
+              },
+            ]}
+          >
+            Start Quiz
+          </Text>
+        </TouchableOpacity>
+      );
+    } else if (codeQuiz.length == 0) {
+      return (
+        <TouchableOpacity
+          activeOpacity={0.8}
+          style={[styles.quizzes]}
+          onPress={() =>
+            navigation.navigate("MultipleChoice", {
+              // console.log("route.params.mymodule: ", route.params.mymodule);
+              // console.log("route.params.module_id: ", route.params.module_id);
+              // console.log("route.params.lessonId: ", route.params.lessonId);
+              mymodule: route.params.mymodule,
+              lessonId: route.params.lessonId,
+              lesson_id: route.params.id,
+              name: route.params.name,
+              module_id: route.params.module_id,
+              score: score,
+              quiz_id: quiz_id,
+            })
+          }
+        >
+          <Text
+            style={[
+              {
+                color: text.light,
+                fontSize: fontSize,
+                textAlign: "center",
+                padding: 15,
+              },
+            ]}
+          >
+            Start Quiz
+          </Text>
+        </TouchableOpacity>
+      );
+    } else {
+      return (
+        <View style={[styles.nextPhase]}>
+          <View style={{ position: "absolute", right: 10, zIndex: 100 }}>
+            <TouchableOpacity
+              onPress={() => {
+                setVisible(!visible);
+              }}
+            >
+              <Exit />
+            </TouchableOpacity>
+          </View>
+          <View
+            style={{
+              fontSize: fontSize,
+              alignItems: "center",
+            }}
+          >
+            <Text
+              style={[{ color: "#FF7700", fontSize: fontSize, paddingTop: 40 }]}
+            >
+              No Availble Quiz
+            </Text>
+          </View>
+        </View>
+      );
+    }
+  };
 
   const QuizLandingScreen = () => {
     return (
@@ -208,9 +342,9 @@ const QuizHomeScreen = ({ route, navigation }) => {
             <Text
               style={[
                 {
-                  color: text.light,
+                  color: theme ? text.dark : text.light,
                   fontSize: fontSize + 8,
-                  marginTop: -20,
+                  marginTop: -50,
                   textAlign: "center",
                 },
               ]}
@@ -228,46 +362,15 @@ const QuizHomeScreen = ({ route, navigation }) => {
               flexDirection: "row",
             }}
           >
-            <TouchableOpacity
-              style={[
-                styles.quizzes,
-                { display: multipleQuiz.length === 0 ? "none" : "flex" },
-              ]}
-              onPress={() =>
-                navigation.navigate("MultipleChoice", {
-                  // console.log("route.params.mymodule: ", route.params.mymodule);
-                  // console.log("route.params.module_id: ", route.params.module_id);
-                  // console.log("route.params.lessonId: ", route.params.lessonId);
-                  mymodule: route.params.mymodule,
-                  lessonId: route.params.lessonId,
-                  lesson_id: route.params.id,
-                  name: route.params.name,
-                  module_id: route.params.module_id,
-                  score: score,
-                  quiz_id: quiz_id,
-                })
-              }
-            >
-              <Text style={[{ color: text.light }]}>Multiple Choice</Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              style={[
-                styles.quizzes,
-                { display: codeQuiz.length === 0 ? "none" : "flex" },
-              ]}
-              onPress={() =>
-                navigation.navigate("ProblemCode", {
-                  lesson_id: route.params.id,
-                  name: route.params.name,
-                  module_id: route.params.module_id,
-                  score: score,
-                  quiz_id: quiz_id,
-                })
-              }
-            >
-              <Text style={[{ color: text.light }]}>Problem Solving</Text>
-            </TouchableOpacity>
+            {codeQuiz.length == 0 && multipleQuiz.length == 0 ? (
+              <View style={{ backgroundColor: "red" }}>
+                <Text style={{ color: text.light, padding: 10 }}>
+                  No availabe Quiz
+                </Text>
+              </View>
+            ) : (
+              <QuizChoices />
+            )}
           </View>
 
           <Text
@@ -488,10 +591,10 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   quizzes: {
-    paddingHorizontal: 20,
-    paddingVertical: 8,
-    borderRadius: 8,
-    backgroundColor: "red",
+    marginBottom: 10,
+    backgroundColor: "green",
+    marginTop: -20,
+    borderRadius: 80,
   },
   codingContainer: {
     flexDirection: "column",

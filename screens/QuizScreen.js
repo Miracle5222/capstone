@@ -62,14 +62,6 @@ const QuizScreen = ({ navigation, route }) => {
   const { email, password, currStudent_id, student_id, currUsername } =
     useSelector((state) => state.login);
 
-  useEffect(() => {
-    console.log("quiz_id: ", quiz_id);
-    console.log("student_id: ", student_id);
-    console.log("route.params.mymodule: ", route.params.mymodule);
-    console.log("route.params.module_id: ", route.params.module_id);
-    console.log("route.params.lessonId: ", route.params.lessonId);
-    console.log("score: ", score);
-  }, []);
   const updateLesson = () => {
     // console.log(route.params.lesson_id);
     // console.log(route.params.module_id);
@@ -108,18 +100,16 @@ const QuizScreen = ({ navigation, route }) => {
   }, []);
 
   useEffect(() => {
-    let quizz = multipleQuiz.map((val) => {
-      return val.time;
-    });
     console.log(score);
     let interv = setInterval(() => {
       if (index === multipleQuiz.length - 1) {
         if (codeQuiz.length > 0) {
           navigation.replace("ProblemCode", {
-            lesson_id: route.params.lessonId,
+            mymodule: route.params.mymodule,
+            lessonId: route.params.lessonId,
             module_id: route.params.module_id,
             score: score,
-            student_id: currStudent_id,
+            student_id: student_id,
             quiz_id: quiz_id,
           });
         } else {
@@ -296,10 +286,11 @@ const QuizScreen = ({ navigation, route }) => {
                               // }
                               if (codeQuiz.length > 0) {
                                 navigation.replace("ProblemCode", {
-                                  lesson_id: route.params.lesson_id,
+                                  mymodule: route.params.mymodule,
+                                  lessonId: route.params.lessonId,
                                   module_id: route.params.module_id,
                                   score: score,
-                                  student_id: currStudent_id,
+                                  student_id: student_id,
                                   quiz_id: quiz_id,
                                 });
                               } else {

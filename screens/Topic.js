@@ -85,60 +85,60 @@ const Topic = ({ navigation }) => {
   //       console.error(error);
   //     });
   // }, []);
-  // useEffect(() => {
-  //   fetch(`${baseUrl}/dist/api/progress.php`, {
-  //     method: "post",
-  //     header: {
-  //       Accept: "application/json",
-  //       "Content-type": "application/json",
-  //     },
-  //     body: JSON.stringify({
-  //       student_id: student_id,
-  //     }),
-  //   })
-  //     .then((response) => response.text())
-  //     .then((responseJson) => {
-  //       // console.log(responseJson);
-  //       let parse = JSON.parse(responseJson);
-  //       let length = parse.data.length;
-  //       console.log(parse);
-  //       if (
-  //         parse.data.done === 0 &&
-  //         parse.data.unlock === 0 &&
-  //         parse.data.lock === 0
-  //       ) {
-  //         dispatch(doneHandler(0));
-  //         dispatch(unlockHandler(0));
-  //         dispatch(lockHandler(0));
-  //         dispatch(lengthHandler(length));
-  //       } else {
-  //         let parse = JSON.parse(responseJson);
+  useEffect(() => {
+    fetch(`${baseUrl}route/progress.php`, {
+      method: "post",
+      header: {
+        Accept: "application/json",
+        "Content-type": "application/json",
+      },
+      body: JSON.stringify({
+        student_id: student_id,
+      }),
+    })
+      .then((response) => response.text())
+      .then((responseJson) => {
+        // console.log(responseJson);
+        let parse = JSON.parse(responseJson);
+        let length = parse.data.length;
+        console.log(parse);
+        if (
+          parse.data.done === 0 &&
+          parse.data.unlock === 0 &&
+          parse.data.lock === 0
+        ) {
+          dispatch(doneHandler(0));
+          dispatch(unlockHandler(0));
+          dispatch(lockHandler(0));
+          dispatch(lengthHandler(length));
+        } else {
+          let parse = JSON.parse(responseJson);
 
-  //         let done = parse.data.done;
-  //         let unlock = parse.data.unlock;
+          let done = parse.data.done;
+          let unlock = parse.data.unlock;
 
-  //         let lock = parse.data.lock;
-  //         dispatch(doneHandler(done));
-  //         dispatch(unlockHandler(unlock));
-  //         dispatch(lockHandler(lock));
-  //         dispatch(lengthHandler(length));
+          let lock = parse.data.lock;
+          dispatch(doneHandler(done));
+          dispatch(unlockHandler(unlock));
+          dispatch(lockHandler(lock));
+          dispatch(lengthHandler(length));
 
-  //         dispatch(
-  //           progressBar((parse.data.done * 100) / parse.data.length.toFixed())
-  //         );
-  //       }
+          dispatch(
+            progressBar((parse.data.done * 100) / parse.data.length.toFixed())
+          );
+        }
 
-  //       // setLength(parse.data.length);
-  //       // setDone(parse.data.done);
-  //       // setUnLock(parse.data.unlock);
-  //       // setLock(parse.data.lock);
-  //       // console.log(parse.data[0].sub_lesson);
-  //       // setSubLesson(parse.data[0].sub_lesson);
-  //     })
-  //     .catch((error) => {
-  //       console.error(error);
-  //     });
-  // }, [update]);
+        // setLength(parse.data.length);
+        // setDone(parse.data.done);
+        // setUnLock(parse.data.unlock);
+        // setLock(parse.data.lock);
+        // console.log(parse.data[0].sub_lesson);
+        // setSubLesson(parse.data[0].sub_lesson);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }, [update]);
   // const getData = async () => {
   //   try {
   //     const jsonValue = await AsyncStorage.getItem("user");

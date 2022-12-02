@@ -67,7 +67,7 @@ const CodeScreen = ({ navigation, route }) => {
         backgroundColor: theme ? lightBg.primary : darkBg.primary,
       },
       headerTitleStyle: {
-        fontWeight: "500",
+        fontWeight: "300",
         fontSize: 18,
       },
       headerShadowVisible: false,
@@ -75,24 +75,15 @@ const CodeScreen = ({ navigation, route }) => {
     });
   }, [navigation, theme]);
 
-  useEffect(() => {
-    console.log("mymodule " + route.params.mymodule);
-    console.log("student_id " + route.params.student_id);
-    console.log("name " + route.params.name);
-    console.log("module Id " + route.params.module_id);
-    console.log("score " + score);
-    console.log("quiz_id Id " + quiz_id);
-  }, []);
   const updateLesson = () => {
-    fetch(`${baseUrl}route/updateLessonModule.php`, {
+    fetch(`${baseUrl}/dist/api/updateLesson.php`, {
       method: "post",
       header: {
         Accept: "application/json",
         "Content-type": "application/json",
       },
       body: JSON.stringify({
-        mymodule: route.params.mymodule,
-        lesson_id: route.params.lessonId,
+        lesson_id: route.params.lesson_id,
         module_id: route.params.module_id,
         score: score,
         student_id: student_id,
@@ -109,13 +100,24 @@ const CodeScreen = ({ navigation, route }) => {
       });
   };
   useEffect(() => {
-    setIndexs(0);
-  }, []);
+    let interv = setInterval(() => {
+      // setTimeout(timeout - 1);
+      setTimeout((prevTime) => prevTime + 1);
+    }, 1000);
+    setTimeout(0);
+    return () => clearInterval(interv);
+  }, [index]);
 
   useEffect(() => {
+    let quizz = codeQuiz.map((val) => {
+      return val.time;
+    });
+
+    setRunTime(quizz[index]);
+    setTimeout(runTime);
     setDescription(codeQuiz[index].description);
     setLevel(codeQuiz[index].difficulty_level);
-
+    setTime(codeQuiz[index].time);
     setQuestions(codeQuiz[index].question_id);
     // if (index === quiz.length - 1) {
     //   dispatch(moduleStatusHandler(route.params.id));
@@ -127,12 +129,10 @@ const CodeScreen = ({ navigation, route }) => {
       if (index === codeQuiz.length - 1) {
         updateLesson();
         navigation.goBack();
-      } else {
-        setIndexs(index + 1);
       }
-
+      setIndexs(index + 1);
       // setCurIndex(curIndex + 1);
-    }, 3000);
+    }, quizz[index] * 1000);
 
     return () => clearInterval(interv);
   }, [index]);
@@ -161,7 +161,24 @@ const CodeScreen = ({ navigation, route }) => {
               {`${index + 1}/${codeQuiz.length}`}
             </Text>
           </View>
-
+          <View style={styles.items}>
+            <Text
+              style={[
+                { color: theme ? text.dark : text.light },
+                styles.textHeader,
+              ]}
+            >
+              Time
+            </Text>
+            <Text
+              style={[
+                { color: theme ? text.dark : text.light },
+                styles.textItem,
+              ]}
+            >
+              {timeout} / {time}
+            </Text>
+          </View>
           <View style={styles.items}>
             <Text
               style={[
@@ -209,17 +226,6 @@ const CodeScreen = ({ navigation, route }) => {
                   {descript}
                 </Paragraph>
               </View>
-              <TouchableOpacity
-                onPress={() => {}}
-                style={{
-                  backgroundColor: "green",
-                  padding: 12,
-
-                  marginTop: 80,
-                }}
-              >
-                <Text style={{ color: "white" }}>Next</Text>
-              </TouchableOpacity>
               {/* <TouchableOpacity
                   onPress={setCurIndex(curIndex + 1)}
                   style={[
@@ -260,9 +266,33 @@ const CodeScreen = ({ navigation, route }) => {
         .map((value) => {
           return value;
         });
-      // console.log(choice);
-      console.log(res[0].choice_description);
-      // setCorrect(res[0].choice_description); //get the correct answer of the current index
+
+      setCorrect(res[0].choice_description); //get the correct answer of the current index
+    }, []);
+
+    useEffect(() => {
+      fetch(`${baseUrl}/dist/api/codeData.php`, {
+        method: "post",
+        header: {
+          Accept: "application/json",
+          "Content-type": "application/json",
+        },
+        body: JSON.stringify({
+          quiz_id: quiz_id,
+        }),
+      })
+        .then((response) => response.text())
+        .then((responseJson) => {
+          // console.log(responseJson);
+          let parse = JSON.parse(responseJson);
+
+          setCodeResult(parse.codeResult);
+
+          // dispatch(updateHandler());
+        })
+        .catch((error) => {
+          console.error(error);
+        });
     }, []);
 
     const toggleBottomNavigationView = () => {
@@ -279,7 +309,7 @@ const CodeScreen = ({ navigation, route }) => {
       setCode(e);
     };
     const Test = () => {
-      fetch(`${baseUrl}api/code.php`, {
+      fetch(`${baseUrl}/dist/api/code.php`, {
         method: "post",
         header: {
           Accept: "application/json",
@@ -307,7 +337,7 @@ const CodeScreen = ({ navigation, route }) => {
     };
 
     const sendCode = () => {
-      fetch(`${baseUrl}api/code.php`, {
+      fetch(`${baseUrl}/dist/api/code.php`, {
         method: "post",
         header: {
           Accept: "application/json",
@@ -338,12 +368,8 @@ const CodeScreen = ({ navigation, route }) => {
         .catch((error) => {
           console.error(error);
         })
-
-        // .finally(() => {
-        //   // navigation.navigate("Output");
-        //   toggleBottomNavigationView();
-        // });
         .finally(() => {
+          // navigation.navigate("Output");
           toggleBottomNavigationView();
           if (index === codeQuiz.length - 1) {
             setTimeout(() => {
@@ -352,7 +378,7 @@ const CodeScreen = ({ navigation, route }) => {
             }, 3000); //timeout for 3 seconds before the use the goBack() function
           } else {
             setTimeout(() => {
-              // setIndexs(index + 1); //timeout for 3 seconds before we change the current questions description
+              setIndexs(index + 1); //timeout for 3 seconds before we change the current questions description
             }, 3000);
           }
         });

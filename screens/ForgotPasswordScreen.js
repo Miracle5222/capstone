@@ -36,7 +36,7 @@ const ForgotPassword = ({ navigation }) => {
 
   const loginupdate = () => {
     if (email != "" && password != "") {
-      fetch(`${baseUrl}/dist/api/forgotpassword.php`, {
+      fetch(`${baseUrl}route/forgotpassword.php`, {
         method: "post",
         header: {
           Accept: "application/json",
