@@ -236,7 +236,7 @@ const Lesson = ({ navigation }) => {
                   ref.current.animateNextTransition();
                   setCurrentIndex(index === currentIndex ? null : index);
                 }}
-                disabled={value.status == "lock" ? true : false} //disable touchable opactity if status is false
+                disabled={value.module_status == "lock" ? true : false} //disable touchable opactity if status is false
                 activeOpacity={0.5}
                 key={index}
               >
