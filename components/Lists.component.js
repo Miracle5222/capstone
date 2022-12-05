@@ -76,8 +76,6 @@ export const ListsItems = ({ navigation, route }) => {
   const dispatch = useDispatch();
   const [content, setContent] = useState([]);
   const { fontSize } = useSelector((state) => state.content);
-  const { codes, setCodes } = useState([]);
-  const [snippets, setSnippets] = useState([]);
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -112,48 +110,6 @@ export const ListsItems = ({ navigation, route }) => {
 
   useEffect(() => {
     dispatch(contentIdHandler(route.params.lessons));
-    fetch(`${baseUrl}route/content.php`, {
-      method: "post",
-      header: {
-        Accept: "application/json",
-        "Content-type": "application/json",
-      },
-      body: JSON.stringify({
-        // we will pass our input data to server
-        lesson_Id: route.params.lesson_Id,
-      }),
-    })
-      .then((response) => response.text())
-      .then((responseJson) => {
-        // console.log(responseJson);
-        let parse = JSON.parse(responseJson);
-        setContent(parse.data[0].sublesson);
-        setSnippets(parse.data[1].snippets);
-        // console.log(parse.data[0].subLesson);
-        // console.log(parse.data[1].snippets);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  }, []);
-
-  // useEffect(() => {
-  //   data[0].modules.map((val) => {
-  //     val.topic.map((values, index) => {
-  //       if (values.id === route.params.lessons) {
-  //         values.content.map((value) => {
-  //           value?.code.map((vals) => {
-  //             console.log(vals);
-  //             // return vals;
-  //             // setCode(vals);
-  //           });
-  //         });
-  //       }
-  //     });
-  //   });
-  // }, []);
-
-  useEffect(() => {
     if (route.params.name.trim() === "Quiz") {
       navigation.replace("QuizHome", {
         lessonId: route.params.lessonId,
@@ -166,11 +122,11 @@ export const ListsItems = ({ navigation, route }) => {
   }, []);
 
   // useEffect(() => {
-  //   console.log(route.params.lessonId);
+  //   console.log(route.params.lessons);
   //   console.log(route.params.name);
   //   console.log(route.params.module_id);
   //   console.log(route.params.moduleTitle);
-  //   console.log(route.params.mymodule);
+  //   console.log(route.params.lessonId);
   // }, []);
 
   const updateLesson = () => {
@@ -198,15 +154,15 @@ export const ListsItems = ({ navigation, route }) => {
       });
   };
 
-  // useEffect(() => {
-  //   data[0].modules.map((val) => {
-  //     val.topic.map((values, index) => {
-  //       if (values.id === route.params.lessons) {
-  //         dispatch(subLessonHandler(values.content));
-  //       }
-  //     });
-  //   });
-  // }, [subLesson]);
+  useEffect(() => {
+    data[0].modules.map((val) => {
+      val.topic.map((values, index) => {
+        if (values.id === route.params.lessons) {
+          dispatch(subLessonHandler(values.content));
+        }
+      });
+    });
+  }, [subLesson]);
 
   const animatedStyles = useAnimatedStyle(() => {
     return {
@@ -264,11 +220,11 @@ export const ListsItems = ({ navigation, route }) => {
         </Animated.View>
       )}
 
-      {content.length != 0 ? (
+      {subLesson.length != 0 ? (
         <FlatList
           ref={ref}
           initialScrollIndex={index}
-          data={content}
+          data={subLesson}
           scrollEnabled={false}
           keyExtractor={(_, index) => index.toString()}
           horizontal
@@ -326,7 +282,7 @@ export const ListsItems = ({ navigation, route }) => {
                   style={[
                     styles.boxContent,
                     {
-                      display: item?.header.length <= 0 ? "none" : "flex",
+                      display: item?.heading.length <= 0 ? "none" : "flex",
                       backgroundColor: theme
                         ? lightBg.fortiary
                         : darkBg.secondary,
@@ -337,12 +293,11 @@ export const ListsItems = ({ navigation, route }) => {
                     color={theme ? text.dark : text.light}
                     size={fontSize}
                   >
-                    {item?.header.trim()}
+                    {item?.heading.trim()}
                   </Paragraph>
                 </View>
                 <Spacer />
-
-                {/* {item.image ? (
+                {item.image ? (
                   item.image.map((_, index) => {
                     return (
                       <Image
@@ -368,40 +323,8 @@ export const ListsItems = ({ navigation, route }) => {
                   })
                 ) : (
                   <View></View>
-                )} */}
-                {snippets.map((vallue, index) => {
-                  if (vallue.sublesson_Id == item.sublesson_Id) {
-                    return (
-                      <TouchableOpacity
-                        onPress={() => {
-                          setModalContent(vallue?.snippets);
-                          setVisibility(!visible);
-                          visible ? (opacity.value = 0) : (opacity.value = 1);
-                        }}
-                        activeOpacity={0.9}
-                        key={index}
-                        style={[
-                          styles.boxContent,
-                          {
-                            backgroundColor: theme
-                              ? lightBg.fortiary
-                              : darkBg.secondary,
-                          },
-                        ]}
-                      >
-                        <Highlighter
-                          language={vallue?.languageName}
-                          height={
-                            vallue?.snippets.trim().length < 100 ? "auto" : 180
-                          }
-                        >
-                          {vallue.snippets.trim()}
-                        </Highlighter>
-                      </TouchableOpacity>
-                    );
-                  }
-                })}
-                {/* {item.code ? (
+                )}
+                {item.code ? (
                   item.code.map((val, index) => {
                     return (
                       <TouchableOpacity
@@ -434,7 +357,7 @@ export const ListsItems = ({ navigation, route }) => {
                   })
                 ) : (
                   <View></View>
-                )} */}
+                )}
 
                 <Spacer />
                 <View
@@ -477,7 +400,7 @@ export const ListsItems = ({ navigation, route }) => {
 
                   <Button
                     event={() => {
-                      if (index === content.length - 1) {
+                      if (index === subLesson.length - 1) {
                         // dispatch(moduleStatusHandler(route.params.id));
                         // dispatch(indexInitialState());
                         // storeData();
@@ -500,9 +423,9 @@ export const ListsItems = ({ navigation, route }) => {
           )}
         />
       ) : (
-        <>
+        <View>
           <ActivityIndicator size="large" color="#00ff00" />
-        </>
+        </View>
       )}
     </Container>
   );

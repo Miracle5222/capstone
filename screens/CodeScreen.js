@@ -455,7 +455,7 @@ const CodeScreen = ({ navigation, route }) => {
                     }}
                   >
                     Run Test
-                    {correct}
+                    {/* {correct} */}
                   </Text>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={sendCode}>

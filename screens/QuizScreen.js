@@ -62,21 +62,30 @@ const QuizScreen = ({ navigation, route }) => {
   const { email, password, currStudent_id, student_id, currUsername } =
     useSelector((state) => state.login);
 
+  useEffect(() => {
+    let quizzs = multipleQuiz.map((val) => {
+      return val.time;
+    });
+
+    if (timeout == quizzs[index]) {
+      setCurrIndex(index + 1);
+    }
+  }, []);
+
   const updateLesson = () => {
     // console.log(route.params.lesson_id);
     // console.log(route.params.module_id);
     // console.log(score);
     // console.log(currStudent_id);
     // console.log(quiz_id);
-    fetch(`${baseUrl}route/updateLessonModule.php`, {
+    fetch(`${baseUrl}/dist/api/updateLesson.php`, {
       method: "post",
       header: {
         Accept: "application/json",
         "Content-type": "application/json",
       },
       body: JSON.stringify({
-        mymodule: route.params.mymodule,
-        lesson_id: route.params.lessonId,
+        lesson_id: route.params.lesson_id,
         module_id: route.params.module_id,
         score: score,
         student_id: student_id,
@@ -93,22 +102,34 @@ const QuizScreen = ({ navigation, route }) => {
       });
   };
 
+  // console.log(multipleQuiz);
+  useEffect(() => {
+    const newTime = multipleQuiz.map((value) => {
+      return value.time;
+    });
+    setTime(newTime);
+  }, []);
+
   useEffect(() => {
     setCurrIndex(0);
-
     dispatch(clearScore());
   }, []);
 
   useEffect(() => {
+    let quizz = multipleQuiz.map((val) => {
+      return val.time;
+    });
+
+    setRunTime(quizz[index]);
+    setTimeout(runTime);
     let interv = setInterval(() => {
       if (index === multipleQuiz.length - 1) {
         if (codeQuiz.length > 0) {
           navigation.replace("ProblemCode", {
-            mymodule: route.params.mymodule,
-            lessonId: route.params.lessonId,
+            lesson_id: route.params.lessonId,
             module_id: route.params.module_id,
             score: score,
-            student_id: student_id,
+            student_id: currStudent_id,
             quiz_id: quiz_id,
           });
         } else {
@@ -120,7 +141,17 @@ const QuizScreen = ({ navigation, route }) => {
       } else {
         setCurrIndex(index + 1);
       }
-    }, 100000);
+    }, quizz[index] * 1000);
+
+    return () => clearInterval(interv);
+  }, [index]);
+
+  useEffect(() => {
+    let interv = setInterval(() => {
+      // setTimeout(timeout - 1);
+      setTimeout((prevTime) => prevTime + 1);
+    }, 1000);
+    setTimeout(0);
     return () => clearInterval(interv);
   }, [index]);
 
@@ -131,6 +162,7 @@ const QuizScreen = ({ navigation, route }) => {
       // viewPosition: 0,
     });
   }, [index]);
+
   return (
     <Container
       style={[
@@ -156,9 +188,10 @@ const QuizScreen = ({ navigation, route }) => {
         <FlatList
           ref={ref}
           data={multipleQuiz}
-          keyExtractor={(_, index) => index.toString()}
+          keyExtractor={(item) => item.question_id.toString()}
           initialScrollIndex={index}
           horizontal
+          numRows={multipleQuiz.length + 1}
           // onEndReached={() => navigation.navigate("Code")}
           scrollEnabled={false}
           renderItem={({ item }) => {
@@ -211,7 +244,7 @@ const QuizScreen = ({ navigation, route }) => {
                       ]}
                     >
                       {/* {item.time} */}
-                      {item.time}
+                      {timeout}/{item.time} sec
                     </Text>
                   </View>
                   <View style={styles.items}>
@@ -276,7 +309,7 @@ const QuizScreen = ({ navigation, route }) => {
 
                               setCurrIndex(index);
                             }
-                            if (answer === "True") {
+                            if (answer === "true") {
                               dispatch(scoreHandler());
                               // setScore(scores + 1);
                             }
@@ -286,11 +319,10 @@ const QuizScreen = ({ navigation, route }) => {
                               // }
                               if (codeQuiz.length > 0) {
                                 navigation.replace("ProblemCode", {
-                                  mymodule: route.params.mymodule,
-                                  lessonId: route.params.lessonId,
+                                  lesson_id: route.params.lesson_id,
                                   module_id: route.params.module_id,
                                   score: score,
-                                  student_id: student_id,
+                                  student_id: currStudent_id,
                                   quiz_id: quiz_id,
                                 });
                               } else {
@@ -315,12 +347,12 @@ const QuizScreen = ({ navigation, route }) => {
                     })}
                 </View>
                 {/* <View style={styles.buttonContainer}>
-                <Button event={() => setCurrIndex(index + 1)}>
-                  <Text style={[{ color: theme ? text.dark : text.light }]}>
-                    Next
-                  </Text>
-                </Button>
-              </View> */}
+              <Button event={() => setCurrIndex(index + 1)}>
+                <Text style={[{ color: theme ? text.dark : text.light }]}>
+                  Next
+                </Text>
+              </Button>
+            </View> */}
               </View>
             );
           }}

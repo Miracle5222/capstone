@@ -1,341 +1,401 @@
 import {
-  View,
-  Text,
   StyleSheet,
-  Dimensions,
-  TextInput,
+  Text,
   TouchableOpacity,
+  View,
+  Dimensions,
+  ScrollView,
+  FlatList,
 } from "react-native";
-import React, { useLayoutEffect, useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useLayoutEffect, useRef, useEffect, useState } from "react";
+import Progressbar from "../components/Progressbar.component";
+import { Inter_100Thin } from "@expo-google-fonts/inter";
 import { Container, Header, Paragraph } from "../src/styled/Container.style";
-import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
-import { changeColor } from "../redux/feature/colorReducer";
-import { Moon, Play, Sun } from "../src/icons/Icons";
-import { codeHandler } from "../redux/feature/codeReducer";
-import { BottomSheet } from "react-native-btr";
+import { Home } from "../Data";
+
+import { useSelector, useDispatch } from "react-redux";
+//icons
+import { Celeb, Exit, Java, Moon, Sun } from "../src/icons/Icons";
+import { usernameLogin } from "../redux/feature/loginReducer";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import {
+  dataHandler,
+  moduleStatusHandler,
+  updateHandler,
+} from "../redux/feature/dataReducer";
+// import { changeColor } from "../redux/feature/ColorReducer";
+import { changeColor } from "../redux/feature/ColorReducer";
+import Button from "../components/Button.component";
+import { clearScore, scoreHandler } from "../redux/feature/quizReducer";
+//fonts
+// import { useFonts } from "expo-font";
+// import AppLoading from "expo-app-loading";
+
+{
+  /* <Celeb bg={theme ? text.secondary : text.primary} />; */
+}
 
 const { width, height } = Dimensions.get("screen");
 
 const WIDTH = width;
-const HIEGHT = height;
+const HEIGHT = height;
 
-const CodeScreen = ({ navigation }) => {
+const QuizScreen = ({ navigation, route }) => {
   const dispatch = useDispatch();
   const { darkBg, lightBg, text, theme, icon } = useSelector(
     (state) => state.color
   );
-  const { codeResult } = useSelector((state) => state.code);
+  const { baseUrl, multipleQuiz, codeQuiz, choice } = useSelector(
+    (state) => state.module
+  );
+  const [index, setCurrIndex] = useState(0);
+  const [scores, setScore] = useState(0);
+  const ref = useRef(null);
+  const [status, setStatus] = useState("");
+  const [time, setTime] = useState([]);
+  const [level, setLevel] = useState("");
+  const [count, setCount] = useState(0);
+  const [runTime, setRunTime] = useState(1);
+  const [timeout, setTimeout] = useState(1);
+  const { score, quiz_id } = useSelector((state) => state.quiz);
+  const { fontSize } = useSelector((state) => state.content);
+  const { email, password, currStudent_id, student_id, currUsername } =
+    useSelector((state) => state.login);
 
-  const Top = createMaterialTopTabNavigator();
-
-  useLayoutEffect(() => {
-    navigation.setOptions({
-      headerShown: true,
-      headerRight: () => (
-        <TouchableOpacity
-          style={{ marginRight: 25 }}
-          onPress={() => dispatch(changeColor())}
-        >
-          {theme ? (
-            <Sun bg={theme ? icon.light : icon.dark} />
-          ) : (
-            <Moon bg={theme ? icon.light : icon.dark} />
-          )}
-        </TouchableOpacity>
-      ),
-      title: "Code Play Ground",
-      headerStyle: {
-        backgroundColor: theme ? lightBg.primary : darkBg.primary,
+  const updateLesson = () => {
+    fetch(`${baseUrl}route/updateLessonModule.php`, {
+      method: "post",
+      header: {
+        Accept: "application/json",
+        "Content-type": "application/json",
       },
-      headerTitleStyle: {
-        fontWeight: "300",
-        fontSize: 18,
-      },
-      headerShadowVisible: false,
-      headerTintColor: theme ? text.dark : text.light, //color of title
-    });
-  }, [navigation, theme]);
-
-  useEffect(() => {}, []);
-
-  const Problem = () => {
-    return (
-      <View
-        style={{ backgroundColor: theme ? lightBg.primary : darkBg.primary }}
-      >
-        <Header size={18} color={theme ? text.dark : text.light}>
-          <View style={styles.problem}>
-            <Header
-              color={theme ? text.dark : text.light}
-              size={16}
-              style={styles.heading}
-            >
-              Problem:
-            </Header>
-            <View style={styles.box}>
-              <Paragraph
-                color={theme ? text.dark : text.light}
-                size={14}
-                style={styles.discripton}
-              >
-                The quick brown fox jumps
-              </Paragraph>
-            </View>
-          </View>
-        </Header>
-      </View>
-    );
+      body: JSON.stringify({
+        mymodule: route.params.mymodule,
+        lesson_id: route.params.lessonId,
+        module_id: route.params.module_id,
+        score: score,
+        student_id: student_id,
+        quiz_id: quiz_id,
+      }),
+    })
+      .then((response) => response.text())
+      .then((responseJson) => {
+        console.log(responseJson);
+        dispatch(updateHandler());
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   };
-  const ProblemCode = () => {
-    const [index, setIndex] = useState([]);
-    const [code, setCode] = useState("");
-    const [textValue, setTextValue] = useState("");
-    const dispatch = useDispatch();
-    const [visible, setVisible] = useState(false);
 
-    const toggleBottomNavigationView = () => {
-      //Toggling the visibility state of the bottom sheet
-      setVisible(!visible);
-    };
+  useEffect(() => {
+    setCurrIndex(0);
 
-    const numLineHandler = (e) => {
-      console.log((e.nativeEvent.contentSize.height / 20).toFixed()); // prints number of lines
-      setIndex(index.concat((e.nativeEvent.contentSize.height / 20).toFixed()));
-    };
-    const textChange = (e) => {
-      setCode(e);
-    };
-    const sendCode = () => {
-      fetch(
-        "https://b8bc-2001-4455-16f-9b00-792e-9353-efe2-b940.ap.ngrok.io/startbootstrap-sb-admin/dist/api/code.php",
-        {
-          method: "post",
-          header: {
-            Accept: "application/json",
-            "Content-type": "application/json",
-          },
-          body: JSON.stringify({
-            code: code,
-          }),
+    dispatch(clearScore());
+  }, []);
+
+  useEffect(() => {
+    let interv = setInterval(() => {
+      if (index === multipleQuiz.length - 1) {
+        if (codeQuiz.length > 0) {
+          navigation.replace("ProblemCode", {
+            mymodule: route.params.mymodule,
+            lessonId: route.params.lessonId,
+            module_id: route.params.module_id,
+            score: score,
+            student_id: student_id,
+            quiz_id: quiz_id,
+          });
+        } else {
+          updateLesson();
+
+          dispatch(clearScore());
+          navigation.goBack();
         }
-      )
-        .then((response) => response.text())
-        .then((responseJson) => {
-          // console.log(typeof responseJson);
-          let parse = JSON.parse(responseJson);
-          dispatch(codeHandler(parse.code));
-          console.log(parse);
-        })
-        .catch((error) => {
-          console.error(error);
-        })
-        .finally(() => {
-          // navigation.navigate("Output");
-          toggleBottomNavigationView();
-        });
-    };
+      } else {
+        setCurrIndex(index + 1);
+      }
+    }, 10000);
+    return () => clearInterval(interv);
+  }, [index]);
 
-    return (
-      <View
-        style={{ backgroundColor: theme ? lightBg.primary : darkBg.primary }}
-      >
-        <View style={codeStyle.box}>
-          <View style={codeStyle.sideBox}>
-            {index.map((val, index) => (
-              <Paragraph
-                key={index}
-                color={theme ? text.dark : text.light}
-                size={14}
-                style={codeStyle.sideNumber}
-              >
-                {index + 1}
-              </Paragraph>
-            ))}
-          </View>
-
-          <TextInput
-            onContentSizeChange={numLineHandler}
-            onChangeText={textChange}
-            multiline={true}
-            style={codeStyle.textInput}
-            numberOfLines={12}
-          />
-          <TouchableOpacity
-            onPress={sendCode}
-            style={{ alignSelf: "flex-end", marginHorizontal: 40, padding: 10 }}
-          >
-            {/* <Text style={{ color: "green", fontSize: 20 }}>Play</Text> */}
-            <Play bg={"green"} />
-          </TouchableOpacity>
-        </View>
-        <BottomSheet
-          visible={visible}
-          //setting the visibility state of the bottom shee
-          onBackButtonPress={toggleBottomNavigationView}
-          //Toggling the visibility state on the click of the back botton
-          onBackdropPress={toggleBottomNavigationView}
-          //Toggling the visibility state on the clicking out side of the sheet
-        >
-          <View
-            style={{
-              flex: 0.5,
-              borderRadius: 18,
-              flexDirection: "column",
-              justifyContent: "space-between",
-              backgroundColor: theme ? lightBg.primary : darkBg.primary,
-            }}
-          >
-            <Paragraph
-              key={index}
-              color={theme ? text.dark : text.light}
-              size={18}
-              style={codeStyle.sideNumber}
-            >
-              Output
-            </Paragraph>
-            <View>
-              <Paragraph
-                key={index}
-                color={theme ? text.dark : text.light}
-                size={18}
-              >
-                {codeResult}
-              </Paragraph>
-            </View>
-          </View>
-        </BottomSheet>
-      </View>
-    );
-  };
-  const Output = () => {
-    const [index, setIndex] = useState([]);
-
-    const [textValue, setTextValue] = useState("");
-    const dispatch = useDispatch();
-
-    const numLineHandler = (e) => {
-      console.log((e.nativeEvent.contentSize.height / 20).toFixed()); // prints number of lines
-      setIndex(index.concat((e.nativeEvent.contentSize.height / 20).toFixed()));
-    };
-    return (
-      <View
-        style={{ backgroundColor: theme ? lightBg.primary : darkBg.primary }}
-      >
-        <View style={codeStyle.box}>
-          <View style={codeStyle.sideBox}>
-            {index.map((val, index) => (
-              <Paragraph
-                key={index}
-                color={theme ? text.dark : text.light}
-                size={14}
-                style={codeStyle.sideNumber}
-              >
-                {index + 1}
-              </Paragraph>
-            ))}
-          </View>
-
-          <TextInput
-            onContentSizeChange={numLineHandler}
-            multiline={true}
-            style={codeStyle.textInput}
-            numberOfLines={12}
-            value={code}
-          />
-        </View>
-      </View>
-    );
-  };
-
+  useEffect(() => {
+    ref.current?.scrollToIndex({
+      index,
+      animated: true,
+      // viewPosition: 0,
+    });
+  }, [index]);
   return (
-    <Top.Navigator
-      initialRouteName="Problem"
-      screenOptions={{
-        headerShown: true,
-        tabBarActiveTintColor: "#00CDBD",
-        tabBarLabelStyle: { fontWeight: "500", fontSize: 14 },
-        tabBarInactiveTintColor: "#00596F",
-        tabBarStyle: {
-          borderBottomColor: "#00CDBD",
-          backgroundColor: theme ? lightBg.primary : darkBg.primary,
+    <Container
+      style={[
+        {
+          flex: 1,
+          justifyContent: "center",
+          alignItems: "flex-start",
         },
-      }}
+      ]}
+      bg={theme ? lightBg.primary : darkBg.primary}
     >
-      <Top.Screen
-        name="Problem"
-        component={Problem}
-        options={{ tabBarLabel: "Problem" }}
-      />
-      <Top.Screen
-        name="ProblemCode"
-        component={ProblemCode}
-        options={{ tabBarLabel: "Code" }}
-      />
-      <Top.Screen
-        name="Output"
-        component={Output}
-        options={{ tabBarLabel: "Output" }}
-      />
-    </Top.Navigator>
+      <View style={{ marginVertical: 20, marginLeft: 40 }}>
+        <Text
+          style={[
+            { color: "#FF7700", fontSize: fontSize + 10, paddingTop: 40 },
+          ]}
+        >
+          Multiple Choice
+        </Text>
+      </View>
+
+      <View>
+        <FlatList
+          ref={ref}
+          data={multipleQuiz}
+          keyExtractor={(_, index) => index.toString()}
+          initialScrollIndex={index}
+          horizontal
+          // onEndReached={() => navigation.navigate("Code")}
+          scrollEnabled={false}
+          renderItem={({ item }) => {
+            return (
+              <View style={styles.itemContainer}>
+                <View style={styles.header}>
+                  <View style={styles.items}>
+                    <Text
+                      style={[
+                        {
+                          color: theme ? text.dark : text.light,
+                          fontSize: fontSize + 2,
+                        },
+                        styles.textHeader,
+                      ]}
+                    >
+                      Status
+                    </Text>
+                    <Text
+                      style={[
+                        {
+                          color: theme ? text.dark : text.light,
+                          fontSize: fontSize + 2,
+                        },
+                        styles.textItem,
+                      ]}
+                    >
+                      {`${index + 1}/${multipleQuiz.length}`}
+                    </Text>
+                  </View>
+                  <View style={styles.items}>
+                    <Text
+                      style={[
+                        {
+                          color: theme ? text.dark : text.light,
+                          fontSize: fontSize + 2,
+                        },
+                        styles.textHeader,
+                      ]}
+                    >
+                      Time
+                    </Text>
+                    <Text
+                      style={[
+                        {
+                          color: theme ? text.dark : text.light,
+                          fontSize: fontSize + 2,
+                        },
+                        styles.textItem,
+                      ]}
+                    >
+                      {/* {item.time} */}
+                      {item.time}
+                    </Text>
+                  </View>
+                  <View style={styles.items}>
+                    <Text
+                      style={[
+                        {
+                          color: theme ? text.dark : text.light,
+                          fontSize: fontSize + 2,
+                        },
+                        styles.textHeader,
+                      ]}
+                    >
+                      Level
+                    </Text>
+                    <Text
+                      style={[
+                        {
+                          color: theme ? text.dark : text.light,
+                          fontSize: fontSize + 2,
+                        },
+                        styles.textItem,
+                      ]}
+                    >
+                      {item.difficulty_level}
+                    </Text>
+                  </View>
+                </View>
+                <View
+                  style={[
+                    styles.descriptionContainer,
+                    { paddingTop: item.description.length > 80 ? 100 : 120 },
+                  ]}
+                >
+                  <Text
+                    style={{
+                      color: theme ? text.dark : text.light,
+                      fontSize: fontSize,
+                    }}
+                  >
+                    {item.description.charAt(0).toUpperCase() +
+                      item.description.slice(1)}
+                  </Text>
+                </View>
+                <View style={styles.choicesContainer}>
+                  {choice
+                    .filter((val) => {
+                      return val.question_id == item.question_id;
+                    })
+                    .map(({ answer, choice_description }, ind) => {
+                      return (
+                        <TouchableOpacity
+                          activeOpacity={0.8}
+                          key={ind}
+                          style={styles.choicesItem}
+                          onPress={() => {
+                            // if (index === choice.length - 1) {
+                            //   setVisible(!visible);
+                            // }
+
+                            if (!index === choice.length) {
+                              setCount(count + 1);
+
+                              setCurrIndex(index);
+                            }
+                            if (answer === "True") {
+                              dispatch(scoreHandler());
+                              // setScore(scores + 1);
+                            }
+                            if (index === multipleQuiz.length - 1) {
+                              // if (answer === "true") {
+                              //   setScore(scores + 1);
+                              // }
+                              if (codeQuiz.length > 0) {
+                                navigation.replace("ProblemCode", {
+                                  mymodule: route.params.mymodule,
+                                  lessonId: route.params.lessonId,
+                                  module_id: route.params.module_id,
+                                  score: score,
+                                  student_id: student_id,
+                                  quiz_id: quiz_id,
+                                });
+                              } else {
+                                updateLesson();
+
+                                // dispatch(clearScore());
+                                navigation.goBack();
+                                // setVisible(!visible);
+                              }
+                            } else {
+                              setCurrIndex(index + 1);
+                            }
+                          }}
+                        >
+                          <Text
+                            style={{ color: text.light, fontSize: fontSize }}
+                          >
+                            {choice_description}
+                          </Text>
+                        </TouchableOpacity>
+                      );
+                    })}
+                </View>
+                {/* <View style={styles.buttonContainer}>
+                <Button event={() => setCurrIndex(index + 1)}>
+                  <Text style={[{ color: theme ? text.dark : text.light }]}>
+                    Next
+                  </Text>
+                </Button>
+              </View> */}
+              </View>
+            );
+          }}
+        />
+      </View>
+    </Container>
   );
 };
+
+export default QuizScreen;
+
 const styles = StyleSheet.create({
-  problem: {
-    alignContent: "flex-start",
-    alignItems: "center",
-    width: WIDTH,
-    height: HIEGHT,
+  mainContainer: {
+    backgroundColor: "#021F26",
+    width: WIDTH - 40,
+    height: HEIGHT - 40,
   },
-  box: {
-    zIndex: 99,
+  itemContainer: {
+    width: WIDTH,
+    height: HEIGHT,
+    flex: 1,
+    alignItems: "center",
+  },
+  header: {
     position: "absolute",
-    overflow: "hidden",
-    justifyContent: "center",
-    alignItems: "center",
-    borderRadius: 8,
-    marginTop: 10,
     width: "90%",
-    padding: 20,
-    backgroundColor: "#171616",
+    height: 100,
+    flexDirection: "row",
   },
-  heading: {
-    alignSelf: "flex-start",
-    marginTop: 20,
-    marginLeft: 20,
-  },
-  discripton: {
+  textHeader: {
     textAlign: "center",
-  },
-});
 
-const codeStyle = StyleSheet.create({
-  box: {
-    alignContent: "flex-start",
-    alignItems: "center",
-    width: WIDTH,
-    height: HIEGHT,
-  },
-  textInput: {
-    width: "90%",
-    color: "white",
-    backgroundColor: "#131313",
-
-    textAlign: "left",
-    paddingLeft: 30,
-    lineHeight: 20,
-    textAlignVertical: "top",
-  },
-  sideNumber: {
-    textAlign: "center",
+    borderBottomColor: "#021F26",
+    borderBottomWidth: 1,
     paddingVertical: 10,
   },
-  sideBox: {
-    left: 20,
-    position: "absolute",
+  textItem: {
+    textAlign: "center",
+
+    paddingVertical: 2,
+  },
+  items: {
+    flexGrow: 0.8,
+  },
+  descriptionContainer: {
+    width: "90%",
+
+    paddingLeft: 20,
+  },
+  description: {
+    fontSize: 18,
+  },
+  choicesContainer: {
+    marginTop: 30,
+    width: "80%",
+  },
+  choicesItem: {
+    borderRadius: 8,
+    backgroundColor: "#021F26",
+    padding: 15,
+    marginVertical: 10,
+  },
+  buttonContainer: {
+    marginTop: 10,
+    marginRight: 20,
+    width: "80%",
+    alignItems: "flex-end",
+  },
+
+  nextPhase: {
+    flex: 1,
+
     zIndex: 99,
-    width: 20,
-    backgroundColor: "#171616",
+    borderRadius: 12,
+    position: "absolute",
+    top: HEIGHT / 4,
+    left: WIDTH / 10,
+
+    width: 280,
+    height: 180,
+    backgroundColor: "#FFE8C5",
   },
 });
-export default CodeScreen;
