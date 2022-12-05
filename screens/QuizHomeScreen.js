@@ -6,6 +6,7 @@ import {
   Dimensions,
   ScrollView,
   FlatList,
+  ActivityIndicator,
 } from "react-native";
 
 import { NavigationContainer } from "@react-navigation/native";
@@ -144,9 +145,9 @@ const QuizHomeScreen = ({ route, navigation }) => {
         console.error(error);
       });
   }, []);
-  useEffect(() => {
-    dispatch(clearScore());
-  }, []);
+  // useEffect(() => {
+  //   dispatch(clearScore());
+  // }, []);
   const QuizChoices = () => {
     // codeQuiz.length
     // multipleQuiz.length
@@ -223,9 +224,6 @@ const QuizHomeScreen = ({ route, navigation }) => {
           style={[styles.quizzes]}
           onPress={() =>
             navigation.navigate("MultipleChoice", {
-              // console.log("route.params.mymodule: ", route.params.mymodule);
-              // console.log("route.params.module_id: ", route.params.module_id);
-              // console.log("route.params.lessonId: ", route.params.lessonId);
               mymodule: route.params.mymodule,
               lessonId: route.params.lessonId,
               lesson_id: route.params.id,
@@ -256,7 +254,7 @@ const QuizHomeScreen = ({ route, navigation }) => {
           <View style={{ position: "absolute", right: 10, zIndex: 100 }}>
             <TouchableOpacity
               onPress={() => {
-                setVisible(!visible);
+                // setVisible(!visible);
               }}
             >
               <Exit />
@@ -290,53 +288,6 @@ const QuizHomeScreen = ({ route, navigation }) => {
         ]}
         bg={theme ? lightBg.primary : darkBg.primary}
       >
-        <View
-          style={[styles.nextPhase, { display: visible ? "flex" : "none" }]}
-        >
-          <View style={{ position: "absolute", right: 10, zIndex: 100 }}>
-            <TouchableOpacity
-              onPress={() => {
-                setVisible(!visible);
-              }}
-            >
-              <Exit />
-            </TouchableOpacity>
-          </View>
-          <View
-            style={{
-              fontSize: fontSize,
-              alignItems: "center",
-            }}
-          >
-            <Text
-              style={[{ color: "#FF7700", fontSize: fontSize, paddingTop: 40 }]}
-            >
-              Test 1 Complete!
-            </Text>
-          </View>
-          <View
-            style={{
-              height: "100%",
-              justifyContent: "space-around",
-              alignItems: "flex-end",
-              flexDirection: "row",
-              marginTop: -100,
-            }}
-          >
-            <Celeb bg={"#FF7700"} />
-            <Button event={() => navigation.navigate("Code")}>
-              <Text
-                style={[
-                  { color: theme ? text.dark : text.light },
-                  styles.textItem,
-                ]}
-              >
-                Continue
-              </Text>
-            </Button>
-          </View>
-        </View>
-
         <View style={[styles.codingContainer]}>
           <View>
             <Text
@@ -491,18 +442,7 @@ const QuizHomeScreen = ({ route, navigation }) => {
                 }}
               />
             ) : (
-              <View>
-                <Text
-                  style={[
-                    {
-                      color: text.light,
-                      fontSize: fontSize,
-                    },
-                  ]}
-                >
-                  No Results.
-                </Text>
-              </View>
+              <ActivityIndicator size="large" color="#00ff00" />
             )}
           </View>
         </View>

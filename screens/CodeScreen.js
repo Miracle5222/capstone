@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
   ScrollView,
 } from "react-native";
-import React, { useLayoutEffect, useState, useEffect } from "react";
+import React, { useLayoutEffect, useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Container, Header, Paragraph } from "../src/styled/Container.style";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
@@ -75,14 +75,15 @@ const CodeScreen = ({ navigation, route }) => {
     });
   }, [navigation, theme]);
 
-  useEffect(() => {
-    console.log("mymodule " + route.params.mymodule);
-    console.log("student_id " + route.params.student_id);
-    console.log("name " + route.params.name);
-    console.log("module Id " + route.params.module_id);
-    console.log("score " + score);
-    console.log("quiz_id Id " + quiz_id);
-  }, []);
+  // useEffect(() => {
+  //   console.log("mymodule " + route.params.mymodule);
+  //   console.log("student_id " + route.params.student_id);
+  //   console.log("name " + route.params.name);
+  //   console.log("module Id " + route.params.module_id);
+  //   console.log("score " + score);
+  //   console.log("quiz_id Id " + quiz_id);
+  // }, []);
+
   const updateLesson = () => {
     fetch(`${baseUrl}route/updateLessonModule.php`, {
       method: "post",
@@ -108,6 +109,7 @@ const CodeScreen = ({ navigation, route }) => {
         console.error(error);
       });
   };
+
   useEffect(() => {
     setIndexs(0);
   }, []);
@@ -132,7 +134,7 @@ const CodeScreen = ({ navigation, route }) => {
       }
 
       // setCurIndex(curIndex + 1);
-    }, 3000);
+    }, 100000);
 
     return () => clearInterval(interv);
   }, [index]);
@@ -210,7 +212,14 @@ const CodeScreen = ({ navigation, route }) => {
                 </Paragraph>
               </View>
               <TouchableOpacity
-                onPress={() => {}}
+                onPress={() => {
+                  if (index === codeQuiz.length - 1) {
+                    updateLesson();
+                    navigation.goBack();
+                  } else {
+                    setIndexs(index + 1);
+                  }
+                }}
                 style={{
                   backgroundColor: "green",
                   padding: 12,
@@ -250,9 +259,32 @@ const CodeScreen = ({ navigation, route }) => {
     const [codeResults, setCodeResult] = useState([]);
     const [correct, setCorrect] = useState("");
 
+    const updateLesson = () => {
+      fetch(`${baseUrl}route/updateLessonModule.php`, {
+        method: "post",
+        header: {
+          Accept: "application/json",
+          "Content-type": "application/json",
+        },
+        body: JSON.stringify({
+          mymodule: route.params.mymodule,
+          lesson_id: route.params.lessonId,
+          module_id: route.params.module_id,
+          score: score,
+          student_id: student_id,
+          quiz_id: quiz_id,
+        }),
+      })
+        .then((response) => response.text())
+        .then((responseJson) => {
+          // console.log(responseJson);
+          // dispatch(updateHandler());
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    };
     useEffect(() => {
-      // console.log(codeQuiz);
-
       const res = choice
         .filter((val) => {
           return val.question_id == questions_id;
@@ -261,8 +293,8 @@ const CodeScreen = ({ navigation, route }) => {
           return value;
         });
       // console.log(choice);
-      console.log(res[0].choice_description);
-      // setCorrect(res[0].choice_description); //get the correct answer of the current index
+      // console.log(res[0].choice_description);
+      setCorrect(res[0].choice_description); //get the correct answer of the current index
     }, []);
 
     const toggleBottomNavigationView = () => {
@@ -325,26 +357,15 @@ const CodeScreen = ({ navigation, route }) => {
           setTextValue(parse.code);
           if (parse.code === correct) {
             dispatch(scoreHandler()); //add 1 to the main score if the answer is correct
-
-            // console.log(parse.code === correct);
-          } else {
-            // console.log(parse.code);
-            // console.log("Wrong");
+            console.log("Correct");
           }
-          // if (parse.code === correct) {
-          //   dispatch(scoreHandler());
-          // }
         })
         .catch((error) => {
           console.error(error);
         })
-
-        // .finally(() => {
-        //   // navigation.navigate("Output");
-        //   toggleBottomNavigationView();
-        // });
         .finally(() => {
           toggleBottomNavigationView();
+
           if (index === codeQuiz.length - 1) {
             setTimeout(() => {
               updateLesson(); //update into result_tbl then go back to the main quiz screen
@@ -352,7 +373,8 @@ const CodeScreen = ({ navigation, route }) => {
             }, 3000); //timeout for 3 seconds before the use the goBack() function
           } else {
             setTimeout(() => {
-              // setIndexs(index + 1); //timeout for 3 seconds before we change the current questions description
+              toggleBottomNavigationView();
+              setIndexs(index + 1); //timeout for 3 seconds before we change the current questions description
             }, 3000);
           }
         });
@@ -375,7 +397,7 @@ const CodeScreen = ({ navigation, route }) => {
                 },
               ]}
             >
-              {indexs.map((val, index) => (
+              {/* {indexs.map((val, index) => (
                 <Paragraph
                   key={index}
                   color={text.light}
@@ -384,11 +406,12 @@ const CodeScreen = ({ navigation, route }) => {
                 >
                   {index + 1}
                 </Paragraph>
-              ))}
+              ))} */}
             </View>
 
             <TextInput
-              onContentSizeChange={numLineHandler}
+              // onContentSizeChange={numLineHandler}
+
               onChangeText={textChange}
               value={code}
               multiline={true}
@@ -432,7 +455,7 @@ const CodeScreen = ({ navigation, route }) => {
                     }}
                   >
                     Run Test
-                    {/* {correct} */}
+                    {correct}
                   </Text>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={sendCode}>
@@ -547,7 +570,7 @@ const styles = StyleSheet.create({
   },
   box: {
     zIndex: 99,
-    position: "absolute",
+    position: "relative",
     overflow: "hidden",
     justifyContent: "center",
     alignItems: "center",
@@ -575,12 +598,13 @@ const codeStyle = StyleSheet.create({
     height: HIEGHT,
   },
   textInput: {
+    overflow: "hidden",
     width: "90%",
     color: "white",
     backgroundColor: "#131313",
 
     textAlign: "left",
-    paddingLeft: 30,
+    paddingLeft: 10,
     lineHeight: 20,
     textAlignVertical: "top",
   },
@@ -593,6 +617,7 @@ const codeStyle = StyleSheet.create({
   },
   sideBox: {
     left: 20,
+
     position: "absolute",
     zIndex: 99,
     width: 20,

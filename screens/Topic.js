@@ -5,6 +5,7 @@ import {
   View,
   Dimensions,
   ScrollView,
+  ActivityIndicator,
 } from "react-native";
 import React, { useLayoutEffect, useEffect, useState } from "react";
 import Progressbar from "../components/Progressbar.component";
@@ -139,6 +140,7 @@ const Topic = ({ navigation }) => {
         console.error(error);
       });
   }, [update]);
+
   // const getData = async () => {
   //   try {
   //     const jsonValue = await AsyncStorage.getItem("user");
@@ -178,11 +180,6 @@ const Topic = ({ navigation }) => {
   //       console.error(error);
   //     });
   // }, [update]);
-  useEffect(() => {
-    console.log(student_id);
-    console.log(email);
-    console.log(username);
-  }, []);
 
   useLayoutEffect(() => {
     navigation.setOptions({

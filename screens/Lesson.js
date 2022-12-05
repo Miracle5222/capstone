@@ -64,28 +64,6 @@ const Lesson = ({ navigation }) => {
   const { email, password, currStudent_id, student_id, currUsername } =
     useSelector((state) => state.login);
 
-  // const ListItem = async (props) => {
-  //   console.log(props);
-
-  //   data[0].modules.map((val) => {
-  //     val.topic.map((values, index) => {
-  //       if (values.id === props.lesson_id) {
-  //         navigation.navigate("List", {
-  //           // status: status,
-  //           content: values,
-  //           id: props.lesson_id,
-  //           module_id: props.module_id,
-  //           name: props.lesson_name,
-  //         }); //pass params to ContentScreen
-
-  //         // console.log(values);
-  //         // dispatch(subLessonHandler(values.content));
-  //       }
-  //     });
-  //   });
-
-  // };
-
   const ref = useRef();
   const dispatch = useDispatch();
 
@@ -106,83 +84,37 @@ const Lesson = ({ navigation }) => {
   }, [navigation, theme]);
 
   // useEffect(() => {
-  //   const cont = subLesson
-  //     .filter((val) => {
-  //       return val.lesson_id === route.params.id;
-  //     })
-  //     .map((val) => {
-  //       return val;
-  //     });
-
-  //   setContent(cont);
-  // }, []);
-  // useEffect(() => {
-  //   data[0].modules.map((val) => {
-  //     val.topic
-  //       .map((values, index) => {
-  //         return values;
-  //       })
-  //       .filter((item) => {
-  //         return item.id == id;
-  //       })
-  //       .map((items) => {
-  //         // console.log(items);
-  //         dispatch(subLessonHandler(items));
-  //       });
-  //   });
-  // }, [id]);
-
-  // useEffect(() => {
-  //   for (let i = 0; i < lesson.length; i++) {
-  //     if (lesson[i].status == "done") {
-  //       setUpdateId(lesson[i + 1].lesson_id);
-  //     }
-  //     fetch(`${baseUrl}/startbootstrap-sb-admin/dist/api/update.php`, {
-  //       method: "post",
-  //       header: {
-  //         Accept: "application/json",
-  //         "Content-type": "application/json",
-  //       },
-  //       body: JSON.stringify({
-  //         lesson_id: updateId,
-  //         status: "unlock",
-  //       }),
-  //     })
-  //       .then((response) => response.text())
-  //       .then((responseJson) => {
-  //         dispatch(updateHandler());
-  //         console.log(responseJson);
-  //       })
-  //       .catch((error) => {
-  //         console.error(error);
-  //       });
-  //     // console.log(lesson[i].status);
-  //   }
-  // }, []);
-  // useEffect(() => {
-  //   fetch(`${baseUrl}/dist/control/lesson.php`, {
+  //   fetch(`${baseUrl}route/content.php`, {
   //     method: "post",
   //     header: {
   //       Accept: "application/json",
   //       "Content-type": "application/json",
   //     },
-  //     body: JSON.stringify({
-  //       student_id: student_id,
-  //     }),
   //   })
   //     .then((response) => response.text())
   //     .then((responseJson) => {
-  //       // console.log(responseJson);
+  //       console.log(responseJson);
   //       let parse = JSON.parse(responseJson);
-  //       // console.log(parse.data[1].lesson);
+  //       // setContent(parse.subLesson);
 
-  //       setModules(parse.data[0].module);
-  //       setLesson(parse.data[1].lesson);
+  //       console.log(parse.data.sublesson);
   //     })
   //     .catch((error) => {
   //       console.error(error);
   //     });
-  // }, [update]);
+  // }, []);
+
+  // const storeData = async () => {
+  //   try {
+  //     const jsonValue = JSON.stringify(content);
+  //     AsyncStorage.setItem("sublesson", jsonValue);
+  //   } catch (e) {}
+  // };
+
+  // useEffect(() => {
+  //   storeData();
+  // }, []);
+
   useEffect(() => {
     fetch(`${baseUrl}route/modules.php`, {
       method: "post",
@@ -311,6 +243,7 @@ const Lesson = ({ navigation }) => {
                                 // console.log(content);
                                 navigation.navigate("List", {
                                   // status: status,
+                                  lesson_Id: values.lesson_Id,
                                   mymodule: value.mymoduleId,
                                   lessons: values.lessons,
                                   content: values,

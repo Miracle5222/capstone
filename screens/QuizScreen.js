@@ -100,7 +100,6 @@ const QuizScreen = ({ navigation, route }) => {
   }, []);
 
   useEffect(() => {
-    console.log(score);
     let interv = setInterval(() => {
       if (index === multipleQuiz.length - 1) {
         if (codeQuiz.length > 0) {
@@ -121,9 +120,10 @@ const QuizScreen = ({ navigation, route }) => {
       } else {
         setCurrIndex(index + 1);
       }
-    }, 5000);
+    }, 100000);
     return () => clearInterval(interv);
   }, [index]);
+
   useEffect(() => {
     ref.current?.scrollToIndex({
       index,
