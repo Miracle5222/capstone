@@ -880,11 +880,11 @@ class BasicMath {
         int c = b / 4;
         int d = c - a;
         int e = -d;
-        System.out.println("a = " + a);
-        System.out.println("b = " + b);
-        System.out.println("c = " + c);
-        System.out.println("d = " + d);
-        System.out.println("e = " + e);
+        System.out.println(\"a = \" + a);
+        System.out.println(\"b = \" + b);
+        System.out.println(\"c = \" + c);
+        System.out.println(\"d = \" + d);
+        System.out.println(\"e = \" + e);
       // arithmetic using doubles
       System.out.println("\nFloating Point Arithmetic");
         double da = 1 + 1;
@@ -892,11 +892,11 @@ class BasicMath {
         double dc = db / 4;
         double dd = dc - a;
         double de = -dd;
-        System.out.println("da = " + da);
-        System.out.println("db = " + db);
-        System.out.println("dc = " + dc);
-        System.out.println("dd = " + dd);
-        System.out.println("de = " + de);
+        System.out.println(\"da = \" + da);
+        System.out.println(\"db = \" + db);
+        System.out.println(\"dc = \" + dc);
+        System.out.println(\"dd = \" + dd);
+        System.out.println(\"de = \" + de);
     }
 }               
 `,
@@ -944,8 +944,8 @@ class Modulus {
   public static void main(String args[]) {
     int x = 42;
     double y = 42.25;
-    System.out.println("x mod 10 = " + x % 10);
-    System.out.println("y mod 10 = " + y % 10);
+    System.out.println(\"x mod 10 = \" + x % 10);
+    System.out.println(\"y mod 10 = \" + y % 10);
   }
 }
 
@@ -1011,9 +1011,9 @@ class OpEquals {
       b *= 4;
       c += a * b;
       c %= 6;
-      System.out.println("a = " + a);
-      System.out.println("b = " + b);
-      System.out.println("c = " + c);
+      System.out.println(\"a = \" + a);
+      System.out.println(\"b = \" + b);
+      System.out.println(\"c = \" + c);
   }
 }
 The output of this program is shown here:
@@ -1173,16 +1173,16 @@ public static void main(String args[]) {
     byte b;
     int i = 257;
     double d = 323.142;
-    System.out.println("\nConversion of int to byte.");
+    System.out.println(\"\nConversion of int to byte.\");
     b = (byte) i;
-    System.out.println("i and b " + i + " " + b);
-    System.out.println("\nConversion of double to int.");
+    System.out.println(\"i and b \" + i + \" \" + b);
+    System.out.println(\"\nConversion of double to int.\");
     15
     i = (int) d;
-    System.out.println("d and i " + d + " " + i);
-    System.out.println("\nConversion of double to byte.");
+    System.out.println(\"d and i \" + d + \" \" + i);
+    System.out.println("\nConversion of double to byte.\");
     b = (byte) d;
-    System.out.println("d and b " + d + " " + b);
+    System.out.println(\"d and b \" + d + \" \" + b);
     }
 }`,
                   },

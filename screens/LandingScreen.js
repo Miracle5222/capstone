@@ -49,7 +49,9 @@ const LandingScreen = ({ navigation }) => {
               width: 300,
               height: 400,
             }}
-            source={require("../assets/f1.jpg")}
+            source={{
+              uri: "https://2f0e-110-54-225-96.ap.ngrok.io/finalCapstone/Elearning/uploads/images/f1.jpg",
+            }}
           /> */}
         </View>
         {/* <Highlighter language="java">{`class BoolTest {

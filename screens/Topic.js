@@ -60,32 +60,6 @@ const Topic = ({ navigation }) => {
   const [code, setCode] = useState([]);
   const [sub_lesson, setSubLesson] = useState([]);
 
-  // useEffect(() => {
-  //   fetch(
-  //     `https://0a67-110-54-170-160.ap.ngrok.io/finalCapstone/Elearning/route/modules.php`,
-  //     {
-  //       method: "post",
-  //       header: {
-  //         Accept: "application/json",
-  //         "Content-type": "application/json",
-  //       },
-  //       body: JSON.stringify({
-  //         // we will pass our input data to server
-  //         student_id: student_id,
-  //       }),
-  //     }
-  //   )
-  //     .then((response) => response.text())
-  //     .then((responseJson) => {
-  //       console.log(responseJson);
-
-  //       // let parse = JSON.parse(responseJson);
-  //       // console.log(parse);
-  //     })
-  //     .catch((error) => {
-  //       console.error(error);
-  //     });
-  // }, []);
   useEffect(() => {
     fetch(`${baseUrl}route/progress.php`, {
       method: "post",
@@ -141,45 +115,7 @@ const Topic = ({ navigation }) => {
       });
   }, [update]);
 
-  // const getData = async () => {
-  //   try {
-  //     const jsonValue = await AsyncStorage.getItem("user");
-  //     const result = jsonValue != null ? JSON.parse(jsonValue) : null;
-  //     // console.log(result);
-  //     dispatch(currUsernameLogin(result[0].username));
-  //     dispatch(currStudent_idLogin(result[0].student_id));
-  //     dispatch(currEmailLogin(result[0].email));
-  //   } catch (e) {
-  //     // error reading value
-  //   }
-  // };
-  // useEffect(() => {
-  //   getData();
-  // }, []);
-
-  // useEffect(() => {
-  //   fetch(`${baseUrl}/dist/control/sub_lesson.php`, {
-  //     method: "post",
-  //     header: {
-  //       Accept: "application/json",
-  //       "Content-type": "application/json",
-  //     },
-  //   })
-  //     .then((response) => response.text())
-  //     .then((responseJson) => {
-  //       // console.log(responseJson);
-  //       let parse = JSON.parse(responseJson);
-  //       // console.log(responseJson);
-  //       // console.log(parse.data[0].sub_lesson);
-  //       // setSubLesson(parse.data[0].sub_lesson);
-  //       dispatch(codeHandler(parse.data[1].snippets));
-  //       dispatch(subLessonHandler(parse.data[0].sub_lesson));
-  //       // setCode(parse.data[1].snippets);
-  //     })
-  //     .catch((error) => {
-  //       console.error(error);
-  //     });
-  // }, [update]);
+  useEffect(() => {}, []);
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -211,35 +147,39 @@ const Topic = ({ navigation }) => {
 
   return (
     <>
-      <Container bg={theme ? lightBg.primary : darkBg.primary}>
-        <View style={styles.headerBox}>
-          <Header color={theme ? text.dark : text.light} size={fontSize + 24}>
-            Hello, {username}
-          </Header>
-          <Paragraph color={theme ? text.dark : text.light} size={fontSize}>
-            Start learning your first programming language
-          </Paragraph>
-        </View>
-        <TouchableOpacity
-          activeOpacity={0.7}
-          style={[
-            styles.boxContainer,
-            {
-              backgroundColor: theme ? lightBg.secondary : darkBg.secondary,
-            },
-          ]}
-          onPress={() => navigation.navigate("Lesson")}
-        >
-          <Header size={fontSize + 12} color={theme ? text.dark : text.light}>
-            {language}
-          </Header>
-
-          <View style={styles.progressBar}>
-            <Java />
-            <Progressbar />
+      {student_id ? (
+        <Container bg={theme ? lightBg.primary : darkBg.primary}>
+          <View style={styles.headerBox}>
+            <Header color={theme ? text.dark : text.light} size={fontSize + 24}>
+              Hello, {username}
+            </Header>
+            <Paragraph color={theme ? text.dark : text.light} size={fontSize}>
+              Start learning your first programming language
+            </Paragraph>
           </View>
-        </TouchableOpacity>
-      </Container>
+          <TouchableOpacity
+            activeOpacity={0.7}
+            style={[
+              styles.boxContainer,
+              {
+                backgroundColor: theme ? lightBg.secondary : darkBg.secondary,
+              },
+            ]}
+            onPress={() => navigation.navigate("Lesson")}
+          >
+            <Header size={fontSize + 12} color={theme ? text.dark : text.light}>
+              {language}
+            </Header>
+
+            <View style={styles.progressBar}>
+              <Java />
+              <Progressbar />
+            </View>
+          </TouchableOpacity>
+        </Container>
+      ) : (
+        <ActivityIndicator size="large" color="#00ff00" />
+      )}
     </>
   );
 };
