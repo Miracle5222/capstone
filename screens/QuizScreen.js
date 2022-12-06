@@ -73,19 +73,15 @@ const QuizScreen = ({ navigation, route }) => {
   }, []);
 
   const updateLesson = () => {
-    // console.log(route.params.lesson_id);
-    // console.log(route.params.module_id);
-    // console.log(score);
-    // console.log(currStudent_id);
-    // console.log(quiz_id);
-    fetch(`${baseUrl}/dist/api/updateLesson.php`, {
+    fetch(`${baseUrl}route/updateLessonModule.php`, {
       method: "post",
       header: {
         Accept: "application/json",
         "Content-type": "application/json",
       },
       body: JSON.stringify({
-        lesson_id: route.params.lesson_id,
+        mymodule: route.params.mymodule,
+        lesson_id: route.params.lessonId,
         module_id: route.params.module_id,
         score: score,
         student_id: student_id,
@@ -94,7 +90,7 @@ const QuizScreen = ({ navigation, route }) => {
     })
       .then((response) => response.text())
       .then((responseJson) => {
-        console.log(responseJson);
+        // console.log(responseJson);
         dispatch(updateHandler());
       })
       .catch((error) => {
@@ -102,7 +98,6 @@ const QuizScreen = ({ navigation, route }) => {
       });
   };
 
-  // console.log(multipleQuiz);
   useEffect(() => {
     const newTime = multipleQuiz.map((value) => {
       return value.time;
@@ -116,6 +111,7 @@ const QuizScreen = ({ navigation, route }) => {
   }, []);
 
   useEffect(() => {
+    console.log(score);
     let quizz = multipleQuiz.map((val) => {
       return val.time;
     });
@@ -309,7 +305,7 @@ const QuizScreen = ({ navigation, route }) => {
 
                               setCurrIndex(index);
                             }
-                            if (answer === "true") {
+                            if (answer === "True") {
                               dispatch(scoreHandler());
                               // setScore(scores + 1);
                             }

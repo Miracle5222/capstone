@@ -144,7 +144,7 @@ const QuizHomeScreen = ({ route, navigation }) => {
       .catch((error) => {
         console.error(error);
       });
-  }, []);
+  }, [results]);
   // useEffect(() => {
   //   dispatch(clearScore());
   // }, []);

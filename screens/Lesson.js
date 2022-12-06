@@ -263,7 +263,9 @@ const Lesson = ({ navigation }) => {
                                     : darkBg.secondary,
                                 },
                               ]}
-                              disabled={values.status == "lock" ? true : false}
+                              disabled={
+                                values.lesson_status == "lock" ? true : false
+                              }
                               key={items}
                             >
                               <View>
