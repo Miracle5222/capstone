@@ -6,6 +6,7 @@ import {
   TextInput,
   TouchableOpacity,
   ScrollView,
+  ActivityIndicator,
 } from "react-native";
 import React, { useLayoutEffect, useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -32,7 +33,7 @@ const MainCodeScreen = ({ navigation }) => {
   // console.log(codeResult);
   const Top = createMaterialTopTabNavigator();
   const { baseUrl } = useSelector((state) => state.module);
-
+  const [isAvailable, setAvailabe] = useState(false);
   const { darkBg, lightBg, text, theme, icon, quizColor } = useSelector(
     (state) => state.color
   );
@@ -95,7 +96,7 @@ const MainCodeScreen = ({ navigation }) => {
         // dispatch(codeHandler(parse.code));
         setTextValue(parse.code);
 
-        console.log(parse);
+        // console.log(parse);
       })
       .catch((error) => {
         console.error(error);
@@ -175,6 +176,7 @@ const MainCodeScreen = ({ navigation }) => {
             </TouchableOpacity>
           </View>
         </View>
+
         <BottomSheet
           visible={visible}
           //setting the visibility state of the bottom shee

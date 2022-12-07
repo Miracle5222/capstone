@@ -24,7 +24,7 @@ const ForgotPassword = ({ navigation }) => {
       headerShown: true,
       title: "Login",
       headerStyle: {
-        backgroundColor: darkBg.primary,
+        backgroundColor: theme ? lightBg.primary : darkBg.primary,
       },
       headerTitleStyle: {
         fontWeight: "bold",
@@ -32,7 +32,7 @@ const ForgotPassword = ({ navigation }) => {
       },
       headerTintColor: theme ? text.dark : text.light, //color of title
     });
-  }, [navigation]);
+  }, [navigation, theme]);
 
   const loginupdate = () => {
     if (email != "" && password != "") {
@@ -126,7 +126,11 @@ const ForgotPassword = ({ navigation }) => {
           {updated && <Text style={{ color: "white" }}>Updated</Text>}
         </View>
         <View style={styles.inputContainer}>
-          <Text style={styles.label}>Email</Text>
+          <Text
+            style={[styles.label, { color: theme ? text.dark : text.light }]}
+          >
+            Email
+          </Text>
           <TextInput
             style={[styles.input, { borderColor: buttons.light }]}
             placeholder="Email"
@@ -134,7 +138,11 @@ const ForgotPassword = ({ navigation }) => {
             placeholderTextColor="#9D9D9D"
             onChangeText={(e) => setEmail(e)}
           />
-          <Text style={styles.label}>Current Password</Text>
+          <Text
+            style={[styles.label, { color: theme ? text.dark : text.light }]}
+          >
+            Current Password
+          </Text>
           <TextInput
             style={[styles.input, { borderColor: buttons.light }]}
             placeholder="Current Password"
@@ -142,7 +150,11 @@ const ForgotPassword = ({ navigation }) => {
             placeholderTextColor="#9D9D9D"
             onChangeText={(e) => setPassword(e)}
           />
-          <Text style={styles.label}>New Password</Text>
+          <Text
+            style={[styles.label, { color: theme ? text.dark : text.light }]}
+          >
+            New Password
+          </Text>
           <TextInput
             style={[styles.input, { borderColor: buttons.light }]}
             placeholder="New Password"

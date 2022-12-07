@@ -1492,28 +1492,28 @@ public class SampleProgram{
     date = userInput.nextInt();
     Switch(date){
       case 0:
-        System.out.printLn("Sunday");
+        System.out.printLn(\"Sunday\");
         break;
       case 1:
-        System.out.printLn("Monday");
+        System.out.printLn(\"Monday\");
         break;
       case 2:
-        System.out.printLn("Tuesday");
+        System.out.printLn(\"Tuesday\");
         break;
       case 3:
-        System.out.printLn("Wednesday");
+        System.out.printLn(\"Wednesday\");
         break;
       case 4:
-        System.out.printLn("Thursday");
+        System.out.printLn(\"Thursday\");
         break;
       case 5:
-        System.out.printLn("Friday:");
+        System.out.printLn(\"Friday:\");
         break;
       case 6:
-        System.out.printLn("Saturday");
+        System.out.printLn(\"Saturday\");
         break;
       default:
-        System.out.printLn("No date found.");
+        System.out.printLn(\"No date found.\");
     }
   }
 }
@@ -2062,7 +2062,7 @@ method.
 parameters of the method. The modifier, which is optional, tells the compiler how to
 call the method. The static modifier is used for all the methods in this chapter. A method
 may return a value. The returnValueType is the data type of the value the method
-returns. If the method doesn’t return a value, the returnValueType is the keyword void.
+returns. If the method doesn\’t return a value, the returnValueType is the keyword void.
 For example, returnValueType in the main method is void as well as
 System.out.println. The parameter list refers to the type, order, and number of the
 parameters of a method. The method name and the parameter list together constitute the method signature. Parameters are optional; a method may contain no parameters. The variables defined in the method header are knows as formal parameters. When a method is invoked, you pass a value to the parameter. This value is referred to as actual parameter or argument. The method body contains a collection of statements that define what the method does. A return statement using the keyword return is required for a non-void metho`,
@@ -2130,13 +2130,13 @@ public class MethodSum {
               },
               {
                 heading: `The main method is just like any other method except that it is invoked by the Java
-interpreter. The main method’s header is always the same, like the one in this example,
+interpreter. The main method\’s header is always the same, like the one in this example,
 with the modifiers public and static, return value type void, method name main, and a
 parameter of the String[] type. String[] indicates that the parameter is an array of String.
 The statements in main method may invoke other methods that are defined in the class
 that contains the main method or in other classes. The main method invokes sum(val1,
 val2), which is defined in the same class with the main method. When the sum method
-is invoked, variable val1’s value 5 is passed to num1, and variable val2’s value 2 is passed
+is invoked, variable val1\’s value 5 is passed to num1, and variable val2\’s value 2 is passed
 to num2 in the sum method.
 
 The flow of control transfers to the sum method. The sum method is executed. When the
@@ -2664,7 +2664,7 @@ total is 0. Add each element in the array to total using a loop like this:
                 image: [require("./assets/m6p2.jpg")],
               },
               {
-                heading: `2. Merging two arrays. The array’s values and values2 are declared and
+                heading: `2. Merging two arrays. The array\’s values and values2 are declared and
                 initialized with values then the merge array is declared with the size of the
                 sum of the length of the values and values2.
                 `,

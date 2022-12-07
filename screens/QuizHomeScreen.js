@@ -313,6 +313,12 @@ const QuizHomeScreen = ({ route, navigation }) => {
               flexDirection: "row",
             }}
           >
+            {/* <ActivityIndicator
+            size="large"
+            color="#00ff00"
+            style={{ position: "absolute", top: "40%" }}
+          /> */}
+
             {codeQuiz.length == 0 && multipleQuiz.length == 0 ? (
               <View style={{ backgroundColor: "red" }}>
                 <Text style={{ color: text.light, padding: 10 }}>

@@ -63,6 +63,15 @@ const QuizScreen = ({ navigation, route }) => {
     useSelector((state) => state.login);
 
   useEffect(() => {
+    console.log("mymodule " + route.params.mymodule);
+    console.log("student_id " + route.params.student_id);
+    console.log("lessonId " + route.params.lesson_Id);
+    console.log("module Id " + route.params.module_id);
+    console.log("score " + score);
+    console.log("quiz_id Id " + quiz_id);
+  }, []);
+
+  useEffect(() => {
     let quizzs = multipleQuiz.map((val) => {
       return val.time;
     });
@@ -122,10 +131,11 @@ const QuizScreen = ({ navigation, route }) => {
       if (index === multipleQuiz.length - 1) {
         if (codeQuiz.length > 0) {
           navigation.replace("ProblemCode", {
-            lesson_id: route.params.lessonId,
+            mymodule: route.params.mymodule,
+            lessonId: route.params.lessonId,
             module_id: route.params.module_id,
             score: score,
-            student_id: currStudent_id,
+            student_id: student_id,
             quiz_id: quiz_id,
           });
         } else {
@@ -315,10 +325,11 @@ const QuizScreen = ({ navigation, route }) => {
                               // }
                               if (codeQuiz.length > 0) {
                                 navigation.replace("ProblemCode", {
-                                  lesson_id: route.params.lesson_id,
+                                  mymodule: route.params.mymodule,
+                                  lessonId: route.params.lessonId,
                                   module_id: route.params.module_id,
                                   score: score,
-                                  student_id: currStudent_id,
+                                  student_id: student_id,
                                   quiz_id: quiz_id,
                                 });
                               } else {

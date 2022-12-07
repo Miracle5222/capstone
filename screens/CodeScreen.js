@@ -47,6 +47,15 @@ const CodeScreen = ({ navigation, route }) => {
   const [curIndex, setCurIndex] = useState(0);
   const { fontSize } = useSelector((state) => state.content);
 
+  // useEffect(() => {
+  //   console.log("mymodule " + route.params.mymodule);
+  //   console.log("student_id " + route.params.student_id);
+  //   console.log("lessonId " + route.params.lessonId);
+  //   console.log("module Id " + route.params.module_id);
+  //   console.log("score " + score);
+  //   console.log("quiz_id Id " + quiz_id);
+  // }, []);
+
   useLayoutEffect(() => {
     navigation.setOptions({
       headerShown: true,
@@ -75,15 +84,6 @@ const CodeScreen = ({ navigation, route }) => {
     });
   }, [navigation, theme]);
 
-  // useEffect(() => {
-  //   console.log("mymodule " + route.params.mymodule);
-  //   console.log("student_id " + route.params.student_id);
-  //   console.log("name " + route.params.name);
-  //   console.log("module Id " + route.params.module_id);
-  //   console.log("score " + score);
-  //   console.log("quiz_id Id " + quiz_id);
-  // }, []);
-
   const updateLesson = () => {
     fetch(`${baseUrl}route/updateLessonModule.php`, {
       method: "post",
@@ -103,6 +103,7 @@ const CodeScreen = ({ navigation, route }) => {
       .then((response) => response.text())
       .then((responseJson) => {
         // console.log(responseJson);
+        dispatch(updateHandler());
         // dispatch(updateHandler());
       })
       .catch((error) => {
@@ -123,20 +124,20 @@ const CodeScreen = ({ navigation, route }) => {
     //   dispatch(moduleStatusHandler(route.params.id));
     // }
 
-    let interv = setInterval(() => {
-      // console.log(quizz[index]);
+    // let interv = setInterval(() => {
+    //   // console.log(quizz[index]);
 
-      if (index === codeQuiz.length - 1) {
-        updateLesson();
-        navigation.goBack();
-      } else {
-        setIndexs(index + 1);
-      }
+    //   if (index === codeQuiz.length - 1) {
+    //     updateLesson();
+    //     navigation.goBack();
+    //   } else {
+    //     setIndexs(index + 1);
+    //   }
 
-      // setCurIndex(curIndex + 1);
-    }, 100000);
+    //   // setCurIndex(curIndex + 1);
+    // }, 100000);
 
-    return () => clearInterval(interv);
+    // return () => clearInterval(interv);
   }, [index]);
 
   const Problem = () => {
@@ -221,8 +222,10 @@ const CodeScreen = ({ navigation, route }) => {
                   }
                 }}
                 style={{
-                  backgroundColor: "green",
-                  padding: 12,
+                  backgroundColor: "#00596F",
+                  paddingHorizontal: 20,
+                  paddingVertical: 8,
+                  borderRadius: 8,
 
                   marginTop: 80,
                 }}
@@ -259,6 +262,31 @@ const CodeScreen = ({ navigation, route }) => {
     const [codeResults, setCodeResult] = useState([]);
     const [correct, setCorrect] = useState("");
 
+    // const updateLesson = () => {
+    //   fetch(`${baseUrl}route/updateLessonModule.php`, {
+    //     method: "post",
+    //     header: {
+    //       Accept: "application/json",
+    //       "Content-type": "application/json",
+    //     },
+    //     body: JSON.stringify({
+    //       mymodule: route.params.mymodule,
+    //       lesson_id: route.params.lessonId,
+    //       module_id: route.params.module_id,
+    //       score: score,
+    //       student_id: student_id,
+    //       quiz_id: quiz_id,
+    //     }),
+    //   })
+    //     .then((response) => response.text())
+    //     .then((responseJson) => {
+    //       console.log(responseJson);
+    //       // dispatch(updateHandler());
+    //     })
+    //     .catch((error) => {
+    //       console.error(error);
+    //     });
+    // };
     const updateLesson = () => {
       fetch(`${baseUrl}route/updateLessonModule.php`, {
         method: "post",
@@ -277,6 +305,7 @@ const CodeScreen = ({ navigation, route }) => {
       })
         .then((response) => response.text())
         .then((responseJson) => {
+          dispatch(updateHandler());
           // console.log(responseJson);
           // dispatch(updateHandler());
         })
@@ -301,6 +330,7 @@ const CodeScreen = ({ navigation, route }) => {
       //Toggling the visibility state of the bottom sheet
       setVisible(!visible);
     };
+
     const numLineHandler = (e) => {
       // console.log((e.nativeEvent.contentSize.height / 20).toFixed()); // prints number of lines
       setIndex(
@@ -357,7 +387,7 @@ const CodeScreen = ({ navigation, route }) => {
           setTextValue(parse.code);
           if (parse.code === correct) {
             dispatch(scoreHandler()); //add 1 to the main score if the answer is correct
-            console.log("Correct");
+            // console.log("Correct");
           }
         })
         .catch((error) => {
@@ -365,17 +395,12 @@ const CodeScreen = ({ navigation, route }) => {
         })
         .finally(() => {
           toggleBottomNavigationView();
-
           if (index === codeQuiz.length - 1) {
-            setTimeout(() => {
-              updateLesson(); //update into result_tbl then go back to the main quiz screen
-              navigation.goBack();
-            }, 3000); //timeout for 3 seconds before the use the goBack() function
+            updateLesson(); //update into result_tbl then go back to the main quiz screen
+            navigation.goBack();
+            //timeout for 3 seconds before the use the goBack() function
           } else {
-            setTimeout(() => {
-              toggleBottomNavigationView();
-              setIndexs(index + 1); //timeout for 3 seconds before we change the current questions description
-            }, 3000);
+            setIndexs(index + 1); //timeout for 3 seconds before we change the current questions description
           }
         });
     };

@@ -151,7 +151,7 @@ const ProfileScreen = ({ navigation }) => {
           <View>
             <TouchableOpacity
               style={styles.changePassword}
-              // onPress={navigation.replace("ForgotPassword")}
+              onPress={() => navigation.navigate("ForgotPassword")}
             >
               <Text
                 style={[

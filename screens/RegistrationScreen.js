@@ -46,24 +46,21 @@ const RegisterScreen = ({ navigation }) => {
   }, [navigation]);
 
   const Register = () => {
-    fetch(
-      `${baseUrl}/route/registerUser.php`,
-      {
-        method: "post",
-        header: {
-          Accept: "application/json",
-          "Content-type": "application/json",
-        },
-        body: JSON.stringify({
-          name: username,
-          email: email,
-          password: password,
-        }),
-      }
-    )
+    fetch(`${baseUrl}/route/registerUser.php`, {
+      method: "post",
+      header: {
+        Accept: "application/json",
+        "Content-type": "application/json",
+      },
+      body: JSON.stringify({
+        name: username,
+        email: email,
+        password: password,
+      }),
+    })
       .then((response) => response.text())
       .then((responseJson) => {
-        console.log(responseJson);
+        // console.log(responseJson);
         // let parse = JSON.parse(responseJson);
         // console.log(parse);
         // if (parse[0].registered != null) {

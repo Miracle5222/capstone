@@ -76,7 +76,7 @@ const Topic = ({ navigation }) => {
         // console.log(responseJson);
         let parse = JSON.parse(responseJson);
         let length = parse.data.length;
-        console.log(parse);
+        // console.log(parse);
         if (
           parse.data.done === 0 &&
           parse.data.unlock === 0 &&
