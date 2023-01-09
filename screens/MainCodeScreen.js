@@ -72,12 +72,14 @@ const MainCodeScreen = ({ navigation }) => {
     setVisible(!visible);
   };
   const numLineHandler = (e) => {
-    // console.log((e.nativeEvent.contentSize.height / 20).toFixed()); // prints number of lines
+    console.log((e.nativeEvent.contentSize.height / 20).toFixed()); // prints number of lines
+
     setIndex(index.concat((e.nativeEvent.contentSize.height / 20).toFixed()));
   };
   const textChange = (e) => {
     setCode(e);
   };
+
   const sendCode = () => {
     fetch(`${baseUrl}api/code.php`, {
       method: "post",
@@ -91,12 +93,13 @@ const MainCodeScreen = ({ navigation }) => {
     })
       .then((response) => response.text())
       .then((responseJson) => {
-        // console.log(typeof responseJson);
+        // console.log(responseJson);
         let parse = JSON.parse(responseJson);
-        // dispatch(codeHandler(parse.code));
+
         setTextValue(parse.code);
 
         // console.log(parse);
+        // dispatch(codeHandler(parse.code));
       })
       .catch((error) => {
         console.error(error);
@@ -124,7 +127,7 @@ const MainCodeScreen = ({ navigation }) => {
               },
             ]}
           >
-            {index.map((val, index) => (
+            {/* {index.map((val, index) => (
               <Paragraph
                 key={index}
                 color={text.light}
@@ -133,7 +136,7 @@ const MainCodeScreen = ({ navigation }) => {
               >
                 {index + 1}
               </Paragraph>
-            ))}
+            ))} */}
           </View>
 
           <TextInput
@@ -206,8 +209,8 @@ const MainCodeScreen = ({ navigation }) => {
               <Text
                 style={[
                   {
-                    color: "#FF7700",
-                    fontSize: fontSize + 2,
+                    color: theme ? text.dark : text.light,
+                    fontSize: fontSize,
                     paddingTop: 40,
                   },
                 ]}
@@ -264,7 +267,7 @@ const codeStyle = StyleSheet.create({
     backgroundColor: "#131313",
 
     textAlign: "left",
-    paddingLeft: 30,
+    paddingLeft: 20,
     lineHeight: 20,
     textAlignVertical: "top",
   },

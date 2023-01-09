@@ -7,6 +7,8 @@ import {
   ScrollView,
   Image,
   TouchableOpacity,
+  ActivityIndicator,
+  Button,
 } from "react-native";
 import React from "react";
 import { useEffect, useLayoutEffect, useState, useRef } from "react";
@@ -27,7 +29,7 @@ import {
   Spacer,
 } from "../src/styled/Container.style";
 import { useSelector, useDispatch } from "react-redux";
-import Button from "./Button.component";
+import Buttons from "./Button.component";
 //code highlighter
 import { Highlighter } from "./CodeHighlighter.component";
 
@@ -52,6 +54,8 @@ import {
 } from "../redux/feature/dataReducer";
 import AppLoading from "expo-app-loading";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { Video, AVPlaybackStatus } from "expo-av";
+
 const { width, height } = Dimensions.get("screen");
 
 const WIDTH = width;
@@ -75,6 +79,10 @@ export const ListsItems = ({ navigation, route }) => {
   const dispatch = useDispatch();
   const [content, setContent] = useState([]);
   const { fontSize } = useSelector((state) => state.content);
+  const { codes, setCodes } = useState([]);
+  const [snippets, setSnippets] = useState([]);
+  const video = useRef(null);
+  const [status, setStatus] = useState({});
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -109,6 +117,48 @@ export const ListsItems = ({ navigation, route }) => {
 
   useEffect(() => {
     dispatch(contentIdHandler(route.params.lessons));
+    fetch(`${baseUrl}route/content.php`, {
+      method: "post",
+      header: {
+        Accept: "application/json",
+        "Content-type": "application/json",
+      },
+      body: JSON.stringify({
+        // we will pass our input data to server
+        lesson_Id: route.params.lesson_Id,
+      }),
+    })
+      .then((response) => response.text())
+      .then((responseJson) => {
+        // console.log(responseJson);
+        let parse = JSON.parse(responseJson);
+        setContent(parse.data[0].sublesson);
+        setSnippets(parse.data[1].snippets);
+        // console.log(parse.data[0].subLesson);
+        // console.log(parse.data[1].snippets);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }, []);
+
+  // useEffect(() => {
+  //   data[0].modules.map((val) => {
+  //     val.topic.map((values, index) => {
+  //       if (values.id === route.params.lessons) {
+  //         values.content.map((value) => {
+  //           value?.code.map((vals) => {
+  //             console.log(vals);
+  //             // return vals;
+  //             // setCode(vals);
+  //           });
+  //         });
+  //       }
+  //     });
+  //   });
+  // }, []);
+
+  useEffect(() => {
     if (route.params.name.trim() === "Quiz") {
       navigation.replace("QuizHome", {
         lessonId: route.params.lessonId,
@@ -118,14 +168,15 @@ export const ListsItems = ({ navigation, route }) => {
         mymodule: route.params.mymodule,
       });
     }
+    return () => null;
   }, []);
 
   // useEffect(() => {
-  //   console.log(route.params.lessons);
+  //   console.log(route.params.lessonId);
   //   console.log(route.params.name);
   //   console.log(route.params.module_id);
   //   console.log(route.params.moduleTitle);
-  //   console.log(route.params.lessonId);
+  //   console.log(route.params.mymodule);
   // }, []);
 
   const updateLesson = () => {
@@ -153,15 +204,15 @@ export const ListsItems = ({ navigation, route }) => {
       });
   };
 
-  useEffect(() => {
-    data[0].modules.map((val) => {
-      val.topic.map((values, index) => {
-        if (values.id === route.params.lessons) {
-          dispatch(subLessonHandler(values.content));
-        }
-      });
-    });
-  }, [subLesson]);
+  // useEffect(() => {
+  //   data[0].modules.map((val) => {
+  //     val.topic.map((values, index) => {
+  //       if (values.id === route.params.lessons) {
+  //         dispatch(subLessonHandler(values.content));
+  //       }
+  //     });
+  //   });
+  // }, [subLesson]);
 
   const animatedStyles = useAnimatedStyle(() => {
     return {
@@ -219,11 +270,11 @@ export const ListsItems = ({ navigation, route }) => {
         </Animated.View>
       )}
 
-      {subLesson.length != 0 ? (
+      {content.length != 0 ? (
         <FlatList
           ref={ref}
           initialScrollIndex={index}
-          data={subLesson}
+          data={content}
           scrollEnabled={false}
           keyExtractor={(_, index) => index.toString()}
           horizontal
@@ -274,14 +325,27 @@ export const ListsItems = ({ navigation, route }) => {
                     },
                   ]}
                 >
-                  <YoutubeVideo id={item?.video} />
+                  <Video
+                    ref={video}
+                    style={{ height: 200 }}
+                    source={{
+                      uri: `${baseUrl}uploads/videos/${item.video}`,
+                    }}
+                    useNativeControls
+                    resizeMode="contain"
+                    isLooping
+                    onPlaybackStatusUpdate={(status) => setStatus(() => status)}
+                  />
+
+                  {/* <YoutubeVideo id={item?.video} /> */}
                 </View>
                 <Spacer />
                 <View
                   style={[
                     styles.boxContent,
                     {
-                      display: item?.heading.length <= 0 ? "none" : "flex",
+                      display:
+                        item?.header.trim().length <= 0 ? "none" : "flex",
                       backgroundColor: theme
                         ? lightBg.fortiary
                         : darkBg.secondary,
@@ -292,12 +356,40 @@ export const ListsItems = ({ navigation, route }) => {
                     color={theme ? text.dark : text.light}
                     size={fontSize}
                   >
-                    {item?.heading.trim()}
+                    {item?.header.trim()}
                   </Paragraph>
                 </View>
                 <Spacer />
-                {item.image ? (
-                  item.image.map((_, index) => {
+                {item?.images ? (
+                  <Image
+                    key={index}
+                    style={{
+                      display: "flex",
+                      width: route.params.id === "2.1" ? "90%" : "100%",
+                      height:
+                        contentId[0] === "2"
+                          ? 180
+                          : 400 && contentId[0] === "4"
+                          ? 180
+                          : 400 && contentId[0] === "5"
+                          ? 180
+                          : 400 && contentId[0] === "6"
+                          ? 180
+                          : 400,
+                    }}
+                    resizeMode="contain"
+                    // source={item.images[index]}
+                    // "https://2f0e-110-54-225-96.ap.ngrok.io/finalCapstone/Elearning/uploads/images/f1.jpg
+                    source={{
+                      uri: `${baseUrl}uploads/images/${item.images}`,
+                    }}
+                  />
+                ) : (
+                  <></>
+                )}
+
+                {/* {item.images ? (
+                  item.images.map((_, index) => {
                     return (
                       <Image
                         key={index}
@@ -316,14 +408,50 @@ export const ListsItems = ({ navigation, route }) => {
                               : 400,
                         }}
                         resizeMode="contain"
-                        source={item.image[index]}
+                        // source={item.images[index]}
+                        // "https://2f0e-110-54-225-96.ap.ngrok.io/finalCapstone/Elearning/uploads/images/f1.jpg
+                        source={{
+                          uri: `${baseUrl}uploads/images/${item.images}`,
+                        }}
                       />
                     );
                   })
                 ) : (
                   <View></View>
-                )}
-                {item.code ? (
+                )} */}
+                {snippets.map((vallue, index) => {
+                  if (vallue.sublesson_Id == item.sublesson_Id) {
+                    return (
+                      <TouchableOpacity
+                        onPress={() => {
+                          setModalContent(vallue?.snippets);
+                          setVisibility(!visible);
+                          visible ? (opacity.value = 0) : (opacity.value = 1);
+                        }}
+                        activeOpacity={0.9}
+                        key={index}
+                        style={[
+                          styles.boxContent,
+                          {
+                            backgroundColor: theme
+                              ? lightBg.fortiary
+                              : darkBg.secondary,
+                          },
+                        ]}
+                      >
+                        <Highlighter
+                          language={vallue?.languageName}
+                          height={
+                            vallue?.snippets.trim().length < 100 ? "auto" : 180
+                          }
+                        >
+                          {vallue.snippets.trim()}
+                        </Highlighter>
+                      </TouchableOpacity>
+                    );
+                  }
+                })}
+                {/* {item.code ? (
                   item.code.map((val, index) => {
                     return (
                       <TouchableOpacity
@@ -356,14 +484,16 @@ export const ListsItems = ({ navigation, route }) => {
                   })
                 ) : (
                   <View></View>
-                )}
+                )} */}
 
                 <Spacer />
+
                 <View
                   style={[
                     styles.boxContent,
                     {
-                      display: item.paragraph.length <= 0 ? "none" : "flex",
+                      display:
+                        item.paragraph.trim().length <= 0 ? "none" : "flex",
                       backgroundColor: theme
                         ? lightBg.fortiary
                         : darkBg.secondary,
@@ -382,7 +512,7 @@ export const ListsItems = ({ navigation, route }) => {
                   {index === 0 ? (
                     <View></View>
                   ) : (
-                    <Button
+                    <Buttons
                       event={() => {
                         if (index === 0) {
                           return;
@@ -394,12 +524,12 @@ export const ListsItems = ({ navigation, route }) => {
                       <Paragraph color={text.light} size={16}>
                         Back
                       </Paragraph>
-                    </Button>
+                    </Buttons>
                   )}
 
-                  <Button
+                  <Buttons
                     event={() => {
-                      if (index === subLesson.length - 1) {
+                      if (index === content.length - 1) {
                         // dispatch(moduleStatusHandler(route.params.id));
                         // dispatch(indexInitialState());
                         // storeData();
@@ -414,7 +544,7 @@ export const ListsItems = ({ navigation, route }) => {
                     <Paragraph color={text.light} size={16}>
                       Next
                     </Paragraph>
-                  </Button>
+                  </Buttons>
                 </View>
               </View>
               <Spacer />
@@ -422,9 +552,9 @@ export const ListsItems = ({ navigation, route }) => {
           )}
         />
       ) : (
-        <View>
-          <Text>Loading...</Text>
-        </View>
+        <>
+          <ActivityIndicator size="large" color="#00ff00" />
+        </>
       )}
     </Container>
   );

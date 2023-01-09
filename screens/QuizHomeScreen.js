@@ -320,11 +320,7 @@ const QuizHomeScreen = ({ route, navigation }) => {
           /> */}
 
             {codeQuiz.length == 0 && multipleQuiz.length == 0 ? (
-              <View style={{ backgroundColor: "red" }}>
-                <Text style={{ color: text.light, padding: 10 }}>
-                  No availabe Quiz
-                </Text>
-              </View>
+              <ActivityIndicator size="large" color="#00ff00" />
             ) : (
               <QuizChoices />
             )}

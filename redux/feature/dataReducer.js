@@ -18,7 +18,8 @@ const dataSlice = createSlice({
     codeQuiz: [],
     multipleQuiz: [],
     choice: [],
-    baseUrl: "https://ad98-110-54-225-96.ap.ngrok.io/finalCapstone/Elearning/",
+    baseUrl:
+      "https://edd5-2001-4455-194-b300-e09c-8d39-a32-eb89.ap.ngrok.io/finalCapstone/Elearning/",
     language: "",
     languageID: "",
   },

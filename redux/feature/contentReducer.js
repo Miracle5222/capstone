@@ -8,7 +8,7 @@ const contentSlice = createSlice({
     content: [],
     index: 0,
     status: null,
-    fontSize: 14,
+    fontSize: 16,
   },
   reducers: {
     fontSizeHandler(state, action) {

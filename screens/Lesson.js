@@ -6,6 +6,8 @@ import {
   ScrollView,
   TouchableWithoutFeedback,
   Dimensions,
+  Alert,
+  ActivityIndicator,
 } from "react-native";
 import React, { useEffect } from "react";
 import { useTheme } from "@rneui/themed";
@@ -34,6 +36,7 @@ import {
   subLessonHandler,
   updateHandler,
 } from "../redux/feature/dataReducer";
+import NetInfo from "@react-native-community/netinfo";
 
 const { width, height } = Dimensions.get("screen");
 
@@ -63,6 +66,7 @@ const Lesson = ({ navigation }) => {
   const { fontSize } = useSelector((state) => state.content);
   const { email, password, currStudent_id, student_id, currUsername } =
     useSelector((state) => state.login);
+  const [netState, setNetState] = useState(false);
 
   const ref = useRef();
   const dispatch = useDispatch();
@@ -111,9 +115,21 @@ const Lesson = ({ navigation }) => {
   //   } catch (e) {}
   // };
 
-  // useEffect(() => {
-  //   storeData();
-  // }, []);
+  useEffect(() => {
+    NetInfo.fetch().then((state) => {
+      console.log("Connection type", state.type);
+      console.log("Is connected?", state.isConnected);
+      if (state.isConnected == true) {
+        setNetState(true);
+      } else {
+        if (state.type == "cellular") {
+          Alert.alert("Turn on Data first!");
+        } else {
+          Alert.alert("Check internet connection");
+        }
+      }
+    });
+  }, []);
 
   useEffect(() => {
     fetch(`${baseUrl}route/modules.php`, {
@@ -143,7 +159,7 @@ const Lesson = ({ navigation }) => {
   }, [update]);
 
   // console.log(lesson);
-  return (
+  return netState ? (
     <ScrollView
       style={[
         styles.container,
@@ -238,21 +254,33 @@ const Lesson = ({ navigation }) => {
                           return (
                             <TouchableOpacity
                               onPress={() => {
-                                // ListItem(values);
-                                setId(values.lessons);
-                                // console.log(content);
-                                navigation.navigate("List", {
-                                  // status: status,
-                                  lesson_Id: values.lesson_Id,
-                                  mymodule: value.mymoduleId,
-                                  lessons: values.lessons,
-                                  content: values,
-                                  lessonId: values.myLessons_Id,
-                                  id: values.lesson_id,
-                                  module_id: value.modules_Id,
-                                  name: values.lesson_name,
-                                  moduleTitle: value.module_name,
-                                }); //pass params to ContentScreen
+                                if (values.lesson_name === "Quiz") {
+                                  navigation.navigate("QuizHome", {
+                                    // status: status,
+                                    lesson_Id: values.lesson_Id,
+                                    mymodule: value.mymoduleId,
+                                    lessons: values.lessons,
+                                    content: values,
+                                    lessonId: values.myLessons_Id,
+                                    id: values.lesson_id,
+                                    module_id: value.modules_Id,
+                                    name: values.lesson_name,
+                                    moduleTitle: value.module_name,
+                                  }); //pass params to ContentScreen
+                                } else {
+                                  navigation.navigate("List", {
+                                    // status: status,
+                                    lesson_Id: values.lesson_Id,
+                                    mymodule: value.mymoduleId,
+                                    lessons: values.lessons,
+                                    content: values,
+                                    lessonId: values.myLessons_Id,
+                                    id: values.lesson_id,
+                                    module_id: value.modules_Id,
+                                    name: values.lesson_name,
+                                    moduleTitle: value.module_name,
+                                  }); //pass params to ContentScreen
+                                }
                               }}
                               activeOpacity={0.6}
                               style={[
@@ -335,6 +363,8 @@ const Lesson = ({ navigation }) => {
         }
       </Transitioning.View>
     </ScrollView>
+  ) : (
+    <ActivityIndicator size="large" color="#00ff00" />
   );
 };
 
