@@ -46,7 +46,7 @@ const RegisterScreen = ({ navigation }) => {
   }, [navigation]);
 
   const Register = () => {
-    fetch(`${baseUrl}/route/registerUser.php`, {
+    fetch(`${baseUrl}route/registerUser.php`, {
       method: "post",
       header: {
         Accept: "application/json",

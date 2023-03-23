@@ -55,7 +55,7 @@ import {
 import AppLoading from "expo-app-loading";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Video, AVPlaybackStatus } from "expo-av";
-
+import * as ScreenOrientation from 'expo-screen-orientation';
 const { width, height } = Dimensions.get("screen");
 
 const WIDTH = width;
@@ -220,6 +220,15 @@ export const ListsItems = ({ navigation, route }) => {
     };
   });
 
+  const setOrientation = () => {
+    if (Dimensions.get("window").height > Dimensions.get("window").width) {
+      //Device is in portrait mode, rotate to landscape mode.
+      ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.LANDSCAPE);
+    } else {
+      //Device is in landscape mode, rotate to portrait mode.
+      ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT);
+    }
+  };
   useEffect(() => {
     ref.current?.scrollToIndex({
       index,
@@ -332,8 +341,9 @@ export const ListsItems = ({ navigation, route }) => {
                       uri: `${baseUrl}uploads/videos/${item.video}`,
                     }}
                     useNativeControls
-                    resizeMode="contain"
+                    resizeMode="cover"
                     isLooping
+                    onFullscreenUpdate={setOrientation}
                     onPlaybackStatusUpdate={(status) => setStatus(() => status)}
                   />
 

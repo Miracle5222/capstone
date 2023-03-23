@@ -41,21 +41,18 @@ const LoginScreen = ({ navigation }) => {
 
   const login = () => {
     if (email != "" && password != "") {
-      fetch(
-        `${baseUrl}route/login.php`,
-        {
-          method: "post",
-          header: {
-            Accept: "application/json",
-            "Content-type": "application/json",
-          },
-          body: JSON.stringify({
-            // we will pass our input data to server
-            email: email,
-            password: password,
-          }),
-        }
-      )
+      fetch(`${baseUrl}route/login.php`, {
+        method: "post",
+        header: {
+          Accept: "application/json",
+          "Content-type": "application/json",
+        },
+        body: JSON.stringify({
+          // we will pass our input data to server
+          email: email,
+          password: password,
+        }),
+      })
         .then((response) => response.text())
         .then((responseJson) => {
           // console.log(responseJson);
@@ -89,6 +86,8 @@ const LoginScreen = ({ navigation }) => {
     } else {
       if (email == "" && password == "") {
         alert("Email and Password is empty");
+        dispatch(passwordLogin(""));
+        dispatch(emailLogin(""));
       } else if (email == "") {
         alert("Email is empty");
         // setErrEmail("Please enter email");
