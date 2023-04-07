@@ -46,6 +46,11 @@ const LoginScreen = ({ navigation }) => {
         header: {
           Accept: "application/json",
           "Content-type": "application/json",
+          " Access-Control-Allow- Origin": "*",
+          "Access-Control-Allow- Credentials": false,
+          "Access-Control -Allow- Methods ": "GET",
+          "Access-Cont rol-Allow-Headers ":
+            "Origin, OPTIONS, X-Requested -wi th, Content- Type, Accept",
         },
         body: JSON.stringify({
           // we will pass our input data to server

@@ -55,7 +55,7 @@ import {
 import AppLoading from "expo-app-loading";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Video, AVPlaybackStatus } from "expo-av";
-import * as ScreenOrientation from 'expo-screen-orientation';
+import * as ScreenOrientation from "expo-screen-orientation";
 const { width, height } = Dimensions.get("screen");
 
 const WIDTH = width;
@@ -575,6 +575,8 @@ const styles = StyleSheet.create({
     justifyContent: "flex-start",
     alignItems: "center",
     width: WIDTH,
+    backgroundColor: "red",
+    marginLeft: -100,
     height: "100%",
   },
   buttonContainer: {
