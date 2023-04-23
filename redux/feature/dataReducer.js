@@ -19,7 +19,7 @@ const dataSlice = createSlice({
     multipleQuiz: [],
     choice: [],
     baseUrl:
-      "https://ad75-2001-4455-1f5-3400-d92d-12fc-b54c-f997.ap.ngrok.io/finalCapstone/Elearning/",
+      "https://cbd4-2001-4455-14a-2b00-a895-12f3-2f5f-7004.ngrok-free.app/finalCapstone/Elearning/",
     language: "",
     languageID: "",
   },

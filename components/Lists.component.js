@@ -142,21 +142,9 @@ export const ListsItems = ({ navigation, route }) => {
       });
   }, []);
 
-  // useEffect(() => {
-  //   data[0].modules.map((val) => {
-  //     val.topic.map((values, index) => {
-  //       if (values.id === route.params.lessons) {
-  //         values.content.map((value) => {
-  //           value?.code.map((vals) => {
-  //             console.log(vals);
-  //             // return vals;
-  //             // setCode(vals);
-  //           });
-  //         });
-  //       }
-  //     });
-  //   });
-  // }, []);
+  useEffect(() => {
+    console.log(content);
+  }, []);
 
   useEffect(() => {
     if (route.params.name.trim() === "Quiz") {
@@ -575,8 +563,7 @@ const styles = StyleSheet.create({
     justifyContent: "flex-start",
     alignItems: "center",
     width: WIDTH,
-    backgroundColor: "red",
-    marginLeft: -100,
+
     height: "100%",
   },
   buttonContainer: {
