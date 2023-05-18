@@ -18,8 +18,7 @@ const dataSlice = createSlice({
     codeQuiz: [],
     multipleQuiz: [],
     choice: [],
-    baseUrl:
-      "https://cbd4-2001-4455-14a-2b00-a895-12f3-2f5f-7004.ngrok-free.app/finalCapstone/Elearning/",
+    baseUrl: "https://app.nmsc.edu.ph/javaapp/",
     language: "",
     languageID: "",
   },
